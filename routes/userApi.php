@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserAuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,9 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 
-require __DIR__.'\adminApi.php';
-require __DIR__.'\userApi.php';
+Route::post('login',[UserAuthController::class,'login']);
+Route::post('register',[UserAuthController::class,'register']);
+Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
+{
+	Route::post('/logout',[UserAuthController::class,'logout']);
+    Route::get('/user',[UserAuthController::class,'user']);
+});

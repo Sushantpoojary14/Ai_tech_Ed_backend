@@ -2,24 +2,23 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class User extends Authenticatable implements JWTSubject
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+class Admin extends Authenticatable implements JWTSubject
 {
     use Notifiable,HasFactory;
-    protected $table = "users";
+    protected $table = "admin";
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone'
+        'name', 'email', 'password',
     ];
 
     /**
@@ -48,6 +47,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getJWTCustomClaims()
     {
-        return ['role'=>'users'];
+        return ['role'=>'admin'];
     }
 }
