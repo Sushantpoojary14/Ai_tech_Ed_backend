@@ -25,13 +25,11 @@ class AssignGuard extends BaseMiddleware
         //     auth()->shouldUse($guard);
         // return $next($request);
 
-
-
         try {
              $token = JWTAuth::parseToken()->getToken('role');
              $token_role = JWTAuth::decode($token)->get('role');
         } catch (JWTException $e) {
-            return response()->json(['error' => 'unAuthorize'], 401);
+            return response()->json(['error' => 'unAuthorized or token expired'], 401);
         }
 
 

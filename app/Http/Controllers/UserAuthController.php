@@ -22,11 +22,11 @@ class UserAuthController extends Controller
         Config::set('auth.defaults.guard', 'users');
     }
 
-    /**
-     * Get a JWT via given credentials.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+    // /**
+    //  * Get a JWT via given credentials.
+    //  *
+    //  * @return \Illuminate\Http\JsonResponse
+    //  */
     public function login(Request $request)
     {
         $credentials = request(['email', 'password']);
@@ -50,6 +50,7 @@ class UserAuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+
         User::query()->create([
             "name" => ucfirst($request->fname)." ".ucfirst($request->lname),
             "email"=>$request->email,
@@ -60,7 +61,64 @@ class UserAuthController extends Controller
         return $this->respondWithToken(auth()->attempt($credentials));
     }
 
+    public function passwordCheck(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'prev_password' => 'required|string',
+        ]);
 
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        
+        $user_email = auth()->user()->email;
+        if (!auth()->attempt(['email'=>$user_email ,'password'=>$request->prev_password])) {
+            return response()->json(['status' => 'failed',
+            'message' =>  'UnAuthorized'], 404);
+        }
+
+        return response()->json(['message' => 'Authorized'],200);
+    }
+
+
+    public function passwordChange(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|string',
+        ]);
+
+        $user_email = auth()->user()->email;
+
+        User::query()
+        ->where('email',$user_email)
+        ->update(array_merge(['password'=>Hash::make($request->new_password)]));
+
+        return response()->json(['message' => 'Successfully Changed'],200);
+    }
+
+
+    public function profileChange(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            // 'email' => 'required|string|email|max:100',
+            'name'=>'required|string|',
+        ]);
+
+        if($validator->fails()){
+            return response()->json($validator->errors(), 400);
+        }
+        $user_email = auth()->user()->email;
+        if (!auth()->attempt(['email'=>$user_email ,'password'=>$request->prev_password])) {
+            return response()->json(['status' => 'failed',
+            'message' =>  'UnAuthorized'], 404);
+        }
+
+        User::query()
+        ->where('email',$user_email)
+        ->update(array_merge(['password'=>Hash::make($request->new_password)]));
+
+        return response()->json(['message' => 'Successfully Changed'],200);
+    }
     /**
      * Get the authenticated User.
      *
@@ -115,7 +173,6 @@ class UserAuthController extends Controller
                 'email' => auth()->user()->email,
                 'phone' => auth()->user()->phone,
                 'DOB' => auth()->user()->DOB,
-                // Add more data as needed
             ]
         ]);
     }

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('testseries', function (Blueprint $table) {
+        Schema::create('test_series_categories', function (Blueprint $table) {
             $table->id();
+            $table->string('tsc_type');
             $table->timestamps();
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('testseries');
+        Schema::dropIfExists('test_series_categories');
     }
 };
