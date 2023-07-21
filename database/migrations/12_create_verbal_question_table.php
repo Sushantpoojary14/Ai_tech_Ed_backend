@@ -11,25 +11,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-
-        Schema::create('test_series_product', function (Blueprint $table) {
+        Schema::create('verbal_question', function (Blueprint $table) {
             $table->id();
-            $table->string('p_name',40);
-            $table->text('p_description');
-            $table->string('p_price',11);
-            $table->string('p_image',100);
+            $table->string('question');
+            $table->string('A');
+            $table->string('B');
+            $table->string('C');
+            $table->string('D');
+            $table->string('E')->nullable();
+            $table->string('answer');
+            $table->string('explanation');
             $table->unsignedBigInteger('ts_id')->index();
             $table->foreign('ts_id')->references('id')->on('test_series')->onDelete('cascade');
             $table->unsignedBigInteger('tsc_id')->index();
             $table->foreign('tsc_id')->references('id')->on('test_series_categories')->onDelete('cascade');
-            $table->integer('duration');
-            $table->integer('test_month_limit');
-            $table->integer('total_question');
-            $table->tinyInteger('status')->default('1');
+            $table->unsignedBigInteger('tst_id')->index();
+            $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');
+            $table->string('marks')->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -37,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('test_series_product');
+        Schema::dropIfExists('verbal_question');
     }
 };

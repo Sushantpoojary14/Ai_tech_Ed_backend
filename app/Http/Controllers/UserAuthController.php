@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Config;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 class UserAuthController extends Controller
 {
     //
@@ -70,7 +72,7 @@ class UserAuthController extends Controller
         if($validator->fails()){
             return response()->json($validator->errors(), 400);
         }
-        
+
         $user_email = auth()->user()->email;
         if (!auth()->attempt(['email'=>$user_email ,'password'=>$request->prev_password])) {
             return response()->json(['status' => 'failed',

@@ -4,9 +4,13 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
+use App\Models\TestSeriesPurchases;
 use App\Models\User;
+use App\Models\TestSeries;
+use App\Models\TestSeriesCategories;
+use App\Models\TestSeriesProduct;
 use Illuminate\Database\Seeder;
-
+use App\Models\TestStatus;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -15,11 +19,48 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::factory(2)->create();
-        Admin::factory(2)->create();
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'user@example.com',
-        // ]);
+        Admin::factory(1)->create();
+
+        $tsc =  TestSeries::factory()->create([
+            'test_type' => 'oc',
+        ])
+        ->create([
+            'test_type' => 'selective',
+        ]);
+
+        $tsc = TestSeriesCategories::factory()->create([
+            'tsc_type' => 'Maths',
+        ])
+        ->create([
+            'tsc_type' => 'Reading',
+        ])
+        ->create([
+            'tsc_type' => 'Logical',
+        ]);
+
+        TestSeriesProduct::factory(2)->create();
+
+        TestStatus::query()->create([
+            'type' => 'Answered',
+        ])
+        ->create([
+            'type' => 'Not Answered',
+        ])
+        ->create([
+            'type' => 'Not Visited',
+        ])
+        ->create([
+            'type' => 'Marked for Review',
+        ])
+        ->create([
+            'type' => 'Answered & Marked for
+            Review',
+        ]);
+
+        TestSeriesPurchases::factory(2)->create();
+
+
+
 
 
         // \App\Models\Admin::factory()->create([

@@ -11,20 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-
-        Schema::create('test_series_purchases', function (Blueprint $table) {
+        Schema::create('product_topics', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tsp_id')->index();
             $table->foreign('tsp_id')->references('id')->on('test_series_product')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id')->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('valid_from');
-            $table->string('valid_till');
+            $table->unsignedBigInteger('t_id')->index();
+            $table->foreign('t_id')->references('id')->on('test_series_topics')->onDelete('cascade');
             $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -32,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('test_series_purchases');
+        Schema::dropIfExists('product_topics');
     }
 };
