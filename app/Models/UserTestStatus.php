@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserTestStatus extends Model
 {
@@ -19,4 +20,10 @@ class UserTestStatus extends Model
         'test_time',
 
     ];
+
+    public function questions(): BelongsTo
+    {
+        return $this->belongsTo(VerbalQuestion::class, 'q_id', 'id');
+    }
+
 }

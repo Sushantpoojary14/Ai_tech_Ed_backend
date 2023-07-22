@@ -24,10 +24,10 @@ class TestSeriesProduct extends Model
         'status'
     ];
 
-    public function topics(): BelongsTo
-    {
-        return $this->hasMany(TestSeriesCategories::class, 'id',
-        TestSeriesTopics::class, 'tsc_id', 'tsc_id');
-    }
+    // public function topics(): BelongsTo
+    // {
+    //     return $this->hasMany(TestSeriesCategories::class, 'id',
+    //     TestSeriesTopics::class, 'tsc_id', 'tsc_id');
+    // }
 
 }
