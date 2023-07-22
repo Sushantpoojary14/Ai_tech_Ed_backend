@@ -37,7 +37,7 @@ class AdminController extends Controller
             'tst' => $tst,
         ], 200);
     }
-    public function addProduct(Request $request){
+    public function addUpdateProduct(Request $request){
 
         $validator = Validator::make($request->all(), [
             'ts_id' => 'required',
@@ -47,36 +47,33 @@ class AdminController extends Controller
             'p_description'=>'required',
             'p_price'=>'required',
             'p_image'=>'required',
-            'tml'=>'required',
-            'tq'=>'required',
+            'test_month_limit'=>'required',
+            'total_question'=>'required',
             'duration'=>'required',
-
-
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $ts = TestSeriesProduct::query()
-        ->create([
+
+
+        $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], [
             'ts_id' => $request->ts_id,
             'tsc_id' => $request->tsc_id,
-            'p_name'=>$request->p_name,
-            'p_description'=>$request->p_description,
-            'p_price'=>$request->p_price,
-            'p_image'=>$request->p_price,
-            'tml'=>$request->required,
-            'tq'=>$request->required,
-            'duration'=>$request->required,
+            'p_name' => $request->p_name,
+            'p_description' => $request->p_description,
+            'p_price' => $request->p_price,
+            'p_image' => $request->p_image,
+            'test_month_limit' => $request->test_month_limit,
+            'total_question' => $request->total_question,
+            'duration' => $request->duration,
         ]);
 
-        $tsc = TestSeriesCategories::query()
-        ->get();
+        $tsc =  $tsp->productTopics()->sync($request->tst_id);
 
         return response()->json([
-            'ts' => $ts,
-            'tsc' => $tsc,
+            'message'=>'success'
         ], 200);
     }
 

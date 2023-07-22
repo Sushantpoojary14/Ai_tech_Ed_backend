@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TestSeriesProduct extends Model
 {
@@ -24,10 +25,9 @@ class TestSeriesProduct extends Model
         'status'
     ];
 
-    // public function topics(): BelongsTo
-    // {
-    //     return $this->hasMany(TestSeriesCategories::class, 'id',
-    //     TestSeriesTopics::class, 'tsc_id', 'tsc_id');
-    // }
+    public function productTopics()
+    {
+        return $this->belongsToMany(TestSeriesTopics::class,ProductTopics::class, 'tsp_id', 't_id');
+    }
 
 }

@@ -16,4 +16,5 @@ class TestSeriesTopics extends Model
         'status'
 
     ];
+
 }
