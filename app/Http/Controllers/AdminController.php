@@ -56,8 +56,6 @@ class AdminController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-
-
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], [
             'ts_id' => $request->ts_id,
             'tsc_id' => $request->tsc_id,
@@ -77,4 +75,27 @@ class AdminController extends Controller
         ], 200);
     }
 
+
+    // public function UpdateTestSeries(Request $request)
+    // {
+
+
+    //     $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], [
+    //         'ts_id' => $request->ts_id,
+    //         'tsc_id' => $request->tsc_id,
+    //         'p_name' => $request->p_name,
+    //         'p_description' => $request->p_description,
+    //         'p_price' => $request->p_price,
+    //         'p_image' => $request->p_image,
+    //         'test_month_limit' => $request->test_month_limit,
+    //         'total_question' => $request->total_question,
+    //         'duration' => $request->duration,
+    //     ]);
+
+    //     $tsc =  $tsp->productTopics()->sync($request->tst_id);
+
+    //     return response()->json([
+    //         'message'=>'success'
+    //     ], 200);
+    // }
 }

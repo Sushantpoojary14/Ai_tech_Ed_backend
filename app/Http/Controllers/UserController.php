@@ -11,6 +11,7 @@ use App\Models\VerbalQuestion;
 use Illuminate\Http\Request;
 use App\Models\TestSeriesProduct;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -43,6 +44,16 @@ class UserController extends Controller
         // dd(Auth()->id());
 
         UserTestSeries::query()
+            ->where([
+                'tsps_id' => $request->id,
+                'user_id' => Auth()->id(),
+                'complete_status' => 0,
+            ])
+            ->when(!DB::raw('start_date IS NOT NULL'), function ($query) use ($current) {
+                $query->update([
+                    'start_date' => $current->format('d-m-Y'),
+                ]);
+            })
             ->updateOrInsert(
                 [
                     'tsps_id' => $request->id,
@@ -53,9 +64,10 @@ class UserController extends Controller
                     'tsps_id' => $request->id,
                     'user_id' => Auth()->id(),
                     'complete_status' => $request->complete_status,
-                    'start_date' => $current->format('d-m-Y'),
+                    // 'start_date' =>
                     'end_date' => $request->complete_status == 0 ? null : $current->format('d-m-Y'),
-                    'time_taken' => $request->time_taken
+                    'time_taken' => $request->time_taken,
+                    'q_id' => $request->q_id
                 ]
             );
 
@@ -92,17 +104,17 @@ class UserController extends Controller
         }
 
         $uts = UserTestStatus::query()
-        ->where('uts_id', $id)
-        ->with('questions')
-        ->get();
+            ->where('uts_id', $id)
+            ->with('questions')
+            ->get();
 
         $question = collect();
         // dd(!$uts->isEmpty());
-        if(!$uts->isEmpty()){
+        if (!$uts->isEmpty()) {
 
             return response()->json([
                 'test_data' => $uts,
-                'current_qid'=>$ps_id->q_id
+                'current_qid' => $ps_id->q_id
 
             ], 200);
         }
@@ -135,23 +147,23 @@ class UserController extends Controller
             $question = $question->merge($temp_question);
         }
         // dd( $question);
-        foreach($question as $item){
+        foreach ($question as $item) {
             UserTestStatus::query()
-            ->create([
-                'q_id'=>$item->id,
-                'uts_id'=>$id,
-                'test_time'=> 0
-            ]);
+                ->create([
+                    'q_id' => $item->id,
+                    'uts_id' => $id,
+                    'test_time' => 0
+                ]);
         }
 
         $uts = UserTestStatus::query()
-        ->where('uts_id', $id)
-        ->with('questions')
-        ->get();
+            ->where('uts_id', $id)
+            ->with('questions')
+            ->get();
 
         return response()->json([
             'test_data' => $uts,
-            'current_qid'=>$ps_id->q_id
+            'current_qid' => $ps_id->q_id
         ], 200);
     }
 
