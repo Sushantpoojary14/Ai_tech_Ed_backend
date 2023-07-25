@@ -5,17 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\UserController;
-// use App\Http\Controllers\ProductController;
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
+
 
 
 Route::post('login',[UserAuthController::class,'login']);
@@ -44,6 +34,6 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-purchases/{id?}/{ts_id?}',[UserController::class,'getTSPurchases']);
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
     Route::get('/generate-question/{id}',[UserController::class,'generateRandomQuestion']);
-
+    Route::post('/update-test-status/{id}',[UserController::class,'updateTestStatus']);
 
 });

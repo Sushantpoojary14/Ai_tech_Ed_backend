@@ -27,11 +27,6 @@ class UserController extends Controller
             ->with('tsProduct')
             ->get();
 
-        // $tsProductData = [];
-
-        // foreach ($tsp as $item) {
-        //     $tsProductData[] = $item->tsProduct;
-        // }
         return response()->json([
             'tsp' => $tsp
         ], 200);
@@ -114,8 +109,8 @@ class UserController extends Controller
 
             return response()->json([
                 'test_data' => $uts,
-                'current_qid' => $ps_id->q_id
-
+                'current_qid' => $ps_id->q_id,
+                'purchase_id' => $ps_id->id
             ], 200);
         }
 
@@ -165,6 +160,30 @@ class UserController extends Controller
             'test_data' => $uts,
             'current_qid' => $ps_id->q_id
         ], 200);
+    }
+
+    public function updateTestStatus(Request $request, $id)
+    {
+        // return $id;
+
+        UserTestStatus::query()
+            ->where('id', $id)
+            ->update(
+                $request->input()
+            );
+        $uts = UserTestStatus::where('id', $id)
+            ->first();
+        // return $uts;
+
+        UserTestSeries::query()
+            ->where('id', $uts->uts_id)
+            ->update([
+                'q_id' => $uts->q_id
+            ]);
+
+        return response()->json([
+            'message' => 'Successfully Updated'
+        ], 404);
     }
 
 }
