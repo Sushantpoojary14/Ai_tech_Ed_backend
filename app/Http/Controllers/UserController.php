@@ -36,8 +36,24 @@ class UserController extends Controller
     {
 
         $current = Carbon::now();
-        // dd(Auth()->id());
 
+        $data = [
+            'tsps_id' => $request->id,
+            'user_id' => Auth()->id(),
+            'complete_status' => $request->complete_status,
+            'end_date' => $request->complete_status == 0 ? null : $current->format('d-m-Y'),
+
+        ];
+
+        if ($request->has('q_id')) {
+            $data['q_id'] = $request->q_id;
+        }
+
+
+        if ($request->has('time_take')) {
+            $data['time_take'] = $request->time_taken;
+        }
+        // return $data;
         UserTestSeries::query()
             ->where([
                 'tsps_id' => $request->id,
@@ -55,15 +71,9 @@ class UserController extends Controller
                     'user_id' => Auth()->id(),
                     'complete_status' => 0,
                 ],
-                [
-                    'tsps_id' => $request->id,
-                    'user_id' => Auth()->id(),
-                    'complete_status' => $request->complete_status,
-                    // 'start_date' =>
-                    'end_date' => $request->complete_status == 0 ? null : $current->format('d-m-Y'),
-                    'time_taken' => $request->time_taken,
-                    'q_id' => $request->q_id
-                ]
+
+                $data
+
             );
 
         $id = UserTestSeries::query()
@@ -92,6 +102,10 @@ class UserController extends Controller
             ->with('userPurchases')
             ->first();
 
+        $p_id = TestSeriesProduct::query()
+            ->where('id', $ps_id->userPurchases->tsp_id)
+            ->first();
+
         if (!$ps_id) {
             return response()->json([
                 'message' => 'No purchases'
@@ -104,19 +118,19 @@ class UserController extends Controller
             ->get();
 
         $question = collect();
-        // dd(!$uts->isEmpty());
+
+        $timer = $ps_id->current_timer!= null ? $ps_id->current_timer : $p_id->duration;
+
         if (!$uts->isEmpty()) {
 
             return response()->json([
                 'test_data' => $uts,
                 'current_qid' => $ps_id->q_id,
-                'purchase_id' => $ps_id->id
+                'uts_id' => $ps_id->id,
+                'timer' =>  $timer
             ], 200);
         }
 
-        $p_id = TestSeriesProduct::query()
-            ->where('id', $ps_id->userPurchases->tsp_id)
-            ->first();
 
         $t_id = TestSeriesTopics::query()
             ->where('tsc_id', $p_id->tsc_id)
@@ -156,34 +170,71 @@ class UserController extends Controller
             ->with('questions')
             ->get();
 
+        UserTestStatus::query()
+            ->where('uts_id', $id)
+            ->update(['q_id' => $uts[0]->questions->id]);
+
+        UserTestStatus::query()
+            ->where('id', $uts[0]->questions->id)
+            ->update(['status_id' => 2]);
+
         return response()->json([
             'test_data' => $uts,
-            'current_qid' => $ps_id->q_id
+            'current_qid' => $ps_id->q_id,
+            'uts_id' => $ps_id->id,
+            'timer' =>  $timer
         ], 200);
     }
 
     public function updateTestStatus(Request $request, $id)
     {
-        // return $id;
+        $timer = $request->current_timer;
 
+        $requestDataWithoutTimer = $request->except('current_timer');
+        // return $requestDataWithoutTimer;
         UserTestStatus::query()
             ->where('id', $id)
             ->update(
-                $request->input()
+                $requestDataWithoutTimer
             );
-        $uts = UserTestStatus::where('id', $id)
+
+        $uts_id = UserTestStatus::where('id', $id)
+            ->with('questions')
             ->first();
-        // return $uts;
 
         UserTestSeries::query()
-            ->where('id', $uts->uts_id)
+            ->where('id', $uts_id->uts_id)
             ->update([
-                'q_id' => $uts->q_id
+                'q_id' => $id,
+                'current_timer'=>$timer
             ]);
 
+        $questions = UserTestStatus::query()
+            ->where('uts_id', $uts_id->uts_id)
+            ->with('questions')
+            ->get();
+
         return response()->json([
-            'message' => 'Successfully Updated'
-        ], 404);
+            'message' => 'Successfully Updated',
+            'test_data' =>  $questions,
+            'current_qid'=>$uts_id->id
+        ], 200);
+    }
+
+
+    public function updateTimer($id,Request $request)
+    {
+        // $uts_id = UserTestStatus::where('id', $id)
+        //     ->first();
+
+        UserTestSeries::query()
+            ->where('id', $id)
+            ->update([
+                'current_timer'=>$request->current_timer
+            ]);
+            return response()->json([
+                'message' => 'Successfully Updated',
+            ], 200);
     }
 
 }

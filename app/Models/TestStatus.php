@@ -11,6 +11,7 @@ class TestStatus extends Model
     protected $table='test_status';
 
     protected $fillable=[
+        'id'=>'integer',
         'type'
     ];
 }

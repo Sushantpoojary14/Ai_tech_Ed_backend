@@ -35,5 +35,5 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
     Route::get('/generate-question/{id}',[UserController::class,'generateRandomQuestion']);
     Route::post('/update-test-status/{id}',[UserController::class,'updateTestStatus']);
-
+    Route::post('/update-test-timer/{id}',[UserController::class,'updateTimer']);
 });

@@ -19,8 +19,17 @@ class UserTestSeries extends Model
         'start_date',
         'end_date',
         'time_taken',
-
+        'current_timer',
+        'q_id'
     ];
+
+    protected $casts = [
+        'id'=>'integer',
+        'q_id' => 'integer',
+        'tsp_id' => 'integer',
+        'user_id' => 'integer',
+        'complete_status' => 'integer',
+      ];
     public function userPurchases(): BelongsTo
     {
         return $this->belongsTo(TestSeriesPurchases::class, 'tsps_id', 'id');

@@ -12,6 +12,7 @@ class TestSeriesCategories extends Model
     protected $table = "test_series_categories";
 
     protected $fillable=[
+        'id'=>'integer',
         'tsc_type'
     ];
 

@@ -11,6 +11,7 @@ class TestSeries extends Model
     protected $table = "test_series";
 
     protected $fillable=[
+        'id'=>'integer',
         'test_type'
     ];
 }

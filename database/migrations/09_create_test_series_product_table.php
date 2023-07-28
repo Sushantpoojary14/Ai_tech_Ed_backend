@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('p_name',40);
             $table->text('p_description');
             $table->string('p_price',11);
-            $table->string('p_image',100);
+            $table->string('p_image',100)->nullable();
             $table->unsignedBigInteger('ts_id')->index();
             $table->foreign('ts_id')->references('id')->on('test_series')->onDelete('cascade');
             $table->unsignedBigInteger('tsc_id')->index();

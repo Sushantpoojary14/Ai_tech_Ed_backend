@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class VerbalQuestion extends Model
 {
     use HasFactory;
-    protected $table='verbal_question';
+    protected $table = 'verbal_question';
 
-    protected $fillable=[
+    protected $fillable = [
         'question',
         'A',
         'B',
@@ -26,4 +26,13 @@ class VerbalQuestion extends Model
         'status'
 
     ];
+    protected $casts = [
+        'id'=>'integer',
+        'ts_id' => 'integer',
+        'tsc_id' => 'integer',
+        'tst_id' => 'integer',
+        'status' => 'integer',
+        'marks' => 'integer',
+    ];
+
 }

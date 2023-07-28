@@ -17,4 +17,9 @@ class TestSeriesTopics extends Model
 
     ];
 
+    protected $casts = [
+        'id'=>'integer',
+        'tsc_id' => 'integer',
+        'status' => 'integer',
+      ];
 }

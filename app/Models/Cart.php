@@ -16,7 +16,11 @@ class Cart extends Model
         'tsp_id', 'user_id', 'password',
     ];
 
-
+    protected $casts = [
+        'id'=>'integer',
+        'tsp_id' => 'integer',
+        'user_id' => 'integer',
+      ];
     public function tsProduct(): BelongsTo
 {
     return $this->belongsTo(TestSeriesProduct::class, 'tsp_id', 'id');

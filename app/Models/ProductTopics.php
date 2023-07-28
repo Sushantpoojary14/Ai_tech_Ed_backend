@@ -16,4 +16,11 @@ class ProductTopics extends Model
         't_id' ,
 
     ];
+
+
+    protected $casts = [
+        'id'=>'integer',
+        'tsp_id' => 'integer',
+        't_id' => 'integer',
+      ];
 }

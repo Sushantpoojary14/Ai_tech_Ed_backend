@@ -10,9 +10,9 @@ class UserTestStatus extends Model
 {
     use HasFactory;
 
-    protected $table='user_test_status';
+    protected $table = 'user_test_status';
 
-    protected $fillable=[
+    protected $fillable = [
         'q_id',
         'status_id',
         'test_answer',
@@ -21,9 +21,18 @@ class UserTestStatus extends Model
 
     ];
 
+    protected $casts = [
+        'id'=>'integer',
+        'q_id' => 'integer',
+        'status_id' => 'integer',
+        'uts_id' => 'integer',
+    ];
     public function questions(): BelongsTo
     {
         return $this->belongsTo(VerbalQuestion::class, 'q_id', 'id');
     }
-
+    public function UserTestSeries(): BelongsTo
+    {
+        return $this->belongsTo(UserTestSeries::class, 'uts_id', 'id');
+    }
 }

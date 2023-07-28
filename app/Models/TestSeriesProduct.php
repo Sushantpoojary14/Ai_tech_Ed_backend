@@ -25,6 +25,14 @@ class TestSeriesProduct extends Model
         'status'
     ];
 
+    protected $casts = [
+        'id'=>'integer',
+        'ts_id' => 'integer',
+        'tsc_id' => 'integer',
+        'total_question' => 'integer',
+        'status' => 'integer',
+      ];
+
     public function productTopics()
     {
         return $this->belongsToMany(TestSeriesTopics::class,ProductTopics::class, 'tsp_id', 't_id');
