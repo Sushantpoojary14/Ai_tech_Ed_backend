@@ -17,7 +17,8 @@ class TestSeriesTopicsFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            't_name'=>fake()->word,
+            'tsc_id'=>rand(1, 3),
         ];
     }
 }

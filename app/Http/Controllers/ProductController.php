@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\TestSeriesProduct;
+use App\Models\TestSeriesPurchases;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -97,6 +99,53 @@ class ProductController extends Controller
         return response()->json([
             'product_data' => $cart,
             'message' => 'Successful'
+        ], 200);
+    }
+
+    public function addTSPurchases(request $request)
+    {
+        // return $request->input();
+        $p = TestSeriesPurchases::query()
+        ->where('user_id',Auth()->id())
+        ->where('tsp_id',$request->p_id)
+        ->first();
+
+         Cart::query()
+        ->where('user_id',Auth()->id())
+        ->where('tsp_id',$request->p_id)
+        ->firstOrFail()
+        ->delete();
+
+
+        if($p){
+            return response()->json([
+                'message' => 'Already Purchased'
+            ], 200);
+        }
+
+
+
+        $current = Carbon::now();
+
+        $product = TestSeriesProduct::query()
+        ->where('id', $request->p_id)
+        ->first();
+
+        $current_date = date('Y-m-d');
+        $last_date = date('Y-m-d', strtotime('+' . (string)$product->test_month_limit . ' months'));
+        // return $current_date;
+
+         TestSeriesPurchases::query()
+            ->updateOrInsert([
+                'user_id'=>Auth()->id(),
+                'tsp_id'=>$request->p_id,
+                'valid_from'=>$current_date,
+                'valid_till'=>$last_date,
+            ]);
+
+
+        return response()->json([
+            'message' => 'Added Successfully'
         ], 200);
     }
 

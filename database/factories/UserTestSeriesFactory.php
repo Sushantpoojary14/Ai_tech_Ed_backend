@@ -17,7 +17,7 @@ class UserTestSeriesFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+   
         ];
     }
 }

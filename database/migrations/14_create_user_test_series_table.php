@@ -21,6 +21,9 @@ return new class extends Migration
             $table->string('start_date');
             $table->string('end_date')->nullable();
             $table->string('time_taken')->nullable();
+            $table->string('current_timer')->nullable();
+            $table->string('q_id')->nullable();
+            // $table->foreign('q_id')->references('id')->on('user_test_status')->onDelete('cascade');
             $table->timestamps();
         });
     }

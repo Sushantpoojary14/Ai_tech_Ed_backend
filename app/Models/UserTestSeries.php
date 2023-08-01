@@ -13,7 +13,7 @@ class UserTestSeries extends Model
     protected $table='user_test_series';
 
     protected $fillable=[
-        'tsp_id',
+        'tsps_id',
         'user_id',
         'complete_status',
         'start_date',
@@ -26,7 +26,7 @@ class UserTestSeries extends Model
     protected $casts = [
         'id'=>'integer',
         'q_id' => 'integer',
-        'tsp_id' => 'integer',
+        'tsps_id' => 'integer',
         'user_id' => 'integer',
         'complete_status' => 'integer',
       ];

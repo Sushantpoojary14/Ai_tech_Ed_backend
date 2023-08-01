@@ -25,7 +25,7 @@ class TestSeriesProductFactory extends Factory
             'tsc_id' => rand(1, 3),
             'duration' => 30,
             'test_month_limit'=>rand(1, 3),
-            'total_question' => 35,
+            'total_question' => 30,
             'status' => 1
         ];
     }

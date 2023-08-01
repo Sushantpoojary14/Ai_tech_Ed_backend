@@ -5,10 +5,12 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Admin;
 use App\Models\TestSeriesPurchases;
+use App\Models\TestSeriesTopics;
 use App\Models\User;
 use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
+use App\Models\VerbalQuestion;
 use Illuminate\Database\Seeder;
 use App\Models\TestStatus;
 class DatabaseSeeder extends Seeder
@@ -58,9 +60,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         TestSeriesPurchases::factory(2)->create();
+        TestSeriesTopics::factory(15)->create();
 
-
-
+        VerbalQuestion::factory(135)->create();
 
 
         // \App\Models\Admin::factory()->create([

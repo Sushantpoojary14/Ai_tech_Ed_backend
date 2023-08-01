@@ -27,13 +27,15 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/remove-from-cart/{id}',[ProductController::class,'removeCart']);
 
     //Product api
-
+    Route::post('/add-user-purchase',[ProductController::class,'addTSPurchases']);
 
 
     //user test sschedule
-    Route::get('/get-user-purchases/{id?}/{ts_id?}',[UserController::class,'getTSPurchases']);
+    Route::get('/get-user-purchases',[UserController::class,'getTSPurchases']);
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
     Route::get('/generate-question/{id}',[UserController::class,'generateRandomQuestion']);
     Route::post('/update-test-status/{id}',[UserController::class,'updateTestStatus']);
     Route::post('/update-test-timer/{id}',[UserController::class,'updateTimer']);
+    Route::post('/submit-test/{id}',[UserController::class,'submitTest']);
+    Route::get('/get-test-result/{id}',[UserController::class,'getTestResult']);
 });

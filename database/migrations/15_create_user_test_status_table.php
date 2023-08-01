@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('user_test_status', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('q_id');
-            // $table->foreign('q_id')->references('id')->on('verbal_question')->onDelete('cascade');
+            $table->unsignedBigInteger('q_id')->nullable();
+            $table->foreign('q_id')->references('id')->on('verbal_question')->onDelete('cascade');
             $table->unsignedBigInteger('status_id')->index()->default('3');
             $table->foreign('status_id')->references('id')->on('test_status')->onDelete('cascade');
             $table->string('test_answer')->nullable();
             $table->unsignedBigInteger('uts_id')->index();
             $table->foreign('uts_id')->references('id')->on('user_test_series')->onDelete('cascade');
             $table->string('test_time');
-            $table->string('q_id')->nullable();
+            // $table->string('q_id')->nullable();
             $table->timestamps();
         });
     }
