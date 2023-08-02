@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'tsc_type' => 'Logical',
         ]);
 
-        TestSeriesProduct::factory(2)->create();
+        $p = TestSeriesProduct::factory(2)->create();
 
         TestStatus::query()->create([
             'type' => 'Answered',
@@ -59,10 +59,29 @@ class DatabaseSeeder extends Seeder
             Review',
         ]);
 
-        TestSeriesPurchases::factory(2)->create();
-        TestSeriesTopics::factory(15)->create();
+        // TestSeriesPurchases::factory(2)->create();
+        TestSeriesTopics::factory()->create([
+            't_name'=>'age',
+            'tsc_id'=>3,
+        ])->create([
+            't_name'=>'ratio',
+            'tsc_id'=>3,
+        ])->create([
+            't_name'=>'averages',
+            'tsc_id'=>3,
+        ])->create([
+            't_name'=>'multiple operation',
+            'tsc_id'=>3,
+        ]);
 
-        VerbalQuestion::factory(135)->create();
+        foreach ($p as $key => $value) {
+            $value->tsProductCategory()->sync([1,2,3]);
+        }
+
+
+
+        // VerbalQuestion::factory(135)->create();
+
 
 
         // \App\Models\Admin::factory()->create([

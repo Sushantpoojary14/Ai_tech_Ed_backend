@@ -12,7 +12,7 @@ Route::post('login',[UserAuthController::class,'login']);
 Route::post('register',[UserAuthController::class,'register']);
 Route::get('/refresh-token',[UserAuthController::class,'refresh']);
 Route::get('/get-product-data/{id?}',[ProductController::class,'showProduct']);
-
+Route::get('/one-product-data/{id}',[ProductController::class,'sProduct']);
 Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
 {
     // auth api
@@ -28,10 +28,10 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
 
     //Product api
     Route::post('/add-user-purchase',[ProductController::class,'addTSPurchases']);
+    Route::get('/get-user-purchases',[ProductController::class,'getTSPurchases']);
 
 
     //user test sschedule
-    Route::get('/get-user-purchases',[UserController::class,'getTSPurchases']);
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
     Route::get('/generate-question/{id}',[UserController::class,'generateRandomQuestion']);
     Route::post('/update-test-status/{id}',[UserController::class,'updateTestStatus']);

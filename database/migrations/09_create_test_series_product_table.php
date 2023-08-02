@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
+        // Schema::disableForeignKeyConstraints();
 
         Schema::create('test_series_product', function (Blueprint $table) {
             $table->id();
@@ -21,15 +21,16 @@ return new class extends Migration
             $table->string('p_image',100)->nullable();
             $table->unsignedBigInteger('ts_id')->index();
             $table->foreign('ts_id')->references('id')->on('test_series')->onDelete('cascade');
-            $table->unsignedBigInteger('tsc_id')->index();
-            $table->foreign('tsc_id')->references('id')->on('test_series_categories')->onDelete('cascade');
+            // $table->unsignedBigInteger('tsc_id')->index();
+            // $table->foreign('tsc_id')->references('id')->on('test_series_categories')->onDelete('cascade');
             $table->integer('duration');
             $table->integer('test_month_limit');
             $table->integer('total_question');
+            $table->string('release_date',40)->nullable();
             $table->tinyInteger('status')->default('1');
             $table->timestamps();
         });
-        Schema::enableForeignKeyConstraints();
+        // Schema::enableForeignKeyConstraints();
     }
 
     /**

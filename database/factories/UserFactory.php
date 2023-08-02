@@ -22,7 +22,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => 'abc'.rand(1,100).'@g',
             'phone'=>fake()->phoneNumber,
             'email_verified_at' => now(),
             'password' => Hash::make('12345678'),

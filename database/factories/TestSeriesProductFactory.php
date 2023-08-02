@@ -16,16 +16,26 @@ class TestSeriesProductFactory extends Factory
      */
     public function definition(): array
     {
+        $r = rand(1, 2);
+        $pdes = "It contains maths,logical and reading test";
+        if($r==1){
+            $pname = "OC TEST - ".rand(1, 5);
+
+        }
+        else{
+            $pname = "SELECTIVE TEST - ".rand(1, 5);
+
+        }
+
         return [
-            'p_name' => fake()->word,
-            'p_description' =>fake()->word,
-            'p_price' => fake()->numberBetween(1000, 5000),
+            'p_name' =>  $pname,
+            'p_description' =>$pdes,
+            'p_price' => fake()->numberBetween(20, 150),
             'p_image' => fake()->imageUrl,
-            'ts_id' => 1,
-            'tsc_id' => rand(1, 3),
+            'ts_id' => $r,
             'duration' => 30,
-            'test_month_limit'=>rand(1, 3),
-            'total_question' => 30,
+            'test_month_limit'=>rand(2, 3),
+            'total_question' => 35,
             'status' => 1
         ];
     }

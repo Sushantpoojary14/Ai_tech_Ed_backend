@@ -18,21 +18,6 @@ class UserController extends Controller
 
 
 
-    public function getTSPurchases($id = null)
-    {
-        $tsp = TestSeriesPurchases::query()
-            ->where('user_id', Auth()->id())
-            // ->when($id, function ($query, $id) {
-            //     return $query->where('id', $id);
-            // })
-            ->with('tsProduct')
-            ->get();
-
-        return response()->json([
-            'tsp' => $tsp
-        ], 200);
-    }
-
     public function userTestStatus(request $request)
     {
         // return $request->id;
@@ -112,9 +97,9 @@ class UserController extends Controller
                     ->get();
                 $questions = array_merge($questions, $temp_questions->toArray());
             }
-            // return $testSeriesTopics;
+            // return $questions;
             $temp = [];
-            for ($i = 0; $i < 35; $i++) {
+            for ($i = 0; $i < 24; $i++) {
                 $temp[] = $questions[$i];
             }
             // return $temp;
@@ -243,6 +228,7 @@ class UserController extends Controller
         $uts = UserTestSeries::query()
             ->where('id', $id)
             ->first();
+
         if (!$uts) {
             return response()->json([
                 'message' => 'does not exist'
@@ -270,7 +256,6 @@ class UserController extends Controller
         }
         // return $total;
         return response()->json([
-
             'total_answered' => count($total_answered),
             'total_questions' => $ps->tsProduct->total_question,
             'total_marks' => $ps->tsProduct->total_question,
@@ -279,7 +264,6 @@ class UserController extends Controller
             'right_answer' => count($total),
             'wrong_answer' => $ps->tsProduct->total_question - count($total),
             'marks_obtained' => count($total)
-
         ], 200);
 
     }

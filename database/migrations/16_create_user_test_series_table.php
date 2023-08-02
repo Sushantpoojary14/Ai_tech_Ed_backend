@@ -18,11 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->tinyInteger('complete_status')->default(0);
-            $table->string('start_date');
-            $table->string('end_date')->nullable();
-            $table->string('time_taken')->nullable();
-            $table->string('current_timer')->nullable();
-            $table->string('q_id')->nullable();
+            $table->string('start_date',40);
+            $table->string('end_date',40)->nullable();
+            $table->string('time_taken',40)->nullable();
+            $table->string('current_timer',40)->nullable();
+            $table->bigInteger('q_id')->nullable();
             // $table->foreign('q_id')->references('id')->on('user_test_status')->onDelete('cascade');
             $table->timestamps();
         });

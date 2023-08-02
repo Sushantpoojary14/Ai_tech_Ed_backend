@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('verbal_question', function (Blueprint $table) {
+        Schema::create('non_verbal_question', function (Blueprint $table) {
             $table->id();
             $table->string('question');
+            $table->string('image',100);
             $table->string('option_1',40);
             $table->string('option_2',40);
             $table->string('option_3',40);
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('verbal_question');
+        Schema::dropIfExists('non_verbal_question');
     }
 };

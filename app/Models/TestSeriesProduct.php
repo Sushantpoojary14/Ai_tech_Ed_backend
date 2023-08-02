@@ -18,24 +18,24 @@ class TestSeriesProduct extends Model
         'p_price',
         'p_image',
         'ts_id',
-        'tsc_id',
         'duration',
         'test_month_limit',
         'total_question',
+        'release_date',
         'status'
     ];
 
     protected $casts = [
         'id'=>'integer',
         'ts_id' => 'integer',
-        'tsc_id' => 'integer',
         'total_question' => 'integer',
+        'duration'=> 'integer',
         'status' => 'integer',
       ];
 
-    public function productTopics()
+    public function tsProductCategory()
     {
-        return $this->belongsToMany(TestSeriesTopics::class,ProductTopics::class, 'tsp_id', 't_id');
+        return $this->belongsToMany(TestSeriesTopics::class, TSProductCategory::class,'tsp_id', 'tsc_id');
     }
 
 }

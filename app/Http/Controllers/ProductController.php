@@ -13,7 +13,20 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    public function getTSPurchases($id = null)
+    {
+        $tsp = TestSeriesPurchases::query()
+            ->where('user_id', Auth()->id())
+            // ->when($id, function ($query, $id) {
+            //     return $query->where('id', $id);
+            // })
+            ->with('tsProduct')
+            ->get();
 
+        return response()->json([
+            'tsp' => $tsp
+        ], 200);
+    }
     public function addCart(Request $request)
     {
 
@@ -90,18 +103,28 @@ class ProductController extends Controller
 
     public function showProduct($id = null)
     {
-        $cart = TestSeriesProduct::query()
+        $products = TestSeriesProduct::query()
             ->when($id, function ($query, $id) {
                 return $query->where('ts_id', $id);
             })
             ->get(['*']);
 
         return response()->json([
-            'product_data' => $cart,
+            'product_data' => $products,
             'message' => 'Successful'
         ], 200);
     }
+    public function sProduct($id)
+    {
+        $product = TestSeriesProduct::query()
+            ->where('id', $id)
+            ->first();
 
+        return response()->json([
+            'product_data' => $product,
+            'message' => 'Successful'
+        ], 200);
+    }
     public function addTSPurchases(request $request)
     {
         // return $request->input();
@@ -122,7 +145,6 @@ class ProductController extends Controller
                 'message' => 'Already Purchased'
             ], 200);
         }
-
 
 
         $current = Carbon::now();

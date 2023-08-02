@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreign('tsp_id')->references('id')->on('test_series_product')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('valid_from');
-            $table->string('valid_till');
+            $table->string('valid_from',50);
+            $table->string('valid_till',50);
             $table->timestamps();
         });
 

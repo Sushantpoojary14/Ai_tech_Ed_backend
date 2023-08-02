@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class VerbalQuestion extends Model
+class ReadingQuestion extends Model
 {
     use HasFactory;
-    protected $table = 'verbal_question';
+
+    protected $table = 'reading_question';
 
     protected $fillable = [
         'question',
@@ -31,5 +32,4 @@ class VerbalQuestion extends Model
         'status' => 'integer',
         'marks' => 'integer',
     ];
-
 }
