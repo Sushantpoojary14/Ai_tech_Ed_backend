@@ -133,17 +133,18 @@ class ProductController extends Controller
         ->where('tsp_id',$request->p_id)
         ->first();
 
+
          Cart::query()
         ->where('user_id',Auth()->id())
         ->where('tsp_id',$request->p_id)
-        ->firstOrFail()
+        // ->firstOrFail()
         ->delete();
 
-
+        // return $p;
         if($p){
             return response()->json([
                 'message' => 'Already Purchased'
-            ], 200);
+            ], 406);
         }
 
 

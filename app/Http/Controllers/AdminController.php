@@ -42,39 +42,47 @@ class AdminController extends Controller
     public function addUpdateProduct(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
-            'ts_id' => 'required',
-            'tsc_id' => 'required',
-            'tst_id' => 'required',
-            'p_name' => 'required',
-            'p_description' => 'required',
-            'p_price' => 'required',
-            'p_image' => 'required',
-            'test_month_limit' => 'required',
-            'total_question' => 'required',
-            'duration' => 'required',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'p_name' => 'required',
+        //     'p_description' => 'required',
+        //     'p_price' => 'required',
+        //     'p_image' => 'required',
+        //     'test_month_limit' => 'required',
+        // ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 400);
+        // }
+        $data = $request->except(['id', 'tsc_id']);
+
+        $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
+
+        if ($tsp) {
+
+            $category = $request->tsc_id;
+
+            $tsp->tsProductCategory()->sync($category);
+            $response = [];
+
+            foreach ($category as $item) {
+                $response[] = TestSeriesCategories::query()
+                    ->where('id', $item)
+                    ->with('topics')
+                    ->first();
+            }
+
+            return response()->json([
+                'message' => 'Added Successfully',
+                'data' => $response
+            ], 200);
+
         }
 
-        $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], [
-            'ts_id' => $request->ts_id,
-            'tsc_id' => $request->tsc_id,
-            'p_name' => $request->p_name,
-            'p_description' => $request->p_description,
-            'p_price' => $request->p_price,
-            'p_image' => $request->p_image,
-            'test_month_limit' => $request->test_month_limit,
-            'total_question' => $request->total_question,
-            'duration' => $request->duration,
-        ]);
 
-        $tsc = $tsp->productTopics()->sync($request->tst_id);
+        // $tsc = $tsp->productTopics()->sync($request->tst_id);
 
         return response()->json([
-            'message' => 'success'
+            'message' => 'Updated Successfully'
         ], 200);
     }
 
