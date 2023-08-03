@@ -48,6 +48,7 @@ class ProductController extends Controller
                         'tsp_id' => $item,
                     ]);
             }
+
         } else {
 
             Cart::query()
@@ -92,12 +93,12 @@ class ProductController extends Controller
             ->delete();
 
         if (!$cart) {
-            return response()->json(['error','not found'], 404);
+            return response()->json(['error', 'not found'], 404);
         }
 
         return response()->json([
             'message' => 'Successfully item deleted',
-            'id'=>$id
+            'id' => $id
         ], 200);
     }
 
@@ -129,19 +130,19 @@ class ProductController extends Controller
     {
         // return $request->input();
         $p = TestSeriesPurchases::query()
-        ->where('user_id',Auth()->id())
-        ->where('tsp_id',$request->p_id)
-        ->first();
+            ->where('user_id', Auth()->id())
+            ->where('tsp_id', $request->p_id)
+            ->first();
 
 
-         Cart::query()
-        ->where('user_id',Auth()->id())
-        ->where('tsp_id',$request->p_id)
-        // ->firstOrFail()
-        ->delete();
+        Cart::query()
+            ->where('user_id', Auth()->id())
+            ->where('tsp_id', $request->p_id)
+            // ->firstOrFail()
+            ->delete();
 
         // return $p;
-        if($p){
+        if ($p) {
             return response()->json([
                 'message' => 'Already Purchased'
             ], 406);
@@ -151,19 +152,19 @@ class ProductController extends Controller
         $current = Carbon::now();
 
         $product = TestSeriesProduct::query()
-        ->where('id', $request->p_id)
-        ->first();
+            ->where('id', $request->p_id)
+            ->first();
 
         $current_date = date('Y-m-d');
-        $last_date = date('Y-m-d', strtotime('+' . (string)$product->test_month_limit . ' months'));
+        $last_date = date('Y-m-d', strtotime('+' . (string) $product->test_month_limit . ' months'));
         // return $current_date;
 
-         TestSeriesPurchases::query()
+        TestSeriesPurchases::query()
             ->updateOrInsert([
-                'user_id'=>Auth()->id(),
-                'tsp_id'=>$request->p_id,
-                'valid_from'=>$current_date,
-                'valid_till'=>$last_date,
+                'user_id' => Auth()->id(),
+                'tsp_id' => $request->p_id,
+                'valid_from' => $current_date,
+                'valid_till' => $last_date,
             ]);
 
 

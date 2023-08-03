@@ -7,8 +7,10 @@ use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesTopics;
+use App\Models\TSProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use stdClass;
 
 class AdminController extends Controller
 {
@@ -53,6 +55,7 @@ class AdminController extends Controller
         // if ($validator->fails()) {
         //     return response()->json($validator->errors(), 400);
         // }
+
         $data = $request->except(['id', 'tsc_id']);
 
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
@@ -64,6 +67,17 @@ class AdminController extends Controller
             $tsp->tsProductCategory()->sync($category);
             $response = [];
 
+            $product = TSProductCategory::where('tsp_id', $tsp->id)->get();
+
+            $tspc = new stdClass();
+            foreach ($product as $item) {
+                $name = TestSeriesCategories::query()
+                    ->where('id', $item->tsc_id)
+                    ->first('tsc_type');
+             
+                $tspc->{$name->tsc_type} = $item->id;
+            }
+
             foreach ($category as $item) {
                 $response[] = TestSeriesCategories::query()
                     ->where('id', $item)
@@ -73,7 +87,8 @@ class AdminController extends Controller
 
             return response()->json([
                 'message' => 'Added Successfully',
-                'data' => $response
+                'data' => $response,
+                'tspc' => $tspc
             ], 200);
 
         }

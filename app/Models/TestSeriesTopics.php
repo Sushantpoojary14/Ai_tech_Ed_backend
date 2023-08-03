@@ -22,4 +22,9 @@ class TestSeriesTopics extends Model
         'tsc_id' => 'integer',
         'status' => 'integer',
       ];
+      public function tsProduct()
+      {
+          return $this->HasMany(TSProductCategory::class, 'tsc_id', 'id');
+      }
+
 }
