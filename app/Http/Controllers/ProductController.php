@@ -27,6 +27,20 @@ class ProductController extends Controller
             'tsp' => $tsp
         ], 200);
     }
+
+    public function getTSPurchasesId($id = null)
+    {
+        $tsp = TestSeriesPurchases::query()
+            ->where('user_id', Auth()->id())
+            ->get();
+        $pc = [];
+        foreach ($tsp as $key => $value) {
+            $pc[] = $value->tsp_id;
+        }
+        return response()->json([
+            'tsp' => $pc
+        ], 200);
+    }
     public function addCart(Request $request)
     {
 
@@ -128,44 +142,78 @@ class ProductController extends Controller
     }
     public function addTSPurchases(request $request)
     {
-        // return $request->input();
+        // return !!is_array($request->p_id);
         $p = TestSeriesPurchases::query()
+            ->when(is_array($request->p_id), function ($query) use ($request) {
+                $query->whereIn('tsp_id', $request->p_id);
+            })
+            ->when(!is_array($request->p_id), function ($query) use ($request) {
+                $query->where('tsp_id', $request->p_id);
+            })
             ->where('user_id', Auth()->id())
-            ->where('tsp_id', $request->p_id)
-            ->first();
+            ->get();
 
 
         Cart::query()
             ->where('user_id', Auth()->id())
-            ->where('tsp_id', $request->p_id)
+            ->when(is_array($request->p_id), function ($query) use ($request) {
+                $query->whereIn('tsp_id', $request->p_id);
+            })
+            ->when(!is_array($request->p_id), function ($query) use ($request) {
+                $query->where('tsp_id', $request->p_id);
+            })
             // ->firstOrFail()
             ->delete();
 
         // return $p;
         if ($p) {
             return response()->json([
-                'message' => 'Already Purchased'
+                'message' => 'Already Purchased',
+                'purchases' => $p
             ], 406);
         }
 
 
-        $current = Carbon::now();
-
-        $product = TestSeriesProduct::query()
-            ->where('id', $request->p_id)
-            ->first();
-
+        // $current = Carbon::now();
         $current_date = date('Y-m-d');
-        $last_date = date('Y-m-d', strtotime('+' . (string) $product->test_month_limit . ' months'));
+        // $product = TestSeriesProduct::query()
+        //     ->where('id', $request->p_id)
+        //     ->first();
+
+
+        // $last_date = date('Y-m-d', strtotime('+' . (string) $product->test_month_limit . ' months'));
         // return $current_date;
 
-        TestSeriesPurchases::query()
-            ->updateOrInsert([
-                'user_id' => Auth()->id(),
-                'tsp_id' => $request->p_id,
-                'valid_from' => $current_date,
-                'valid_till' => $last_date,
-            ]);
+        if (is_array($request->p_id)) {
+            foreach ($request->p_id as $value) {
+                $product = TestSeriesProduct::query()
+                    ->where('id', $value)
+                    ->first();
+
+                $last_date = date('Y-m-d', strtotime('+' . (string) $product->test_month_limit . ' months'));
+                TestSeriesPurchases::query()
+                    ->updateOrInsert([
+                        'user_id' => Auth()->id(),
+                        'tsp_id' => $value,
+                        'valid_from' => $current_date,
+                        'valid_till' => $last_date,
+                    ]);
+            }
+        } else {
+            $product = TestSeriesProduct::query()
+                ->where('id', $request->p_id)
+                ->first();
+
+            $last_date = date('Y-m-d', strtotime('+' . (string) $product->test_month_limit . ' months'));
+            TestSeriesPurchases::query()
+                ->updateOrInsert([
+                    'user_id' => Auth()->id(),
+                    'tsp_id' => $request->p_id,
+                    'valid_from' => $current_date,
+                    'valid_till' => $last_date,
+                ]);
+        }
+
 
 
         return response()->json([

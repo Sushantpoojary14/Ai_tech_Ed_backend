@@ -13,10 +13,10 @@ return new class extends Migration {
         Schema::create('ts_pc_topics', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tspc_id')->index();
-            $table->foreign('tspc_id')->references('id')->on('test_series_product')->onDelete('cascade');
+            $table->foreign('tspc_id')->references('id')->on('ts_product_category')->onDelete('cascade');
             $table->unsignedBigInteger('tst_id')->index();
-            $table->foreign('tst_id')->references('id')->on('test_series_categories')->onDelete('cascade');
-            $table->integer('set_number');
+            $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');
+            $table->integer('set_number')->nullable();
             $table->timestamps();
         });
     }

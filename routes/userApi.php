@@ -29,6 +29,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
 
     //Product api
     Route::post('/add-user-purchase',[ProductController::class,'addTSPurchases']);
+    Route::get('/get-user-purchases-id',[ProductController::class,'getTSPurchasesId']);
     Route::get('/get-user-purchases',[ProductController::class,'getTSPurchases']);
 
     //user test sschedule

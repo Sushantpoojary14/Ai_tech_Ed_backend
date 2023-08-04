@@ -7,6 +7,7 @@ use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesTopics;
+use App\Models\TSPCTopics;
 use App\Models\TSProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -74,7 +75,7 @@ class AdminController extends Controller
                 $name = TestSeriesCategories::query()
                     ->where('id', $item->tsc_id)
                     ->first('tsc_type');
-             
+
                 $tspc->{$name->tsc_type} = $item->id;
             }
 
@@ -93,7 +94,6 @@ class AdminController extends Controller
 
         }
 
-
         // $tsc = $tsp->productTopics()->sync($request->tst_id);
 
         return response()->json([
@@ -102,26 +102,35 @@ class AdminController extends Controller
     }
 
 
-// public function UpdateTestSeries(Request $request)
-// {
+public function addTSProductTopic(Request $request)
+{
+    // return $request->total_set;
+    foreach($request->data as $item){
+
+       $id = TSProductCategory::query()
+        ->where('id', $item['tspc_id'])
+        ->first('id');
+
+        $id->tsPCTopics()->sync($item['tst_id']);
+
+        TSPCTopics::query()
+        ->where('tspc_id', $item['tspc_id'])
+        ->update([
+            'set_number'=>$item['set_number']
+        ]);
+
+        TSProductCategory::query()
+        ->where('id', $id->id)
+        ->update([
+            'total_set'=>$request->total_set
+        ]);
+    }
 
 
-//     $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], [
-//         'ts_id' => $request->ts_id,
-//         'tsc_id' => $request->tsc_id,
-//         'p_name' => $request->p_name,
-//         'p_description' => $request->p_description,
-//         'p_price' => $request->p_price,
-//         'p_image' => $request->p_image,
-//         'test_month_limit' => $request->test_month_limit,
-//         'total_question' => $request->total_question,
-//         'duration' => $request->duration,
-//     ]);
+    // $tsc =  $tsp->productTopics()->sync($request->tst_id);
 
-//     $tsc =  $tsp->productTopics()->sync($request->tst_id);
-
-//     return response()->json([
-//         'message'=>'success'
-//     ], 200);
-// }
+    return response()->json([
+        'message'=>'success'
+    ], 200);
+}
 }
