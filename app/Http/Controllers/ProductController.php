@@ -16,22 +16,25 @@ class ProductController extends Controller
 {
     public function getTSPurchases($ts_id = null)
     {
-        
+
 
         $purchases = TestSeriesPurchases::query()
-                ->where('user_id', Auth()->id())
-                // ->whereHas('tsProduct', function ($query) use($ts_id) {
-                //      $query->where('ts_id', $ts_id);
-                // })
-                ->with('tsProduct')
-                ->with(['tsProduct' => function($query) {
-                    $query->with('getTsProductCategory.testSeriesCategories');
-                }])
-                ->get();
+            ->where('user_id', Auth()->id())
+            // ->whereHas('tsProduct', function ($query) use($ts_id) {
+            //      $query->where('ts_id', $ts_id);
+            // })
+            ->with('tsProduct')
+            ->with([
+                'tsProduct' => function ($query) {
+                    $query->with('getTsProductCategory.testSeriesCategories',
+                    'getTsProductCategory.tsPCSet');
+                }
+            ])
+            ->get();
 
 
         return response()->json([
-            'tsp' =>  $purchases
+            'tsp' => $purchases
         ], 200);
     }
 

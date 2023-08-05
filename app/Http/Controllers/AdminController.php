@@ -59,17 +59,17 @@ class AdminController extends Controller
         // }
 
         $p = TestSeriesProduct::all()->last();
-        ;
+            // return $request->input('p_image');
         $count = $p->id ? $p->id + 1 : 1;
-       
-        $data = $request->except(['id', 'tsc_id','p_image']);
+
+        $data = $request->except(['id', 'tsc_id']);
 
         if ($request->file('p_image')) {
             $file = $request->file('p_image');
             $filename = "product-" . $count . "." . $file->extension();
             $file->move(public_path('/images'), $filename);
             $data['p_image'] = "/images/".$filename;
-            return $file;
+            // return $filename;
         }
 
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
