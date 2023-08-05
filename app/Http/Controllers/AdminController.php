@@ -58,7 +58,18 @@ class AdminController extends Controller
         //     return response()->json($validator->errors(), 400);
         // }
 
+        $p = TestSeriesProduct::all()->last();;
+        $count = $p->id ? $p->id + 1 : 1;
+
         $data = $request->except(['id', 'tsc_id']);
+
+        if($request->file('p_image')){
+            $file= $request->file('p_image');
+            $filename= "product-".$count.".".$file->extension();
+            $file->move(public_path('/images'), $filename);
+            $data['p_image']= $filename;
+            // return $data;
+        }
 
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
 
