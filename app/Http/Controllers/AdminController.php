@@ -68,7 +68,8 @@ class AdminController extends Controller
             $file = $request->file('p_image');
             $filename = "product-" . $count . "." . $file->extension();
             $file->move(public_path('/images'), $filename);
-            $data['p_image'] = $filename;
+            $data['p_image'] = "/images/".$filename;
+            return $file;
         }
 
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
