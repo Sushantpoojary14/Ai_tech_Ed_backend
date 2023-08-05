@@ -11,7 +11,7 @@ class TestSeriesProduct extends Model
 {
     use HasFactory;
     protected $table = "test_series_product";
-
+    public $timestamps = false;
     protected $fillable = [
         'p_name',
         'p_description',

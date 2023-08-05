@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->foreign('uts_id')->references('id')->on('user_test_series')->onDelete('cascade');
             $table->string('test_time');
             // $table->string('q_id')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

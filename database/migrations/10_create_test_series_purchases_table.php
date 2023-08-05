@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('valid_from',50);
             $table->string('valid_till',50);
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

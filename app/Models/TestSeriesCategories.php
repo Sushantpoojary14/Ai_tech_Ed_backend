@@ -10,7 +10,7 @@ class TestSeriesCategories extends Model
     use HasFactory;
 
     protected $table = "test_series_categories";
-
+    public $timestamps = false;
     protected $fillable=[
         'id'=>'integer',
         'tsc_type'

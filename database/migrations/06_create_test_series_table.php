@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('test_series', function (Blueprint $table) {
             $table->id();
             $table->string('test_type',40);
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class TSProductCategory extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = 'ts_product_category';
 
     protected $fillable = [
@@ -24,9 +24,9 @@ class TSProductCategory extends Model
         'total_set'=> 'integer',
     ];
 
-    public function tsPCTopic()
+    public function tsPCSet()
     {
-        return $this->hasMany(TSPCTopics::class, 'tspc_id', 'id');
+        return $this->hasMany(TSPCSet::class, 'tspc_id', 'id');
     }
 
     public function testSeriesProduct()

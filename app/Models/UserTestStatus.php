@@ -11,7 +11,7 @@ class UserTestStatus extends Model
     use HasFactory;
 
     protected $table = 'user_test_status';
-
+    public $timestamps = false;
     protected $fillable = [
         'q_id',
         'status_id',

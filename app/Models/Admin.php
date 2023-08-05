@@ -11,6 +11,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class Admin extends Authenticatable implements JWTSubject
 {
     use Notifiable,HasFactory;
+    public $timestamps = false;
     protected $table = "admin";
     /**
      * The attributes that are mass assignable.

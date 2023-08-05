@@ -10,7 +10,7 @@ class NonVerbalQuestion extends Model
     use HasFactory;
 
     protected $table = 'non_verbal_question';
-
+    public $timestamps = false;
     protected $fillable = [
         'question',
         'image',

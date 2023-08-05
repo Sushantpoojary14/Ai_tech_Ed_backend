@@ -28,7 +28,7 @@ return new class extends Migration
             $table->integer('total_question');
             $table->string('release_date',40)->nullable();
             $table->tinyInteger('status')->default('1');
-            $table->timestamps();
+            // $table->timestamps();
         });
         // Schema::enableForeignKeyConstraints();
     }

@@ -14,30 +14,18 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    public function getTSPurchases($id = null)
+    public function getTSPurchases($ts_id = null)
     {
-        $tsp = TSProductCategory::query()
-            // ->where('user_id', Auth()->id())
-            ->whereHas('testSeriesProduct', function ($query) use($id) {
-                 $query->whereHas('tsPurchases', function ($query) use($id) {
-                     $query->where('user_id', Auth()->id());
-                });
-
-            })
-            ->with('testSeriesCategories')
-            ->get();
+        
 
         $purchases = TestSeriesPurchases::query()
                 ->where('user_id', Auth()->id())
-                // ->whereHas('tsProduct', function($query) {
-                //     $query
-                //     ->whereHas('tsProductCategory', function($query) {
-                //         $query->with('testSeriesCategories');
-                //     });
+                // ->whereHas('tsProduct', function ($query) use($ts_id) {
+                //      $query->where('ts_id', $ts_id);
                 // })
                 ->with('tsProduct')
                 ->with(['tsProduct' => function($query) {
-                    $query->with(' getTsProductCategory.testSeriesCategories');
+                    $query->with('getTsProductCategory.testSeriesCategories');
                 }])
                 ->get();
 

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class TestSeriesPurchases extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = "test_series_purchases";
 
     protected $fillable=[
@@ -30,7 +30,7 @@ class TestSeriesPurchases extends Model
         return $this->belongsTo(TestSeriesProduct::class, 'tsp_id', 'id');
     }
 
-    
+
 
     public function uTestUser(): HasMany
     {

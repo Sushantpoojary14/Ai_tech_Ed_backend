@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TestStatus extends Model
 {
+    public $timestamps = false;
     use HasFactory;
     protected $table='test_status';
 

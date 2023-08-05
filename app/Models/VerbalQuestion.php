@@ -9,7 +9,7 @@ class VerbalQuestion extends Model
 {
     use HasFactory;
     protected $table = 'verbal_question';
-
+    public $timestamps = false;
     protected $fillable = [
         'question',
         'option_1',

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('current_timer',40)->nullable();
             $table->bigInteger('q_id')->nullable();
             // $table->foreign('q_id')->references('id')->on('user_test_status')->onDelete('cascade');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

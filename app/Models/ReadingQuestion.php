@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ReadingQuestion extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table = 'reading_question';
 
     protected $fillable = [

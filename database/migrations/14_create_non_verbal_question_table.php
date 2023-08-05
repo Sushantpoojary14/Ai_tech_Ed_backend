@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');
             $table->string('marks')->nullable();
             $table->tinyInteger('status')->default(1);
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tsc_id')->index();
             $table->foreign('tsc_id')->references('id')->on('test_series_categories')->onDelete('cascade');
             $table->integer('total_set')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

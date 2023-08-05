@@ -9,7 +9,7 @@ class TestSeriesTopics extends Model
 {
     use HasFactory;
     protected $table = "test_series_topics";
-
+    public $timestamps = false;
     protected $fillable=[
         't_name',
         'tsc_id',

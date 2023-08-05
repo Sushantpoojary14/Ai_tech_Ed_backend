@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('test_series_categories', function (Blueprint $table) {
+        Schema::create('tspc_set', function (Blueprint $table) {
             $table->id();
-            $table->string('tsc_type',40);
+            $table->unsignedBigInteger('tspc_id')->index();
+            $table->foreign('tspc_id')->references('id')->on('ts_product_category')->onDelete('cascade');
+            $table->integer('set_id')->nullable();
             // $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('test_series_categories');
+        Schema::dropIfExists('tspc_set');
     }
 };

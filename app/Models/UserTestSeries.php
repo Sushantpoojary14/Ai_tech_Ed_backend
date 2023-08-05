@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserTestSeries extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $table='user_test_series';
 
     protected $fillable=[

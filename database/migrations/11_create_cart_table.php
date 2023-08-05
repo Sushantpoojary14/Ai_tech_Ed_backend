@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('tsp_id')->references('id')->on('test_series_product')->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->index();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::enableForeignKeyConstraints();

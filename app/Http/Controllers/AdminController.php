@@ -7,6 +7,7 @@ use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesTopics;
+use App\Models\TSPCSet;
 use App\Models\TSPCTopics;
 use App\Models\TSProductCategory;
 use Illuminate\Http\Request;
@@ -105,22 +106,40 @@ class AdminController extends Controller
     public function addTSProductTopic(Request $request)
     {
         // return $request->total_set;
+
+        // $id = TSProductCategory::query()
+        //     ->where('id', $tspc_id)
+        //     ->first('id');
+
+        // $set = [];
+
+        // for ($i = 1; $i <= $request->total_set; $i++) {
+        //     $set[] = $i;
+        // }
+
         foreach ($request->data as $item) {
 
-            $id = TSProductCategory::query()
+            $tspc = TSProductCategory::query()
                 ->where('id', $item['tspc_id'])
-                ->first('id');
+                ->first();
+            // return $tspc->id;
+            $tsps = TSPCSet::query()
+                ->create(['tspc_id' => $tspc->id]);
 
-            $id->tsPCTopics()->sync($item['tst_id']);
+            $tsps->tsPCTopic()->sync($item['tst_id']);
 
-            TSPCTopics::query()
-                ->where('tspc_id', $item['tspc_id'])
+
+            TSPCSet::query()
+                ->where([
+                    ['tspc_id', $item['tspc_id']],
+                    ['set_id', null],
+                ])
                 ->update([
-                    'set_number' => $item['set_number']
+                    'set_id' => $request->total_set
                 ]);
 
             TSProductCategory::query()
-                ->where('id', $id->id)
+                ->where('id', $tspc->id)
                 ->update([
                     'total_set' => $request->total_set
                 ]);
