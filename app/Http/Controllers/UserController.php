@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
 
-
-
     public function userTestStatus(request $request)
     {
         // return $request->id;
+        
         $id = UserTestSeries::query()
             ->where('tsps_id', $request->id)
             ->where('user_id', Auth()->id())
@@ -57,8 +56,9 @@ class UserController extends Controller
     public function generateRandomQuestion($id)
     {
 
-
-            $userTestSeries = UserTestSeries::with('userPurchases')->find($id);
+            $userTestSeries = UserTestSeries::
+            with('userPurchases')
+            ->find($id);
 
             if (!$userTestSeries || !$userTestSeries->userPurchases) {
                 return response()->json(['message' => 'No purchases'], 200);

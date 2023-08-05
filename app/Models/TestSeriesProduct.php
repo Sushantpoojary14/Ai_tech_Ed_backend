@@ -38,4 +38,13 @@ class TestSeriesProduct extends Model
         return $this->belongsToMany(TestSeriesTopics::class, TSProductCategory::class,'tsp_id', 'tsc_id');
     }
 
+    public function tsPurchases()
+    {
+        return $this->hasMany(TestSeriesPurchases::class, 'tsp_id', 'id');
+    }
+    public function getTsProductCategory()
+    {
+        return $this->hasMany(TSProductCategory::class, 'tsp_id', 'id');
+    }
+
 }

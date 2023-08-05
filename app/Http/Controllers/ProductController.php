@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesPurchases;
+use App\Models\TSProductCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,16 +16,34 @@ class ProductController extends Controller
 {
     public function getTSPurchases($id = null)
     {
-        $tsp = TestSeriesPurchases::query()
-            ->where('user_id', Auth()->id())
-            // ->when($id, function ($query, $id) {
-            //     return $query->where('id', $id);
-            // })
-            ->with('tsProduct')
+        $tsp = TSProductCategory::query()
+            // ->where('user_id', Auth()->id())
+            ->whereHas('testSeriesProduct', function ($query) use($id) {
+                 $query->whereHas('tsPurchases', function ($query) use($id) {
+                     $query->where('user_id', Auth()->id());
+                });
+
+            })
+            ->with('testSeriesCategories')
             ->get();
 
+        $purchases = TestSeriesPurchases::query()
+                ->where('user_id', Auth()->id())
+                // ->whereHas('tsProduct', function($query) {
+                //     $query
+                //     ->whereHas('tsProductCategory', function($query) {
+                //         $query->with('testSeriesCategories');
+                //     });
+                // })
+                ->with('tsProduct')
+                ->with(['tsProduct' => function($query) {
+                    $query->with(' getTsProductCategory.testSeriesCategories');
+                }])
+                ->get();
+
+
         return response()->json([
-            'tsp' => $tsp
+            'tsp' =>  $purchases
         ], 200);
     }
 
@@ -55,7 +74,18 @@ class ProductController extends Controller
 
         if (is_array($request->p_id)) {
 
+
+
             foreach ($request->p_id as $item) {
+
+                $id = TestSeriesPurchases::query()
+                    ->where([
+                        'user_id' => $request->u_id,
+                        'tsp_id' => $item,
+                    ])->first();
+                if ($id)
+                    continue;
+
                 Cart::query()
                     ->updateOrInsert([
                         'user_id' => $request->u_id,
@@ -64,6 +94,16 @@ class ProductController extends Controller
             }
 
         } else {
+            $id = TestSeriesPurchases::query()
+                ->where([
+                    'user_id' => $request->u_id,
+                    'tsp_id' => $request->p_id,
+                ])->first();
+
+            if ($id)
+                return response()->json([
+                    'message' => 'Added successfully'
+                ], 200);
 
             Cart::query()
                 ->updateOrInsert([
@@ -165,8 +205,8 @@ class ProductController extends Controller
             // ->firstOrFail()
             ->delete();
 
-        // return $p;
-        if ($p) {
+        // return count($p);
+        if (count($p) != 0) {
             return response()->json([
                 'message' => 'Already Purchased',
                 'purchases' => $p

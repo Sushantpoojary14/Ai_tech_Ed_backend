@@ -102,35 +102,45 @@ class AdminController extends Controller
     }
 
 
-public function addTSProductTopic(Request $request)
-{
-    // return $request->total_set;
-    foreach($request->data as $item){
+    public function addTSProductTopic(Request $request)
+    {
+        // return $request->total_set;
+        foreach ($request->data as $item) {
 
-       $id = TSProductCategory::query()
-        ->where('id', $item['tspc_id'])
-        ->first('id');
+            $id = TSProductCategory::query()
+                ->where('id', $item['tspc_id'])
+                ->first('id');
 
-        $id->tsPCTopics()->sync($item['tst_id']);
+            $id->tsPCTopics()->sync($item['tst_id']);
 
-        TSPCTopics::query()
-        ->where('tspc_id', $item['tspc_id'])
-        ->update([
-            'set_number'=>$item['set_number']
-        ]);
+            TSPCTopics::query()
+                ->where('tspc_id', $item['tspc_id'])
+                ->update([
+                    'set_number' => $item['set_number']
+                ]);
 
-        TSProductCategory::query()
-        ->where('id', $id->id)
-        ->update([
-            'total_set'=>$request->total_set
-        ]);
+            TSProductCategory::query()
+                ->where('id', $id->id)
+                ->update([
+                    'total_set' => $request->total_set
+                ]);
+        }
+
+
+        // $tsc =  $tsp->productTopics()->sync($request->tst_id);
+
+        return response()->json([
+            'message' => 'Successfully TSProductTopic added'
+        ], 200);
     }
 
+    public function addUpdateTSTopic(Request $request)
+    {
+        TestSeriesTopics::query()
+            ->updateOrInsert(['id' => $request->id ? $request->id : null], $request->input());
 
-    // $tsc =  $tsp->productTopics()->sync($request->tst_id);
-
-    return response()->json([
-        'message'=>'success'
-    ], 200);
-}
+        return response()->json([
+            'message' => 'Successfully Topic added'
+        ], 200);
+    }
 }

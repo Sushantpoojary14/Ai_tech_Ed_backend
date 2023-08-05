@@ -19,6 +19,6 @@ Route::group(['prefix' => 'admin','middleware' => ['jwt.role:admin','jwt.auth']]
     Route::get('/get-test-series-topics/{id}',[AdminController::class,'getTestSeriesTopics']);
     Route::post('/add-test-series-product',[AdminController::class,'addUpdateProduct']);
     Route::post('/add-test-series-product-topics',[AdminController::class,'addTSProductTopic']);
-
+    Route::post('/add-update-test-series-topics',[AdminController::class,'addUpdateTSTopic']);
 });
 

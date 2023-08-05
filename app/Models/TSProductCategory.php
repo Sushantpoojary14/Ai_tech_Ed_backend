@@ -29,8 +29,18 @@ class TSProductCategory extends Model
         return $this->hasMany(TSPCTopics::class, 'tspc_id', 'id');
     }
 
+    public function testSeriesProduct()
+    {
+        return $this->belongsTo(TestSeriesProduct::class, 'tsp_id', 'id',TestSeriesCategories::class);
+    }
+
     public function tsPCTopics()
     {
-        return $this->BelongsToMany(TestSeriesTopics::class,TSPCTopics::class, 'tspc_id','tst_id');
+        return $this->BelongsToMany(TestSeriesTopics::class, TSPCTopics::class, 'tspc_id','tst_id');
+    }
+
+    public function testSeriesCategories()
+    {
+        return $this->BelongsTo(TestSeriesCategories::class, 'tsc_id','id');
     }
 }
