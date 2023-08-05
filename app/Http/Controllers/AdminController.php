@@ -61,8 +61,8 @@ class AdminController extends Controller
         $p = TestSeriesProduct::all()->last();
         ;
         $count = $p->id ? $p->id + 1 : 1;
-
-        $data = $request->except(['id', 'tsc_id']);
+       
+        $data = $request->except(['id', 'tsc_id','p_image']);
 
         if ($request->file('p_image')) {
             $file = $request->file('p_image');
