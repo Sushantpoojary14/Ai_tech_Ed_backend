@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('option_3',40);
             $table->string('option_4',40);
             $table->string('option_5',40)->nullable();
-            $table->integer('correct_option');
+            $table->string('correct_option',40);
             $table->string('explanation');
             $table->unsignedBigInteger('tst_id')->index();
             $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');

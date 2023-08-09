@@ -27,4 +27,14 @@ class TSPCSet extends Model
     {
         return $this->belongsToMany(TestSeriesTopics::class,TSPCTopics::class, 'tspcs_id', 'tst_id');
     }
+
+    public function getTsPC()
+    {
+        return $this->belongsTo(TSProductCategory::class, 'tspc_id', 'id');
+    }
+
+    public function getTsTopic()
+    {
+        return $this->hasMany(TSPCTopics::class, 'tspcs_id', 'id');
+    }
 }

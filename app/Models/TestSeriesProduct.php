@@ -38,7 +38,7 @@ class TestSeriesProduct extends Model
         return $this->belongsToMany(TestSeriesTopics::class, TSProductCategory::class,'tsp_id', 'tsc_id');
     }
 
-    public function tsPurchases()
+    public function tsPurchases(): HasMany
     {
         return $this->hasMany(TestSeriesPurchases::class, 'tsp_id', 'id');
     }

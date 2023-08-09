@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\TestSeries;
+use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesPurchases;
 use App\Models\TSProductCategory;
+use App\Models\UserTestSeries;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,20 +17,34 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    public function getTestSeries()
+    {
+        $ts = TestSeries::query()
+            ->get();
+
+        // $tsc = TestSeriesCategories::query()
+        //     ->get();
+
+        return response()->json([
+            'ts' => $ts,
+            // 'tsc' => $tsc,
+        ], 200);
+    }
     public function getTSPurchases($ts_id = null)
     {
 
-
         $purchases = TestSeriesPurchases::query()
             ->where('user_id', Auth()->id())
-            // ->whereHas('tsProduct', function ($query) use($ts_id) {
-            //      $query->where('ts_id', $ts_id);
-            // })
+            ->whereHas('tsProduct', function ($query) use ($ts_id) {
+                $query->where('ts_id', $ts_id);
+            })
             ->with('tsProduct')
             ->with([
                 'tsProduct' => function ($query) {
-                    $query->with('getTsProductCategory.testSeriesCategories',
-                    'getTsProductCategory.tsPCSet');
+                    $query->with(
+                        'getTsProductCategory.testSeriesCategories',
+                        'getTsProductCategory.tsPCSet'
+                    );
                 }
             ])
             ->get();
@@ -37,7 +54,26 @@ class ProductController extends Controller
             'tsp' => $purchases
         ], 200);
     }
+    public function getTSDetails($ps_id)
+    {
 
+        $temp = UserTestSeries::query()
+            ->where('id', $ps_id)
+            ->with('userPurchases.tsProduct')
+            ->first();
+        $uts_id =$temp->id;
+        $purchase = $temp->userPurchases;
+        $detail = UserTestSeries::query()
+            ->where('id', $ps_id)
+            ->with('getTSSet.getTsPC.testSeriesCategories')
+            ->first();
+        $test_detail = $detail->getTSSet;
+        return response()->json([
+            'test_detail' => $test_detail,
+            'tsp' => $purchase,
+            'uts_id'=> $uts_id
+        ], 200);
+    }
     public function getTSPurchasesId($id = null)
     {
         $tsp = TestSeriesPurchases::query()

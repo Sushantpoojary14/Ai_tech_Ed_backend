@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class VerbalQuestion extends Model
 {
@@ -25,11 +26,23 @@ class VerbalQuestion extends Model
     ];
     protected $casts = [
         'id'=>'integer',
-        'ts_id' => 'integer',
-        'tsc_id' => 'integer',
         'tst_id' => 'integer',
         'status' => 'integer',
         'marks' => 'integer',
     ];
+
+    protected function correctOption(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) => match ($value) {
+                'A' => 1,
+                'B' => 2,
+                'C' => 2,
+                'D' => 2,
+                default => 5,
+            }
+        );
+    }
+
 
 }

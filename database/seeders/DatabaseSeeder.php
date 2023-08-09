@@ -20,67 +20,67 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(2)->create();
-        Admin::factory(1)->create();
+        // User::factory(2)->create();
+        // Admin::factory(1)->create();
 
-        $tsc =  TestSeries::factory()->create([
-            'test_type' => 'oc',
-        ])
-        ->create([
-            'test_type' => 'selective',
-        ]);
+        // $tsc =  TestSeries::factory()->create([
+        //     'test_type' => 'oc',
+        // ])
+        // ->create([
+        //     'test_type' => 'selective',
+        // ]);
 
-        $tsc = TestSeriesCategories::factory()->create([
-            'tsc_type' => 'Maths',
-        ])
-        ->create([
-            'tsc_type' => 'Reading',
-        ])
-        ->create([
-            'tsc_type' => 'Logical',
-        ]);
+        // $tsc = TestSeriesCategories::factory()->create([
+        //     'tsc_type' => 'Maths',
+        // ])
+        // ->create([
+        //     'tsc_type' => 'Reading',
+        // ])
+        // ->create([
+        //     'tsc_type' => 'Logical',
+        // ]);
 
-        $p = TestSeriesProduct::factory(2)->create();
+        // $p = TestSeriesProduct::factory(2)->create();
 
-        TestStatus::query()->create([
-            'type' => 'Answered',
-        ])
-        ->create([
-            'type' => 'Not Answered',
-        ])
-        ->create([
-            'type' => 'Not Visited',
-        ])
-        ->create([
-            'type' => 'Marked for Review',
-        ])
-        ->create([
-            'type' => 'Answered & Marked for
-            Review',
-        ]);
+        // TestStatus::query()->create([
+        //     'type' => 'Answered',
+        // ])
+        // ->create([
+        //     'type' => 'Not Answered',
+        // ])
+        // ->create([
+        //     'type' => 'Not Visited',
+        // ])
+        // ->create([
+        //     'type' => 'Marked for Review',
+        // ])
+        // ->create([
+        //     'type' => 'Answered & Marked for
+        //     Review',
+        // ]);
 
         // TestSeriesPurchases::factory(2)->create();
-        TestSeriesTopics::factory()->create([
-            't_name'=>'age',
-            'tsc_id'=>3,
-        ])->create([
-            't_name'=>'ratio',
-            'tsc_id'=>3,
-        ])->create([
-            't_name'=>'averages',
-            'tsc_id'=>3,
-        ])->create([
-            't_name'=>'multiple operation',
-            'tsc_id'=>3,
-        ]);
+        // TestSeriesTopics::factory()->create([
+        //     't_name'=>'age',
+        //     'tsc_id'=>3,
+        // ])->create([
+        //     't_name'=>'ratio',
+        //     'tsc_id'=>3,
+        // ])->create([
+        //     't_name'=>'averages',
+        //     'tsc_id'=>3,
+        // ])->create([
+        //     't_name'=>'multiple operation',
+        //     'tsc_id'=>3,
+        // ]);
 
-        foreach ($p as $key => $value) {
-            $value->tsProductCategory()->sync([1,2,3]);
-        }
+        // foreach ($p as $key => $value) {
+        //     $value->tsProductCategory()->sync([1,2,3]);
+        // }
 
 
 
-        // VerbalQuestion::factory(135)->create();
+        VerbalQuestion::factory(200)->create();
 
 
 

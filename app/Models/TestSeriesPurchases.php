@@ -30,6 +30,10 @@ class TestSeriesPurchases extends Model
         return $this->belongsTo(TestSeriesProduct::class, 'tsp_id', 'id');
     }
 
+    public function userPurchases(): HasMany
+    {
+        return $this->hasMany(UserTestSeries::class, 'tsps_id', 'id');
+    }
 
 
     public function uTestUser(): HasMany

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\TestSeriesPurchases;
 use App\Models\TestSeriesTopics;
+use App\Models\TSPCSet;
 use App\Models\UserTestSeries;
 use App\Models\UserTestStatus;
 use App\Models\VerbalQuestion;
@@ -19,28 +20,28 @@ class UserController extends Controller
     public function userTestStatus(request $request)
     {
         // return $request->id;
-        
-        $id = UserTestSeries::query()
-            ->where('tsps_id', $request->id)
-            ->where('user_id', Auth()->id())
+
+        $uts = UserTestSeries::query()
+            ->where('tsps_id', $request->ps_id)
+            ->where('set_id', $request->set_id)
             ->where('complete_status', 0)
             ->select('id')
             ->first();
 
-        if ($id) {
+        if ($uts) {
             return response()->json([
-                'user_test' => $id->id
+                'uts_id' => $uts->id
             ], 200);
         }
 
 
         $current = Carbon::now();
 
-        $id = UserTestSeries::query()
+        $uts= UserTestSeries::query()
             ->create(
                 [
-                    'tsps_id' => $request->id,
-                    'user_id' => Auth()->id(),
+                    'tsps_id' => $request->ps_id,
+                    'set_id'=>$request->set_id,
                     'complete_status' => 0,
                     'start_date' => $current->format('d-m-Y'),
                 ]
@@ -48,7 +49,7 @@ class UserController extends Controller
 
 
         return response()->json([
-            'user_test' => $id->id
+            'uts_id' =>  $uts->id
         ], 200);
     }
 
@@ -57,9 +58,9 @@ class UserController extends Controller
     {
 
             $userTestSeries = UserTestSeries::
-            with('userPurchases')
+            with('userPurchases.tsProduct')
             ->find($id);
-
+            $product = $userTestSeries->userPurchases->tsProduct;
             if (!$userTestSeries || !$userTestSeries->userPurchases) {
                 return response()->json(['message' => 'No purchases'], 200);
             }
@@ -70,7 +71,8 @@ class UserController extends Controller
                 return response()->json(['message' => 'not found'], 404);
             }
 
-            $timer = $userTestSeries->current_timer ?? $testSeriesProduct->duration;
+
+            $timer = $userTestSeries->current_timer ?? $product->duration;
 
 
             $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions')->get();
@@ -85,24 +87,34 @@ class UserController extends Controller
             }
 
 
-            $testSeriesTopics = TestSeriesTopics::where('tsc_id', $testSeriesProduct->tsc_id)->get();
+            $testSeriesTopics = UserTestSeries::where('id', $id)
+            ->with('getTSSet.getTsTopic')
+            ->first();
 
+            $topics = $testSeriesTopics->getTSSet->getTsTopic;
+            // return $topics ;
             $questions = [];
 
 
-            foreach ($testSeriesTopics as $topic) {
-                $temp_questions = VerbalQuestion::where('tst_id', $topic->id)
+            foreach ($topics as $topic) {
+                $temp_questions = VerbalQuestion::where('tst_id', $topic->tst_id)
                     // ->where('ts_id', $testSeriesProduct->ts_id)
                     // ->where('tsc_id', $testSeriesProduct->tsc_id)
                     ->get();
                 $questions = array_merge($questions, $temp_questions->toArray());
             }
-            // return $questions;
+            //  return $product->total_question ;
             $temp = [];
-            for ($i = 0; $i < 24; $i++) {
-                $temp[] = $questions[$i];
+            $i=[];
+            while (count($temp) < $product->total_question) {
+                $index = rand(0,count($questions)-1);
+                if(!in_array($index,$i)){
+                    $temp[] = $questions[$index];
+                    $i[]=$index;
+                }
+
             }
-            // return $temp;
+            // return $i;
 
 
             foreach ($temp as $question) {
@@ -220,7 +232,7 @@ class UserController extends Controller
         // return $total;
         return response()->json([
             'message' => 'Successfully Submitted',
-            'uts_id' => $t
+            'uts_id' =>  $id
         ], 200);
     }
     public function getTestResult($id)
@@ -247,13 +259,17 @@ class UserController extends Controller
             ->with('questions')
             ->get();
 
-        // return $ps->tsProduct;
+        // return $total_answered;
         $total = [];
+        // $to = [];
         foreach ($total_answered as $item) {
-            if ($item->test_answer == $item->questions->answer) {
+            // $total[] = $item->test_answer;
+
+            if ($item->test_answer == $item->questions->correct_option) {
                 $total[] = $item->test_answer;
             }
         }
+        // return $total;
         // return $total;
         return response()->json([
             'total_answered' => count($total_answered),

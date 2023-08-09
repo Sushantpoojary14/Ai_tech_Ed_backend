@@ -13,6 +13,7 @@ Route::post('register',[UserAuthController::class,'register']);
 Route::get('/refresh-token',[UserAuthController::class,'refresh']);
 Route::get('/get-product-data/{id?}',[ProductController::class,'showProduct']);
 Route::get('/one-product-data/{id}',[ProductController::class,'sProduct']);
+Route::get('/get-test-series',[ProductController::class,'getTestSeries']);
 
 Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
 {
@@ -31,6 +32,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::post('/add-user-purchase',[ProductController::class,'addTSPurchases']);
     Route::get('/get-user-purchases-id',[ProductController::class,'getTSPurchasesId']);
     Route::get('/get-user-purchases/{ts_id?}',[ProductController::class,'getTSPurchases']);
+    Route::get('/get-user-test-details/{ps_id}',[ProductController::class,'getTSDetails']);
 
     //user test sschedule
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);

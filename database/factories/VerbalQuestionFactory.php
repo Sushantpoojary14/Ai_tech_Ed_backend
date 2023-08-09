@@ -20,16 +20,13 @@ class VerbalQuestionFactory extends Factory
         $answer=$array[rand(0, 3)];
         return [
             'question'=>fake()->sentence,
-            'A'=> fake()->numberBetween(10, 50),
-            'B'=> fake()->numberBetween(10, 50),
-            'C'=> fake()->numberBetween(10, 50),
-            'D'=> fake()->numberBetween(10, 50),
-            'E'=> fake()->numberBetween(10, 50),
-            'answer'=> $answer,
+            'option_1'=> fake()->numberBetween(10, 50),
+            'option_2'=> fake()->numberBetween(10, 50),
+            'option_3'=> fake()->numberBetween(10, 50),
+            'option_4'=> fake()->numberBetween(10, 50),
+            'correct_option'=> $answer,
             'explanation'=>fake()->sentence,
-            'ts_id'=> rand(1, 2),
-            'tsc_id'=> rand(1, 3),
-            'tst_id'=> rand(1, 15),
+            'tst_id'=> rand(1, 4),
             'marks'=>1,
         ];
     }
