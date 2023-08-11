@@ -10,6 +10,7 @@ use App\Models\TestSeriesTopics;
 use App\Models\TSPCSet;
 use App\Models\TSPCTopics;
 use App\Models\TSProductCategory;
+use App\Models\VerbalQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
@@ -59,7 +60,7 @@ class AdminController extends Controller
         // }
 
         $p = TestSeriesProduct::all()->last();
-            // return $request->input('p_image');
+        // return $request->input('p_image');
         $count = $p->id ? $p->id + 1 : 1;
 
         $data = $request->except(['id', 'tsc_id']);
@@ -68,7 +69,7 @@ class AdminController extends Controller
             $file = $request->file('p_image');
             $filename = "product-" . $count . "." . $file->extension();
             $file->move(public_path('/images'), $filename);
-            $data['p_image'] = "/images/".$filename;
+            $data['p_image'] = "/images/" . $filename;
             // return $filename;
         }
 
@@ -165,10 +166,30 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function addUpdateTSTopic(Request $request)
+    public function addTSTopic(Request $request)
     {
-        TestSeriesTopics::query()
-            ->updateOrInsert(['id' => $request->id ? $request->id : null], $request->input());
+        // return $request->input();
+        $tst = TestSeriesTopics::query()
+            ->create(['t_name'=>$request->t_name,'tsc_id'=>$request->tsc_id]);
+
+        $questions = $request->question;
+
+        if($request->tsc_id==3){
+            foreach ($questions as $key => $item) {
+
+                VerbalQuestion::query()
+                ->create([
+                'question'=>$item['question'],
+                'option_1'=>$item['options']['a'],
+                'option_2'=>$item['options']['b'],
+                'option_3'=>$item['options']['c'],
+                'option_4'=>$item['options']['d'],
+                'correct_option'=>$item['answer'],
+                'explanation'=>$item['explanation'],
+                'tst_id'=>$tst->id,
+            ]);
+            }
+        }
 
         return response()->json([
             'message' => 'Successfully Topic added'
