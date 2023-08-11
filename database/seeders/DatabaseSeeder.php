@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(2)->create();
-        // Admin::factory(1)->create();
+        User::factory(2)->create();
+        Admin::factory(1)->create();
 
         // $tsc =  TestSeries::factory()->create([
         //     'test_type' => 'oc',
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
 
 
 
-        VerbalQuestion::factory(200)->create();
+        // VerbalQuestion::factory(200)->create();
 
 
 
