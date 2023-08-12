@@ -43,6 +43,30 @@ class VerbalQuestion extends Model
             }
         );
     }
+    protected function option1(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) =>  rtrim($value, ',')
 
+        );
+    }
+    protected function option2(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) =>  rtrim($value, ',')
+        );
+    }
+    protected function option3(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) =>  rtrim($value, ',')
+        );
+    }
 
+    protected function option4(): Attribute
+    {
+        return Attribute::make(
+            set: fn (string $value) =>  rtrim($value, ',')
+        );
+    }
 }

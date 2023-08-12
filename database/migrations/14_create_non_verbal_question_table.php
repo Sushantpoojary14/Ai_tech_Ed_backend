@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('non_verbal_question', function (Blueprint $table) {
             $table->id();
-            $table->string('question');
+            $table->text('question');
             $table->string('image',100);
             $table->string('option_1',40);
             $table->string('option_2',40);
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('option_4',40);
             $table->string('option_5',40)->nullable();
             $table->integer('correct_option');
-            $table->string('explanation');
+            $table->text('explanation');
             $table->unsignedBigInteger('tst_id')->index();
             $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');
             $table->string('marks')->nullable();
