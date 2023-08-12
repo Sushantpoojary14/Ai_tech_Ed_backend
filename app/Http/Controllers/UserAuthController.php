@@ -110,14 +110,14 @@ class UserAuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
         $user_email = auth()->user()->email;
-        if (!auth()->attempt(['email'=>$user_email ,'password'=>$request->prev_password])) {
-            return response()->json(['status' => 'failed',
-            'message' =>  'UnAuthorized'], 404);
-        }
+        // if (!auth()->attempt(['email'=>$user_email ,'password'=>$request->prev_password])) {
+        //     return response()->json(['status' => 'failed',
+        //     'message' =>  'UnAuthorized'], 404);
+        // }
 
         User::query()
         ->where('email',$user_email)
-        ->update(array_merge(['password'=>Hash::make($request->new_password)]));
+        ->update(array_merge($request->input()));
 
         return response()->json(['message' => 'Successfully Changed'],200);
     }

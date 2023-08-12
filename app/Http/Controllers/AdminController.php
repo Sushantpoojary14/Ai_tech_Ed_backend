@@ -195,4 +195,23 @@ class AdminController extends Controller
             'message' => 'Successfully Topic added'
         ], 200);
     }
+
+    public function showProduct($id)
+    {
+        // return $request->input();
+        $tst = TestSeriesProduct::query()
+            ->where('ts_id',$id)
+            ->with('tsPurchases')
+            ->get();
+
+            $tstWithCounts = $tst->map(function ($testSeriesProduct) {
+                $testSeriesProduct->purchaseCount = $testSeriesProduct->tsPurchases->count();
+                unset($testSeriesProduct->tsPurchases);
+                return $testSeriesProduct;
+            });
+
+        return response()->json([
+            'product' => $tstWithCounts
+        ], 200);
+    }
 }

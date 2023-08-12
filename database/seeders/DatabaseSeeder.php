@@ -23,41 +23,41 @@ class DatabaseSeeder extends Seeder
         // User::factory(2)->create();
         Admin::factory(1)->create();
 
-        // $tsc =  TestSeries::factory()->create([
-        //     'test_type' => 'oc',
-        // ])
-        // ->create([
-        //     'test_type' => 'selective',
-        // ]);
+        $tsc =  TestSeries::factory()->create([
+            'test_type' => 'oc',
+        ])
+        ->create([
+            'test_type' => 'selective',
+        ]);
 
-        // $tsc = TestSeriesCategories::factory()->create([
-        //     'tsc_type' => 'Maths',
-        // ])
-        // ->create([
-        //     'tsc_type' => 'Reading',
-        // ])
-        // ->create([
-        //     'tsc_type' => 'Logical',
-        // ]);
+        $tsc = TestSeriesCategories::factory()->create([
+            'tsc_type' => 'Maths',
+        ])
+        ->create([
+            'tsc_type' => 'Reading',
+        ])
+        ->create([
+            'tsc_type' => 'Logical',
+        ]);
 
-        // $p = TestSeriesProduct::factory(2)->create();
+        $p = TestSeriesProduct::factory(2)->create();
 
-        // TestStatus::query()->create([
-        //     'type' => 'Answered',
-        // ])
-        // ->create([
-        //     'type' => 'Not Answered',
-        // ])
-        // ->create([
-        //     'type' => 'Not Visited',
-        // ])
-        // ->create([
-        //     'type' => 'Marked for Review',
-        // ])
-        // ->create([
-        //     'type' => 'Answered & Marked for
-        //     Review',
-        // ]);
+        TestStatus::query()->create([
+            'type' => 'Answered',
+        ])
+        ->create([
+            'type' => 'Not Answered',
+        ])
+        ->create([
+            'type' => 'Not Visited',
+        ])
+        ->create([
+            'type' => 'Marked for Review',
+        ])
+        ->create([
+            'type' => 'Answered & Marked for
+            Review',
+        ]);
 
         // TestSeriesPurchases::factory(2)->create();
         // TestSeriesTopics::factory()->create([

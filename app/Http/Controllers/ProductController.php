@@ -61,7 +61,7 @@ class ProductController extends Controller
             ->where('id', $ps_id)
             ->with('userPurchases.tsProduct')
             ->first();
-        $uts_id =$temp->id;
+        $uts_id = $temp->id;
         $purchase = $temp->userPurchases;
         $detail = UserTestSeries::query()
             ->where('id', $ps_id)
@@ -71,7 +71,7 @@ class ProductController extends Controller
         return response()->json([
             'test_detail' => $test_detail,
             'tsp' => $purchase,
-            'uts_id'=> $uts_id
+            'uts_id' => $uts_id
         ], 200);
     }
     public function getTSPurchasesId($id = null)
@@ -186,6 +186,7 @@ class ProductController extends Controller
     public function showProduct($id = null)
     {
         $products = TestSeriesProduct::query()
+            ->where('status', 1)
             ->when($id, function ($query, $id) {
                 return $query->where('ts_id', $id);
             })
