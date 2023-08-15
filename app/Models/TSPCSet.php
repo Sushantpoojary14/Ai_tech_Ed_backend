@@ -14,13 +14,16 @@ class TSPCSet extends Model
     protected $fillable = [
        'tspc_id',
     //    'tst_id',
-       'set_id'
+       'set_id',
+       'status'
+
     ];
     protected $casts = [
         'id'=>'integer',
         'tspc_id' => 'integer',
         // 'tst_id' => 'integer',
         'set_id'=> 'integer',
+        'status'=> 'integer',
     ];
 
     public function tsPCTopic()

@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
@@ -22,5 +23,10 @@ Route::group(['prefix' => 'admin','middleware' => ['jwt.role:admin','jwt.auth']]
     Route::post('/add-test-series-topics',[AdminController::class,'addTSTopic']);
     Route::get('/show-product/{ts_id}',[AdminController::class,'showProduct']);
     Route::get('/show-product-details/{ts_id}',[AdminController::class,'showProductDetails']);
+    Route::get('/update-product-status/{p_id}',[ProductController::class,'productStatus']);
+    Route::get('/update-set-status/{set_id}',[ProductController::class,'setStatus']);
+
+    //product
+
 });
 

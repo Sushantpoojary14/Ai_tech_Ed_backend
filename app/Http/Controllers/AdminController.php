@@ -10,6 +10,7 @@ use App\Models\TestSeriesTopics;
 use App\Models\TSPCSet;
 use App\Models\TSPCTopics;
 use App\Models\TSProductCategory;
+use App\Models\User;
 use App\Models\VerbalQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -237,6 +238,14 @@ class AdminController extends Controller
 
         return response()->json([
             'product_detail' =>   $tst_data
+        ], 200);
+    }
+
+
+    public function totalUser(){
+        $users = User::count();
+        return response()->json([
+            'product_detail' =>   $users
         ], 200);
     }
 }

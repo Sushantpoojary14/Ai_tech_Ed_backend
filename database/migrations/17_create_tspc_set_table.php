@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('tspc_id')->index();
             $table->foreign('tspc_id')->references('id')->on('ts_product_category')->onDelete('cascade');
             $table->integer('set_id')->nullable();
+            $table->tinyInteger('status')->default(1);
             // $table->timestamps();
         });
     }

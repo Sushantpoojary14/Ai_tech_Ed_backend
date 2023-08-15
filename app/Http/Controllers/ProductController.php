@@ -289,4 +289,23 @@ class ProductController extends Controller
         ], 200);
     }
 
+
+    public function productStatus($p_id, Request $request)
+    {
+        TestSeriesProduct::where('id', $p_id)
+            ->update(['status' => $request->status]);
+        return response()->json([
+            'message' => 'Successfully changed product status'
+        ], 200);
+
+    }
+    public function setStatus($set_id, Request $request)
+    {
+        TestSeriesProduct::where('id', $set_id)
+            ->update(['status' => $request->status]);
+        return response()->json([
+            'message' => 'Successfully changed product status'
+        ], 200);
+
+    }
 }
