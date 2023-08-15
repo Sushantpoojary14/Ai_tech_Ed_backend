@@ -22,5 +22,10 @@ class TSPCTopics extends Model
         'tst_id' => 'integer',
         // 'set_number'=> 'integer',
     ];
+
+
+    public function tsTopic(){
+        return $this->belongsTo(TestSeriesTopics::class, 'tst_id', 'id');
+    }
 }
 
