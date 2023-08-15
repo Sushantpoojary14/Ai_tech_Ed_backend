@@ -22,7 +22,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::post('/password-check',[UserAuthController::class,'passwordCheck']);
 	Route::post('/logout',[UserAuthController::class,'logout']);
     Route::get('/user',[UserAuthController::class,'user']);
-
+    Route::post('/profile-change',[UserAuthController::class,'profileChange']);
     // cart api
     Route::post('/add-to-cart',[ProductController::class,'addCart']);
     Route::get('/get-cart-data/{id}',[ProductController::class,'showCart']);
@@ -33,6 +33,8 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-purchases-id',[ProductController::class,'getTSPurchasesId']);
     Route::get('/get-user-purchases/{ts_id?}',[ProductController::class,'getTSPurchases']);
     Route::get('/get-user-test-details/{ps_id}',[ProductController::class,'getTSDetails']);
+  
+
 
     //user test sschedule
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);

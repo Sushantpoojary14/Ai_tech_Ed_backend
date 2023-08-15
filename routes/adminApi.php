@@ -20,6 +20,7 @@ Route::group(['prefix' => 'admin','middleware' => ['jwt.role:admin','jwt.auth']]
     Route::post('/add-test-series-product',[AdminController::class,'addUpdateProduct']);
     Route::post('/add-test-series-product-topics',[AdminController::class,'addTSProductTopic']);
     Route::post('/add-test-series-topics',[AdminController::class,'addTSTopic']);
-    Route::get('/show-product/{id}',[AdminController::class,'showProduct']);
+    Route::get('/show-product/{ts_id}',[AdminController::class,'showProduct']);
+    Route::get('/show-product-details/{ts_id}',[AdminController::class,'showProductDetails']);
 });
 

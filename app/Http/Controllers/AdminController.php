@@ -196,11 +196,11 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function showProduct($id)
+    public function showProduct($ts_id)
     {
         // return $request->input();
         $tst = TestSeriesProduct::query()
-            ->where('ts_id',$id)
+            ->where('ts_id',$ts_id)
             ->with('tsPurchases')
             ->get();
 
@@ -212,6 +212,31 @@ class AdminController extends Controller
 
         return response()->json([
             'product' => $tstWithCounts
+        ], 200);
+    }
+
+
+    public function showProductDetails($ts_id)
+    {
+        // return $request->input();
+        $tst = TestSeriesProduct::query()
+            ->where('ts_id',$ts_id)
+            ->with('getTsProductCategory.testSeriesCategories','getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
+            ->get();
+
+            $tst_data = $tst->map(function ($testSeriesProduct) {
+                foreach ( $testSeriesProduct->getTsProductCategory as $key => $value) {
+                    $testSeriesProduct->categories = $value->testSeriesCategories;
+
+                    $testSeriesProduct->topics =  $value->tsPCSet;
+                    // unset($value->getTsProductCategory);
+                }
+                unset($testSeriesProduct->getTsProductCategory );
+                return $testSeriesProduct;
+            });
+
+        return response()->json([
+            'product_detail' =>   $tst_data
         ], 200);
     }
 }
