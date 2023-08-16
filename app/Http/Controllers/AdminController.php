@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ReadingQuestion;
 use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
@@ -175,10 +176,24 @@ class AdminController extends Controller
 
         $questions = $request->question;
 
-        if ($request->tsc_id == 3) {
+        if ($request->tsc_id == 3 || $request->tsc_id == 1) {
             foreach ($questions as $key => $item) {
-
                 VerbalQuestion::query()
+                    ->create([
+                        'question' => $item['question'],
+                        'option_1' => $item['options']['a'],
+                        'option_2' => $item['options']['b'],
+                        'option_3' => $item['options']['c'],
+                        'option_4' => $item['options']['d'],
+                        'correct_option' => $item['answer'],
+                        'explanation' => $item['explanation'],
+                        'tst_id' => $tst->id,
+                    ]);
+            }
+        }
+        elseif($request->tsc_id == 2){
+            foreach ($questions as $key => $item) {
+                ReadingQuestion::query()
                     ->create([
                         'question' => $item['question'],
                         'option_1' => $item['options']['a'],
@@ -246,7 +261,6 @@ class AdminController extends Controller
             }
 
             unset($tst->getTsProductCategory);
-
 
 
         return response()->json([
