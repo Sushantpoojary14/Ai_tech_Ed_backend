@@ -259,20 +259,22 @@ class AdminController extends Controller
             ->with('getTsProductCategory.testSeriesCategories',)
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
             ->first();
+        // $categories = [];
         $categories = [];
+        // $set = [];
 
-        $set = [];
         foreach ($tst->getTsProductCategory as $key => $value) {
 
             $categories[] = $value->TestSeriesCategories;
-
+            $set = [];
             foreach ($value->tsPCSet as $key2 => $value2) {
+
                 $set[] = $value2;
                 $topics = [];
                 foreach ($value2->getTsTopic as $key3 => $value3) {
                     $topics[] = $value3->tsTopic;
-                    $set[$key2]->topics = $topics;
                 }
+                $set[$key2]->topics = $topics;
                 unset($value2->getTsTopic);
             }
             $categories[$key]->sets = $set;
