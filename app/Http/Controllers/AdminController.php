@@ -171,24 +171,24 @@ class AdminController extends Controller
     {
         // return $request->input();
         $tst = TestSeriesTopics::query()
-            ->create(['t_name'=>$request->t_name,'tsc_id'=>$request->tsc_id]);
+            ->create(['t_name' => $request->t_name, 'tsc_id' => $request->tsc_id]);
 
         $questions = $request->question;
 
-        if($request->tsc_id==3){
+        if ($request->tsc_id == 3) {
             foreach ($questions as $key => $item) {
 
                 VerbalQuestion::query()
-                ->create([
-                'question'=>$item['question'],
-                'option_1'=>$item['options']['a'],
-                'option_2'=>$item['options']['b'],
-                'option_3'=>$item['options']['c'],
-                'option_4'=>$item['options']['d'],
-                'correct_option'=>$item['answer'],
-                'explanation'=>$item['explanation'],
-                'tst_id'=>$tst->id,
-            ]);
+                    ->create([
+                        'question' => $item['question'],
+                        'option_1' => $item['options']['a'],
+                        'option_2' => $item['options']['b'],
+                        'option_3' => $item['options']['c'],
+                        'option_4' => $item['options']['d'],
+                        'correct_option' => $item['answer'],
+                        'explanation' => $item['explanation'],
+                        'tst_id' => $tst->id,
+                    ]);
             }
         }
 
@@ -201,15 +201,15 @@ class AdminController extends Controller
     {
         // return $request->input();
         $tst = TestSeriesProduct::query()
-            ->where('ts_id',$ts_id)
+            ->where('ts_id', $ts_id)
             ->with('tsPurchases')
             ->get();
 
-            $tstWithCounts = $tst->map(function ($testSeriesProduct) {
-                $testSeriesProduct->purchaseCount = $testSeriesProduct->tsPurchases->count();
-                unset($testSeriesProduct->tsPurchases);
-                return $testSeriesProduct;
-            });
+        $tstWithCounts = $tst->map(function ($testSeriesProduct) {
+            $testSeriesProduct->purchaseCount = $testSeriesProduct->tsPurchases->count();
+            unset($testSeriesProduct->tsPurchases);
+            return $testSeriesProduct;
+        });
 
         return response()->json([
             'product' => $tstWithCounts
@@ -217,35 +217,58 @@ class AdminController extends Controller
     }
 
 
-    public function showProductDetails($ts_id)
+    public function showProductDetails($p_id)
     {
         // return $request->input();
         $tst = TestSeriesProduct::query()
-            ->where('ts_id',$ts_id)
-            ->with('getTsProductCategory.testSeriesCategories','getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
-            ->get();
+            ->where('id', $p_id)
+            ->with('getTsProductCategory.testSeriesCategories', )
+            ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
+            ->first();
+        $categories = [];
 
-            $tst_data = $tst->map(function ($testSeriesProduct) {
-                foreach ( $testSeriesProduct->getTsProductCategory as $key => $value) {
-                    $testSeriesProduct->categories = $value->testSeriesCategories;
+        $set =[];
+            foreach ($tst->getTsProductCategory as $key => $value) {
 
-                    $testSeriesProduct->topics =  $value->tsPCSet;
-                    // unset($value->getTsProductCategory);
+                $categories[] = $value->TestSeriesCategories;
+
+                foreach ($value->tsPCSet as $key2 => $value2) {
+                    $set[] = $value2;
+                    $topics = [];
+                    foreach ($value2->getTsTopic as $key3 => $value3) {
+                        $topics [] = $value3->tsTopic;
+                        $set[$key2]->topics = $topics;
+                    }
+                       unset( $value2->getTsTopic);
                 }
-                unset($testSeriesProduct->getTsProductCategory );
-                return $testSeriesProduct;
-            });
+                $categories[$key]->sets = $set;
+                $tst->categories =  $categories;
+            }
+
+            unset($tst->getTsProductCategory);
+
+
 
         return response()->json([
-            'product_detail' =>   $tst_data
+            'product_detail' =>$tst
         ], 200);
     }
 
 
-    public function totalUser(){
+    public function totalUser()
+    {
         $users = User::count();
         return response()->json([
-            'product_detail' =>   $users
+            '$user' => $users
+        ], 200);
+    }
+
+    public function showTopics($tsc_id)
+    {
+        $topics = User::where('tsc_id', $tsc_id)
+            ->get();
+        return response()->json([
+            'topics' => $topics
         ], 200);
     }
 }
