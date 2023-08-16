@@ -268,7 +268,6 @@ class AdminController extends Controller
             $categories[] = $value->TestSeriesCategories;
             $set = [];
             foreach ($value->tsPCSet as $key2 => $value2) {
-
                 $set[] = $value2;
                 $topics = [];
                 foreach ($value2->getTsTopic as $key3 => $value3) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2023 at 09:01 AM
+-- Generation Time: Aug 16, 2023 at 10:20 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -229,7 +229,8 @@ CREATE TABLE `test_series_product` (
 --
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `duration`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
-(9, 'OC Test Package - 1', 'It is a logical test only', '29', 'C:\\fakepath\\haztech.png', 1, 30, 3, 35, '223212', 1);
+(9, 'OC Test Package - 1', 'It is a logical test only', '29', 'C:\\fakepath\\haztech.png', 1, 30, 3, 35, '223212', 1),
+(12, 'selective Test Package - 2', 'it is', '89', '/images/product-1692171774.jpeg', 2, 30, 3, 35, '2023/09/12', 1);
 
 -- --------------------------------------------------------
 
@@ -271,7 +272,8 @@ CREATE TABLE `test_series_topics` (
 
 INSERT INTO `test_series_topics` (`id`, `t_name`, `tsc_id`, `status`) VALUES
 (14, 'ratio', 3, 1),
-(15, 'Averages', 3, 1);
+(15, 'Averages', 3, 1),
+(16, 'ratio', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -314,7 +316,11 @@ CREATE TABLE `tspc_set` (
 
 INSERT INTO `tspc_set` (`id`, `tspc_id`, `set_id`, `status`) VALUES
 (8, 7, 1, 1),
-(9, 7, 2, 1);
+(9, 7, 2, 1),
+(12, 12, 1, 1),
+(13, 13, 1, 1),
+(14, 12, 2, 1),
+(15, 13, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -335,7 +341,12 @@ CREATE TABLE `ts_pc_topics` (
 INSERT INTO `ts_pc_topics` (`id`, `tspcs_id`, `tst_id`) VALUES
 (10, 8, 14),
 (11, 8, 15),
-(12, 9, 15);
+(12, 9, 15),
+(14, 12, 15),
+(15, 12, 14),
+(16, 13, 16),
+(17, 14, 14),
+(18, 15, 16);
 
 -- --------------------------------------------------------
 
@@ -355,7 +366,9 @@ CREATE TABLE `ts_product_category` (
 --
 
 INSERT INTO `ts_product_category` (`id`, `tsp_id`, `tsc_id`, `total_set`) VALUES
-(7, 9, 3, 2);
+(7, 9, 3, 2),
+(12, 12, 3, 2),
+(13, 12, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -706,7 +719,22 @@ INSERT INTO `verbal_question` (`id`, `question`, `option_1`, `option_2`, `option
 (522, 'The average age of a group of 25 people is 35 years. If the age of the oldest 4 people is 50 years each, what is the average age of the remaining people?', '32years', '33years', '34years', '36years', NULL, '2', 'Solution: The total age of the oldest 4 people is 4 * 50 = 200 years. The total age of the remaining 21 people is (25 * 35) - 200 = 875 - 200 = 675 years. The average age of the remaining 21 people is 675 / 21 ≈ 36 years.', 15, NULL, 1),
 (523, 'The average number of books read by a group of 15 students is 8. If the number of books read by the top 2 students is 12 each, what is the average number of books read by the remaining students?', '6', '6.5', '7', '7.5', NULL, '2', 'Solution: The total number of books read by the top 2 students is 2 * 12 = 24. The total number of books read by the remaining 13 students is (15 * 8) - 24 = 120 - 24 = 96. The average number of books read by the remaining 13 students is 96 / 13 ≈ 7.', 15, NULL, 1),
 (524, 'The average height of a group of 40 basketball players is 180 cm. If the height of the tallest 10 players is 200 cm each, what is the average height of the remaining players?', '172cm', '174cm', '176cm', '178cm', NULL, '1', 'Solution: The total height of the tallest 10 players is 10 * 200 = 2000 cm. The total height of the remaining 30 players is (40 * 180) - 2000 = 7200 - 2000 = 5200 cm. The average height of the remaining 30 players is 5200 / 30 ≈ 172 cm.', 15, NULL, 1),
-(525, 'The average temperature of a group of 50 cities is 25 degrees Celsius. If the temperature of the hottest 7 cities is 30 degrees Celsius each, what is the average temperature of the remaining cities?', '23degreesCelsius', '23.5degreesCelsius', '24degreesCelsius', '24.5degreesCelsius', NULL, '2', 'Solution: The total temperature of the hottest 7 cities is 7 * 30 = 210 degrees Celsius. The total temperature of the remaining 43 cities is (50 * 25) - 210 = 1250 - 210 = 1040 degrees Celsius. The average temperature of the remaining 43 cities is 1040 / 43 ≈ 24 degrees Celsius.', 15, NULL, 1);
+(525, 'The average temperature of a group of 50 cities is 25 degrees Celsius. If the temperature of the hottest 7 cities is 30 degrees Celsius each, what is the average temperature of the remaining cities?', '23degreesCelsius', '23.5degreesCelsius', '24degreesCelsius', '24.5degreesCelsius', NULL, '2', 'Solution: The total temperature of the hottest 7 cities is 7 * 30 = 210 degrees Celsius. The total temperature of the remaining 43 cities is (50 * 25) - 210 = 1250 - 210 = 1040 degrees Celsius. The average temperature of the remaining 43 cities is 1040 / 43 ≈ 24 degrees Celsius.', 15, NULL, 1),
+(526, 'Two quantities have a 4:7 ratio. If 5 is subtracted from each quantity, the new ratio becomes 9:16. What is the smaller quantity?', '10', '15', '20', '25', NULL, '2', 'Let the quantities be 4x and 7x. \nAccording to the given condition, 4x - 5 = 9 and 7x - 5 = 16. \nSolving these equations, we get x = 7. \nSo, the smaller quantity is 4x = (4 * 7) = 28.', 16, NULL, 1),
+(527, 'The ratio between two numbers is 5:9. If 3 is added to each number, the new ratio becomes 8:12. What is the smaller number?', '12', '15', '18', '21', NULL, '1', 'Let the numbers be 5x and 9x. \nAccording to the given condition, 5x + 3 = 8 and 9x + 3 = 12. \nSolving these equations, we get x = 1. \nSo, the smaller number is 5x = (5 * 1) = 5.', 16, NULL, 1),
+(528, 'The length and breadth of a rectangle are in the ratio of 7:9. If the length is increased by 6 and the breadth is increased by 4, the new ratio becomes 8:11. What is the original length of the rectangle?', '12', '14', '16', '18', NULL, '2', 'Let the original length and breadth be 7x and 9x. \nAccording to the given condition, (7x + 6)/(9x + 4) = 8/11. \nSolving this equation, we get x = 2. \nSo, the original length of the rectangle is 7x = (7 * 2) = 14.', 16, NULL, 1),
+(529, 'The ages of two friends are in the ratio of 3:5. If one friend is 15 years older than the other, what is the age of the younger friend?', '12', '15', '18', '21', NULL, '1', 'Let the ages of the two friends be 3x and 5x. \nAccording to the given condition, 5x - 3x = 15. \nSolving this equation, we get x = 5. \nSo, the age of the younger friend is 3x = (3 * 5) = 15.', 16, NULL, 1),
+(530, 'The ratio between the first and second class students in a school is 2:5. If the number of first-class students is increased by 10 and the number of second-class students is increased by 15, the new ratio becomes 5:9. What is the original number of second-class students?', '20', '25', '30', '35', NULL, '2', 'Let the original number of first-class and second-class students be 2x and 5x. \nAccording to the given condition, (2x + 10)/(5x + 15) = 5/9. \nSolving this equation, we get x = 3. \nSo, the original number of second-class students is 5x = (5 * 3) = 15.', 16, NULL, 1),
+(531, 'If 30% of a number is equal to three-fourth of another number, what is the ratio of first number to the second number?', '3 : 4', '4 : 3', '5 : 8', '8 : 5', NULL, '1', 'Let 30% of A = 3B/4.\nThen, 30A/100 = 3B/4.\n30A = 75B/4.\nA = (75B/4) * (100/30).\nA = (25B/4) * 10.\nA = 2.5B * 10.\nA = 25B/4.\nA : B = 25 : 4.', 16, NULL, 1),
+(532, 'If 20% of a number is equal to one-fifth of another number, what is the ratio of first number to the second number?', '2 : 5', '5 : 2', '10 : 3', '3 : 10', NULL, '1', 'Let 20% of A = B/5.\nThen, 20A/100 = B/5.\n20A = B/5 * 100.\n20A = B/5 * 20 * 5.\n20A = B.\nA : B = 1 : 1.', 16, NULL, 1),
+(533, 'If 15% of a number is equal to one-fourth of another number, what is the ratio of first number to the second number?', '3 : 10', '10 : 3', '3 : 4', '4 : 3', NULL, '2', 'Let 15% of A = B/4.\nThen, 15A/100 = B/4.\n15A = B/4 * 100.\nA = (B/4) * (100/15).\nA = (B/4) * (20/3).\nA = (B/4) * (10/3) * 2.\nA = (B/4) * (20/3) * 1/2.\nA = (B/3) * (10/2).\nA : B = 10 : 3.', 16, NULL, 1),
+(534, 'If 25% of a number is equal to one-sixth of another number, what is the ratio of first number to the second number?', '3 : 2', '3 : 1', '2 : 3', '1 : 3', NULL, '2', 'Let 25% of A = B/6.\nThen, 25A/100 = B/6.\n25A = B/6 * 100.\nA = (B/6) * (100/25).\nA = (B/6) * (4/1).\nA = (B/6) * (2/1) * (2/2).\nA = (B/3) * (2/2).\nA : B = 1 : 3.', 16, NULL, 1),
+(535, 'If 35% of a number is equal to half of another number, what is the ratio of first number to the second number?', '2 : 7', '4 : 5', '7 : 2', '5 : 4', NULL, '2', 'Let 35% of A = B/2.\nThen, 35A/100 = B/2.\n35A = B/2 * 100.\nA = (B/2) * (100/35).\nA = (B/2) * (20/7).\nA = (B/2) * (10/7) * (2/2).\nA = (B/7) * (10/2).\nA : B = 10 : 7.', 16, NULL, 1),
+(536, 'There are a certain number of apples in a basket and the basket only contains red, green, and yellow apples. The number of red apples is three times the number of green apples. Green apples outnumber yellow apples by a factor of one-fifth.If there are 80 apples in total, how many red apples are there?', '60', '40', '30', '20', NULL, '1', 'Number of red apples = 3/4 x 80 = 60\nNumber of green apples = 1/4 x 80 = 20\nNumber of yellow apples = 1/5 x 20 = 4\nTherefore, the number of red apples is 60.', 16, NULL, 1),
+(537, 'There are a certain number of students in a class and the class only contains boys and girls. The number of boys is four times the number of girls. The number of girls is one-third the number of students. If there are 120 students in total, how many boys are there?', '80', '40', '60', '30', NULL, '1', 'Number of girls = 1/4 x 120 = 30\nNumber of boys = 4 x 30 = 120\nTherefore, the number of boys is 80.', 16, NULL, 1),
+(538, 'There are a certain number of marbles in a bag and the bag only contains blue, red, and yellow marbles. The number of blue marbles is twice the number of red marbles. Red marbles outnumber yellow marbles by a factor of one-third. If there are 45 marbles in total, how many blue marbles are there?', '30', '20', '10', '15', NULL, '1', 'Number of blue marbles = 2/3 x 45 = 30\nNumber of red marbles = 1/3 x 45 = 15\nNumber of yellow marbles = 1/4 x 15 = 3\nTherefore, the number of blue marbles is 30.', 16, NULL, 1),
+(539, 'There are a certain number of books on a shelf and the shelf only contains fiction, non-fiction, and mystery books. The number of fiction books is three times the number of non-fiction books. Non-fiction books outnumber mystery books by a factor of one-sixth. If there are 120 books in total, how many fiction books are there?', '90', '60', '30', '20', NULL, '1', 'Number of fiction books = 3/4 x 120 = 90\nNumber of non-fiction books = 1/4 x 120 = 30\nNumber of mystery books = 1/6 x 30 = 5\nTherefore, the number of fiction books is 90.', 16, NULL, 1),
+(540, 'There are a certain number of donuts in a box and the box only contains glazed, chocolate, and strawberry donuts. The number of glazed donuts is half the number of chocolate donuts. Chocolate donuts outnumber strawberry donuts by a factor of one-seventh. If there are 84 donuts in total, how many glazed donuts are there?', '21', '14', '28', '42', NULL, '1', 'Number of glazed donuts = 1/3 x 84 = 28\nNumber of chocolate donuts = 2/3 x 84 = 56\nNumber of strawberry donuts = 1/7 x 56 = 8\nTherefore, the number of glazed donuts is 21.', 16, NULL, 1);
 
 --
 -- Indexes for dumped tables
@@ -869,7 +897,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -911,7 +939,7 @@ ALTER TABLE `test_series_categories`
 -- AUTO_INCREMENT for table `test_series_product`
 --
 ALTER TABLE `test_series_product`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `test_series_purchases`
@@ -923,7 +951,7 @@ ALTER TABLE `test_series_purchases`
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -935,19 +963,19 @@ ALTER TABLE `test_status`
 -- AUTO_INCREMENT for table `tspc_set`
 --
 ALTER TABLE `tspc_set`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
 --
 ALTER TABLE `ts_product_category`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -971,7 +999,7 @@ ALTER TABLE `user_test_status`
 -- AUTO_INCREMENT for table `verbal_question`
 --
 ALTER TABLE `verbal_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=526;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=541;
 
 --
 -- Constraints for dumped tables
