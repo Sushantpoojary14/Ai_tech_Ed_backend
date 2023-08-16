@@ -67,12 +67,33 @@ class AdminController extends Controller
 
         $data = $request->except(['id', 'tsc_id']);
 
-        if ($request->file('p_image')) {
+        // if ($request->file('p_image')) {
+        //     $file = $request->file('p_image');
+        //     $filename = "product-" . $count . "." . $file->extension();
+        //     $file->move(public_path('/images'), $filename);
+        //     $data['p_image'] = "/images/" . $filename;
+        //     // return $filename;
+        // }
+
+        if ($request->hasFile('p_image')) {
             $file = $request->file('p_image');
-            $filename = "product-" . $count . "." . $file->extension();
-            $file->move(public_path('/images'), $filename);
-            $data['p_image'] = "/images/" . $filename;
-            // return $filename;
+
+            // Validate the uploaded file
+            if ($file->isValid()) {
+                // Generate a unique filename
+                // $imageFiles = glob(public_path('/images/product-*.*'));
+                // $count = count($imageFiles) + 1;
+                $filename = "product-" . $filename = time() . '.' . $file->getClientOriginalExtension();
+
+                // Move the file to the desired location
+                $file->move(public_path('/images'), $filename);
+
+                // Update the data with the stored image path
+                $data['p_image'] = "/images/" . $filename;
+            } else {
+                // Handle file upload error
+                return response()->json(['error' => 'File upload failed'], 400);
+            }
         }
 
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
@@ -107,7 +128,6 @@ class AdminController extends Controller
                 'data' => $response,
                 'tspc' => $tspc
             ], 200);
-
         }
 
         // $tsc = $tsp->productTopics()->sync($request->tst_id);
@@ -190,8 +210,7 @@ class AdminController extends Controller
                         'tst_id' => $tst->id,
                     ]);
             }
-        }
-        elseif($request->tsc_id == 2){
+        } elseif ($request->tsc_id == 2) {
             foreach ($questions as $key => $item) {
                 ReadingQuestion::query()
                     ->create([
@@ -237,34 +256,34 @@ class AdminController extends Controller
         // return $request->input();
         $tst = TestSeriesProduct::query()
             ->where('id', $p_id)
-            ->with('getTsProductCategory.testSeriesCategories', )
+            ->with('getTsProductCategory.testSeriesCategories',)
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
             ->first();
         $categories = [];
 
-        $set =[];
-            foreach ($tst->getTsProductCategory as $key => $value) {
+        $set = [];
+        foreach ($tst->getTsProductCategory as $key => $value) {
 
-                $categories[] = $value->TestSeriesCategories;
+            $categories[] = $value->TestSeriesCategories;
 
-                foreach ($value->tsPCSet as $key2 => $value2) {
-                    $set[] = $value2;
-                    $topics = [];
-                    foreach ($value2->getTsTopic as $key3 => $value3) {
-                        $topics [] = $value3->tsTopic;
-                        $set[$key2]->topics = $topics;
-                    }
-                       unset( $value2->getTsTopic);
+            foreach ($value->tsPCSet as $key2 => $value2) {
+                $set[] = $value2;
+                $topics = [];
+                foreach ($value2->getTsTopic as $key3 => $value3) {
+                    $topics[] = $value3->tsTopic;
+                    $set[$key2]->topics = $topics;
                 }
-                $categories[$key]->sets = $set;
-                $tst->categories =  $categories;
+                unset($value2->getTsTopic);
             }
+            $categories[$key]->sets = $set;
+            $tst->categories =  $categories;
+        }
 
-            unset($tst->getTsProductCategory);
+        unset($tst->getTsProductCategory);
 
 
         return response()->json([
-            'product_detail' =>$tst
+            'product_detail' => $tst
         ], 200);
     }
 
