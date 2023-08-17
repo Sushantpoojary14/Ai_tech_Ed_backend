@@ -15,10 +15,31 @@ use App\Models\User;
 use App\Models\VerbalQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+
+use OpenAI;
 use stdClass;
 
 class AdminController extends Controller
 {
+
+    public function generateApiKey()
+    {
+    //     $client = new OpenAI();
+    //    $apiKey = $client->create();
+    $client = OpenAI::getClient();
+    $apiKey = $client->create();
+    // echo $apiKey['choices'][0]['message']['content'];
+
+    //   $file = fopen(config('openai.api_key_file'), 'w');
+    //   fwrite($file, $apiKey);
+    //   fclose($file);
+
+      return response()->json([
+        'success' => true,
+        // 'apiKey' => $apiKey,
+      ]);
+    }
     public function getTestSeries()
     {
 
@@ -215,10 +236,10 @@ class AdminController extends Controller
                 ReadingQuestion::query()
                     ->create([
                         'question' => $item['question'],
-                        'option_1' => $item['options']['a'],
-                        'option_2' => $item['options']['b'],
-                        'option_3' => $item['options']['c'],
-                        'option_4' => $item['options']['d'],
+                        'option_1' => $item['options_1'],
+                        'option_2' => $item['options_2'],
+                        'option_3' => $item['options_3'],
+                        'option_4' => $item['options_4'],
                         'correct_option' => $item['answer'],
                         'explanation' => $item['explanation'],
                         'tst_id' => $tst->id,
@@ -305,4 +326,7 @@ class AdminController extends Controller
             'topics' => $topics
         ], 200);
     }
+
+
+
 }

@@ -33,7 +33,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-purchases-id',[ProductController::class,'getTSPurchasesId']);
     Route::get('/get-user-purchases/{ts_id?}',[ProductController::class,'getTSPurchases']);
     Route::get('/get-user-test-details/{ps_id}',[ProductController::class,'getTSDetails']);
-  
+
 
 
     //user test sschedule
@@ -44,3 +44,4 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::post('/submit-test/{id}',[UserController::class,'submitTest']);
     Route::get('/get-test-result/{id}',[UserController::class,'getTestResult']);
 });
+
