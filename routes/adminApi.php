@@ -23,9 +23,9 @@ Route::group(['prefix' => 'admin','middleware' => ['jwt.role:admin','jwt.auth']]
     Route::post('/add-test-series-topics',[AdminController::class,'addTSTopic']);
     Route::get('/show-product/{ts_id}',[AdminController::class,'showProduct']);
     Route::get('/show-product-details/{p_id}',[AdminController::class,'showProductDetails']);
-    Route::get('/update-product-status/{p_id}',[ProductController::class,'productStatus']);
-    Route::get('/update-set-status/{set_id}',[ProductController::class,'setStatus']);
-    Route::get('/show-topics/{tsc_id}',[ProductController::class,'showTopics']);
+    Route::post('/update-product-status/{p_id}',[ProductController::class,'productStatus']);
+    Route::post('/update-set-status/{set_id}',[ProductController::class,'setStatus']);
+    Route::get('/show-topics/{tsc_id}',[AdminController::class,'showTopics']);
     //product
 
 });
