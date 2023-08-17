@@ -256,7 +256,7 @@ class AdminController extends Controller
         // return $request->input();
         $tst = TestSeriesProduct::query()
             ->where('id', $p_id)
-            ->with('getTsProductCategory.testSeriesCategories',)
+            ->with('getTsProductCategory.testSeriesCategories', )
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
             ->first();
         // $categories = [];
@@ -277,7 +277,7 @@ class AdminController extends Controller
                 unset($value2->getTsTopic);
             }
             $categories[$key]->sets = $set;
-            $tst->categories =  $categories;
+            $tst->categories = $categories;
         }
 
         unset($tst->getTsProductCategory);
@@ -299,10 +299,22 @@ class AdminController extends Controller
 
     public function showTopics($tsc_id)
     {
-        $topics = User::where('tsc_id', $tsc_id)
+        $topics = TestSeriesTopics::where('tsc_id', $tsc_id)
             ->get();
         return response()->json([
             'topics' => $topics
+        ], 200);
+    }
+
+    public function showTopicsDetails($tst_id)
+    {
+        $topics = TestSeriesTopics::where('id', $tst_id)
+            ->first();
+        $questions = VerbalQuestion::where('tst_id', $tst_id)->get();
+
+        return response()->json([
+            'topics' => $topics,
+            'question' => $questions
         ], 200);
     }
 }

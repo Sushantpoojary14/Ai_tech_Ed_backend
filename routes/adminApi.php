@@ -26,6 +26,8 @@ Route::group(['prefix' => 'admin','middleware' => ['jwt.role:admin','jwt.auth']]
     Route::post('/update-product-status/{p_id}',[ProductController::class,'productStatus']);
     Route::post('/update-set-status/{set_id}',[ProductController::class,'setStatus']);
     Route::get('/show-topics/{tsc_id}',[AdminController::class,'showTopics']);
+
+    Route::get('/show-topics-details/{tst_id}',[AdminController::class,'showTopicsDetails']);
     //product
 
 });

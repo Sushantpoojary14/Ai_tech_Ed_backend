@@ -8,6 +8,7 @@ use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesPurchases;
+use App\Models\TSPCSet;
 use App\Models\TSProductCategory;
 use App\Models\UserTestSeries;
 use Carbon\Carbon;
@@ -301,10 +302,10 @@ class ProductController extends Controller
     }
     public function setStatus($set_id, Request $request)
     {
-        TestSeriesProduct::where('id', $set_id)
+        TSPCSet::where('id', $set_id)
             ->update(['status' => $request->status]);
         return response()->json([
-            'message' => 'Successfully changed product status'
+            'message' => 'Successfully changed set status'
         ], 200);
 
     }
