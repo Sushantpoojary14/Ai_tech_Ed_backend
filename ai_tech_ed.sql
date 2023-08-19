@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 16, 2023 at 10:20 AM
+-- Generation Time: Aug 19, 2023 at 08:32 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -118,7 +118,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `non_verbal_question` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `question` varchar(255) NOT NULL,
+  `question` text NOT NULL,
   `image` varchar(100) NOT NULL,
   `option_1` varchar(40) NOT NULL,
   `option_2` varchar(40) NOT NULL,
@@ -126,7 +126,7 @@ CREATE TABLE `non_verbal_question` (
   `option_4` varchar(40) NOT NULL,
   `option_5` varchar(40) DEFAULT NULL,
   `correct_option` int(11) NOT NULL,
-  `explanation` varchar(255) NOT NULL,
+  `explanation` text NOT NULL,
   `tst_id` bigint(20) UNSIGNED NOT NULL,
   `marks` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1
@@ -152,14 +152,14 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `reading_question` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `question` varchar(255) NOT NULL,
+  `question` text NOT NULL,
   `option_1` varchar(40) NOT NULL,
   `option_2` varchar(40) NOT NULL,
   `option_3` varchar(40) NOT NULL,
   `option_4` varchar(40) NOT NULL,
   `option_5` varchar(40) DEFAULT NULL,
   `correct_option` int(11) NOT NULL,
-  `explanation` varchar(255) NOT NULL,
+  `explanation` text NOT NULL,
   `tst_id` bigint(20) UNSIGNED NOT NULL,
   `marks` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1
@@ -192,17 +192,18 @@ INSERT INTO `test_series` (`id`, `test_type`) VALUES
 
 CREATE TABLE `test_series_categories` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tsc_type` varchar(40) NOT NULL
+  `tsc_type` varchar(40) NOT NULL,
+  `duration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `test_series_categories`
 --
 
-INSERT INTO `test_series_categories` (`id`, `tsc_type`) VALUES
-(1, 'Maths'),
-(2, 'Reading'),
-(3, 'Logical');
+INSERT INTO `test_series_categories` (`id`, `tsc_type`, `duration`) VALUES
+(1, 'Maths', 30),
+(2, 'Reading', 40),
+(3, 'Thinking', 35);
 
 -- --------------------------------------------------------
 
@@ -217,7 +218,6 @@ CREATE TABLE `test_series_product` (
   `p_price` varchar(11) NOT NULL,
   `p_image` varchar(100) DEFAULT NULL,
   `ts_id` bigint(20) UNSIGNED NOT NULL,
-  `duration` int(11) NOT NULL,
   `test_month_limit` int(11) NOT NULL,
   `total_question` int(11) NOT NULL,
   `release_date` varchar(40) DEFAULT NULL,
@@ -228,9 +228,9 @@ CREATE TABLE `test_series_product` (
 -- Dumping data for table `test_series_product`
 --
 
-INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `duration`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
-(9, 'OC Test Package - 1', 'It is a logical test only', '29', 'C:\\fakepath\\haztech.png', 1, 30, 3, 35, '223212', 1),
-(12, 'selective Test Package - 2', 'it is', '89', '/images/product-1692171774.jpeg', 2, 30, 3, 35, '2023/09/12', 1);
+INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
+(9, 'OC Test Package - 1', 'It is a logical test only', '29', 'C:\\fakepath\\haztech.png', 1, 3, 35, '223212', 1),
+(12, 'selective Test Package - 2', 'it is', '89', '/images/product-1692171774.jpeg', 2, 3, 35, '2023/09/12', 1);
 
 -- --------------------------------------------------------
 
@@ -273,7 +273,8 @@ CREATE TABLE `test_series_topics` (
 INSERT INTO `test_series_topics` (`id`, `t_name`, `tsc_id`, `status`) VALUES
 (14, 'ratio', 3, 1),
 (15, 'Averages', 3, 1),
-(16, 'ratio', 1, 1);
+(16, 'ratio-2', 1, 1),
+(17, 'Fractions', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -595,14 +596,14 @@ INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `uts_i
 
 CREATE TABLE `verbal_question` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `question` longtext NOT NULL,
+  `question` text NOT NULL,
   `option_1` varchar(40) NOT NULL,
   `option_2` varchar(40) NOT NULL,
   `option_3` varchar(40) NOT NULL,
   `option_4` varchar(40) NOT NULL,
   `option_5` varchar(40) DEFAULT NULL,
   `correct_option` varchar(11) NOT NULL,
-  `explanation` longtext NOT NULL,
+  `explanation` text NOT NULL,
   `tst_id` bigint(20) UNSIGNED NOT NULL,
   `marks` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1
@@ -734,7 +735,27 @@ INSERT INTO `verbal_question` (`id`, `question`, `option_1`, `option_2`, `option
 (537, 'There are a certain number of students in a class and the class only contains boys and girls. The number of boys is four times the number of girls. The number of girls is one-third the number of students. If there are 120 students in total, how many boys are there?', '80', '40', '60', '30', NULL, '1', 'Number of girls = 1/4 x 120 = 30\nNumber of boys = 4 x 30 = 120\nTherefore, the number of boys is 80.', 16, NULL, 1),
 (538, 'There are a certain number of marbles in a bag and the bag only contains blue, red, and yellow marbles. The number of blue marbles is twice the number of red marbles. Red marbles outnumber yellow marbles by a factor of one-third. If there are 45 marbles in total, how many blue marbles are there?', '30', '20', '10', '15', NULL, '1', 'Number of blue marbles = 2/3 x 45 = 30\nNumber of red marbles = 1/3 x 45 = 15\nNumber of yellow marbles = 1/4 x 15 = 3\nTherefore, the number of blue marbles is 30.', 16, NULL, 1),
 (539, 'There are a certain number of books on a shelf and the shelf only contains fiction, non-fiction, and mystery books. The number of fiction books is three times the number of non-fiction books. Non-fiction books outnumber mystery books by a factor of one-sixth. If there are 120 books in total, how many fiction books are there?', '90', '60', '30', '20', NULL, '1', 'Number of fiction books = 3/4 x 120 = 90\nNumber of non-fiction books = 1/4 x 120 = 30\nNumber of mystery books = 1/6 x 30 = 5\nTherefore, the number of fiction books is 90.', 16, NULL, 1),
-(540, 'There are a certain number of donuts in a box and the box only contains glazed, chocolate, and strawberry donuts. The number of glazed donuts is half the number of chocolate donuts. Chocolate donuts outnumber strawberry donuts by a factor of one-seventh. If there are 84 donuts in total, how many glazed donuts are there?', '21', '14', '28', '42', NULL, '1', 'Number of glazed donuts = 1/3 x 84 = 28\nNumber of chocolate donuts = 2/3 x 84 = 56\nNumber of strawberry donuts = 1/7 x 56 = 8\nTherefore, the number of glazed donuts is 21.', 16, NULL, 1);
+(540, 'There are a certain number of donuts in a box and the box only contains glazed, chocolate, and strawberry donuts. The number of glazed donuts is half the number of chocolate donuts. Chocolate donuts outnumber strawberry donuts by a factor of one-seventh. If there are 84 donuts in total, how many glazed donuts are there?', '21', '14', '28', '42', NULL, '1', 'Number of glazed donuts = 1/3 x 84 = 28\nNumber of chocolate donuts = 2/3 x 84 = 56\nNumber of strawberry donuts = 1/7 x 56 = 8\nTherefore, the number of glazed donuts is 21.', 16, NULL, 1),
+(541, 'Jake bought 6 30 kg of apples. He used 5 25 kg while making apple pie. How many kilograms of apples does he have left?', '90 kg', '105 kg', '125 kg', '155 kg', NULL, '1', 'Total apples bought by Jake = 6 30 kg\nApples used for making apple pie = 5 25 kg\nTotal apples remained = Total apples bought - apples used for making apple pie\nConverting the mixed fraction into a proper fraction:\n6 30 kg = 6*30 + 30 = 210 kg\n5 25 kg = 5*30 + 25 = 175 kg\n210 - 175 = 35 kg', 17, NULL, 1),
+(542, 'Emily bought 7 20 kg of rice. She used 6 18 kg while cooking dinner. How much rice does she have left?', '55 kg', '72 kg', '122 kg', '142 kg', NULL, '2', 'Total rice bought by Emily = 7 20 kg\nRice used for cooking dinner = 6 18 kg\nTotal rice remained = Total rice bought - rice used for cooking dinner\nConverting the mixed fraction into a proper fraction:\n7 20 kg = 7*20 + 20 = 160 kg\n6 18 kg = 6*20 + 18 = 138 kg\n160 - 138 = 22 kg', 17, NULL, 1),
+(543, 'Alex bought 8 35 kg of potatoes. He used 7 31 kg while making french fries. How many kilograms of potatoes does he have left?', '60 kg', '96 kg', '165 kg', '224 kg', NULL, '2', 'Total potatoes bought by Alex = 8 35 kg\nPotatoes used for making french fries = 7 31 kg\nTotal potatoes remained = Total potatoes bought - potatoes used for making french fries\nConverting the mixed fraction into a proper fraction:\n8 35 kg = 8*35 + 35 = 315 kg\n7 31 kg = 7*35 + 31 = 266 kg\n315 - 266 = 49 kg', 17, NULL, 1),
+(544, 'Mia bought 9 28 kg of sugar. She used 8 26 kg while baking cookies. How much sugar does she have left?', '52 kg', '78 kg', '196 kg', '254 kg', NULL, '1', 'Total sugar bought by Mia = 9 28 kg\nSugar used for baking cookies = 8 26 kg\nTotal sugar remained = Total sugar bought - sugar used for baking cookies\nConverting the mixed fraction into a proper fraction:\n9 28 kg = 9*28 + 28 = 280 kg\n8 26 kg = 8*28 + 26 = 250 kg\n280 - 250 = 30 kg', 17, NULL, 1),
+(545, 'Ben bought 10 40 kg of flour. He used 9 36 kg while baking bread. How much flour does he have left?', '80 kg', '124 kg', '224 kg', '364 kg', NULL, '2', 'Total flour bought by Ben = 10 40 kg\nFlour used for baking bread = 9 36 kg\nTotal flour remained = Total flour bought - flour used for baking bread\nConverting the mixed fraction into a proper fraction:\n10 40 kg = 10*40 + 40 = 440 kg\n9 36 kg = 9*40 + 36 = 396 kg\n440 - 396 = 44 kg', 17, NULL, 1),
+(546, 'If 5 8 x of watermelon is cut from a piece of 24 x-long watermelon, how much of the watermelon is left?', '21 x', '10 x', '32 x', '16 x', NULL, '1', 'Total length of watermelon = 24 x \nFraction of the watermelon cut out = 5 8 x = (5/8) x \nLength of the watermelon left = 24 x - (5/8) x = (24 - 5/8) x = (192 - 5) x / 8 = 187 x / 8 = (187/8) x \nTherefore, 187/8 x of watermelon is left.', 17, NULL, 1),
+(547, 'If 3 9 p of apples is cut from a piece of 27 p-long apple, how much of the apple is left?', '18 p', '12 p', '24 p', '9 p', NULL, '1', 'Total length of apple = 27 p\nFraction of the apple cut out = 3 9 p = (3/9) p = (1/3) p\nLength of the apple left = 27 p - (1/3) p = 27 p - (1/3) * 27 p = 27 p - 9 p = 18 p\nTherefore, 18 p of apple is left.', 17, NULL, 1),
+(548, 'If 7 15 r of ribbon is cut from a piece of 40 r-long ribbon, how much of the ribbon is left?', '23 r', '10 r', '33 r', '25 r', NULL, '2', 'Total length of ribbon = 40 r\nFraction of the ribbon cut out = 7 15 r = (7/15) r\nLength of the ribbon left = 40 r - (7/15) r = (600 r - 7 r) / 15 = 593 r / 15\nTherefore, 593 r / 15 of ribbon is left.', 17, NULL, 1),
+(549, 'If 6 11 s of thread is cut from a piece of 30 s-long thread, how much of the thread is left?', '200 s', '10 s', '19 s', '9 s', NULL, '2', 'Total length of thread = 30 s\nFraction of the thread cut out = 6 11 s = (6/11) s\nLength of the thread left = 30 s - (6/11) s = (330 s - 6 s) / 11 = 324 s / 11\nTherefore, 324 s / 11 of thread is left.', 17, NULL, 1),
+(550, 'If 2 7 t of fabric is cut from a piece of 14 t-long fabric, how much of the fabric is left?', '7 t', '12 t', '21 t', '18 t', NULL, '2', 'Total length of fabric = 14 t\nFraction of the fabric cut out = 2 7 t = (2/7) t\nLength of the fabric left = 14 t - (2/7) t = (98 t - 2 t) / 7 = 96 t / 7\nTherefore, 96 t / 7 of fabric is left.', 17, NULL, 1),
+(551, 'A car arrives at a gas station with 350 kilometers driven. The car uses 25 liters of fuel to travel to the station. If the car\'s fuel tank can hold a total of 60 liters of fuel, how many liters of fuel are left in the tank when the car leaves the station?', '35', '20', '55', '40', NULL, '1', 'Kilometers driven by the car = 350 \nFuel used to travel to the station = 25 liters \nFuel left in the car\'s tank = 60 - 25 = 35 liters \nTherefore, the car leaves the station with 35 liters of fuel left in the tank.', 17, NULL, 1),
+(552, 'A bakery sells 480 cupcakes in a day. Throughout the day, 62 of the cupcakes are sold to customers in the morning, and then 87 more cupcakes are baked and put on display. How many cupcakes does the bakery have at the end of the day?', '531', '445', '530', '481', NULL, '2', 'Cupcakes initially sold to customers = 62 \nCupcakes baked and put on display = 87 \nTotal cupcakes at the end of the day = 480 - 62 + 87 = 505 cupcakes \nTherefore, the bakery has 530 cupcakes at the end of the day.', 17, NULL, 1),
+(553, 'A store receives 850 shipments of goods in a month. Throughout the month, 73 of the shipments are returned due to defects, and then 220 more shipments are received. How many shipments does the store have at the end of the month?', '997', '993', '1043', '1027', NULL, '1', 'Shipments initially received = 850 \nShipments returned due to defects = 73 \nShipments received throughout the month = 220 \nTotal shipments at the end of the month = 850 - 73 + 220 = 997 shipments \nTherefore, the store has 997 shipments at the end of the month.', 17, NULL, 1),
+(554, 'A garden has 500 flowers planted. During a storm, 90 of the flowers are damaged, and then 60 new flowers are planted. How many flowers are in the garden after the storm?', '470', '450', '550', '510', NULL, '2', 'Flowers initially planted in the garden = 500 \nFlowers damaged during the storm = 90 \nFlowers newly planted after the storm = 60 \nTotal flowers in the garden after the storm = 500 - 90 + 60 = 470 flowers \nTherefore, there are 470 flowers in the garden after the storm.', 17, NULL, 1),
+(555, 'A classroom has a total of 60 students. 10 students are absent on a given day, and then 15 more students join the class. How many students are present in the classroom?', '65', '75', '70', '80', NULL, '2', 'Students initially present in the classroom = 60 \nAbsent students on the given day = 10 \nStudents joining the class = 15 \nTotal students present in the classroom = 60 - 10 + 15 = 65 students \nTherefore, there are 65 students present in the classroom.', 17, NULL, 1),
+(556, 'Rajiv has 72 marbles in a jar. He keeps 28 of them for himself and gives the rest to his sister. How many marbles does he give to his sister?', '32', '50', '44', '30', NULL, '1', 'Number of marbles = 72\nNumber of marbles Rajiv kept for himself = 28 of 72; = 28/72; = 39\nNumber of marbles Rajiv gave to his sister = 72 - 39 = 33\nTherefore Rajiv gave 33 marbles to his sister.', 17, NULL, 1),
+(557, 'Sarah has 120 pencils. She keeps 45 of them for herself and distributes the rest evenly among her classmates. How many pencils does each classmate receive?', '60', '30', '24', '20', NULL, '2', 'Number of pencils = 120\nNumber of pencils Sarah kept for herself = 45 of 120; = 45/120; = 37.5\nNumber of pencils Sarah distributed to her classmates = (120 - 45)/classmates\nTherefore each classmate receives 75 pencils.', 17, NULL, 1),
+(558, 'John has 50 apples. He eats 17 of them and shares the rest equally among his friends. How many apples does each friend receive?', '10', '12', '9', '8', NULL, '2', 'Number of apples = 50\nNumber of apples John ate = 17\nNumber of apples John shared equally among friends = (50 - 17)/friends\nTherefore each friend receives 33/friends apples.', 17, NULL, 1),
+(559, 'Lisa has 70 stickers. She keeps 25 of them for herself and divides the rest equally among her siblings. How many stickers does each sibling receive?', '30', '20', '15', '8', NULL, '2', 'Number of stickers = 70\nNumber of stickers Lisa kept for herself = 25 of 70; = 25/70; = 35.7\nNumber of stickers Lisa divides equally among siblings = (70 - 25)/siblings\nTherefore each sibling receives 45/siblings stickers.', 17, NULL, 1),
+(560, 'Michael has 90 candies. He eats 40 of them and shares the rest equally among his friends. How many candies does each friend receive?', '25', '18', '15', '30', NULL, '2', 'Number of candies = 90\nNumber of candies Michael ate = 40\nNumber of candies Michael shared equally among friends = (90 - 40)/friends\nTherefore each friend receives 50/friends candies.', 17, NULL, 1);
 
 --
 -- Indexes for dumped tables
@@ -921,7 +942,7 @@ ALTER TABLE `non_verbal_question`
 -- AUTO_INCREMENT for table `reading_question`
 --
 ALTER TABLE `reading_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `test_series`
@@ -939,7 +960,7 @@ ALTER TABLE `test_series_categories`
 -- AUTO_INCREMENT for table `test_series_product`
 --
 ALTER TABLE `test_series_product`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `test_series_purchases`
@@ -951,7 +972,7 @@ ALTER TABLE `test_series_purchases`
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -963,19 +984,19 @@ ALTER TABLE `test_status`
 -- AUTO_INCREMENT for table `tspc_set`
 --
 ALTER TABLE `tspc_set`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
 --
 ALTER TABLE `ts_product_category`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -999,7 +1020,7 @@ ALTER TABLE `user_test_status`
 -- AUTO_INCREMENT for table `verbal_question`
 --
 ALTER TABLE `verbal_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=541;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=561;
 
 --
 -- Constraints for dumped tables
