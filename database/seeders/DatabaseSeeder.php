@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'tsc_type' => 'Reading',
         ])
         ->create([
-            'tsc_type' => 'Logical',
+            'tsc_type' => 'Thinking',
         ]);
 
         $p = TestSeriesProduct::factory(2)->create();

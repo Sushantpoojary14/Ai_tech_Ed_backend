@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreign('ts_id')->references('id')->on('test_series')->onDelete('cascade');
             // $table->unsignedBigInteger('tsc_id')->index();
             // $table->foreign('tsc_id')->references('id')->on('test_series_categories')->onDelete('cascade');
-            $table->integer('duration');
+            // $table->integer('duration');
             $table->integer('test_month_limit');
             $table->integer('total_question');
             $table->string('release_date',40)->nullable();

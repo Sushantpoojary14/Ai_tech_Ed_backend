@@ -60,16 +60,14 @@ class UserController extends Controller
             $userTestSeries = UserTestSeries::
             with('userPurchases.tsProduct')
             ->find($id);
+
             $product = $userTestSeries->userPurchases->tsProduct;
+
             if (!$userTestSeries || !$userTestSeries->userPurchases) {
                 return response()->json(['message' => 'No purchases'], 200);
             }
 
             $testSeriesProduct = TestSeriesProduct::find($userTestSeries->userPurchases->tsp_id);
-
-            if (!$testSeriesProduct) {
-                return response()->json(['message' => 'not found'], 404);
-            }
 
 
             $timer = $userTestSeries->current_timer ?? $product->duration;

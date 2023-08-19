@@ -18,7 +18,6 @@ class TestSeriesProduct extends Model
         'p_price',
         'p_image',
         'ts_id',
-        'duration',
         'test_month_limit',
         'total_question',
         'release_date',
@@ -29,7 +28,6 @@ class TestSeriesProduct extends Model
         'id'=>'integer',
         'ts_id' => 'integer',
         'total_question' => 'integer',
-        'duration'=> 'integer',
         'status' => 'integer',
       ];
 
@@ -42,6 +40,7 @@ class TestSeriesProduct extends Model
     {
         return $this->hasMany(TestSeriesPurchases::class, 'tsp_id', 'id');
     }
+
     public function getTsProductCategory()
     {
         return $this->hasMany(TSProductCategory::class, 'tsp_id', 'id');

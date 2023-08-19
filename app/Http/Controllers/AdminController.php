@@ -65,16 +65,12 @@ class AdminController extends Controller
         // return $request->input('p_image');
         $count = $p ? $p->id + 1 : 1;
 
+
         $data = $request->except(['id', 'tsc_id']);
 
-        // if ($request->file('p_image')) {
-        //     $file = $request->file('p_image');
-        //     $filename = "product-" . $count . "." . $file->extension();
-        //     $file->move(public_path('/images'), $filename);
-        //     $data['p_image'] = "/images/" . $filename;
-        //     // return $filename;
-        // }
+        $data['total_question'] = 35;
 
+        // return $data;
         if ($request->hasFile('p_image')) {
             $file = $request->file('p_image');
 
@@ -91,7 +87,7 @@ class AdminController extends Controller
                 // Update the data with the stored image path
                 $data['p_image'] = "/images/" . $filename;
             } else {
-                // Handle file upload error
+
                 return response()->json(['error' => 'File upload failed'], 400);
             }
         }
@@ -212,15 +208,31 @@ class AdminController extends Controller
             }
         } elseif ($request->tsc_id == 2) {
             foreach ($questions as $key => $item) {
+                switch ($item['Answer']) {
+                    case 'A':
+                        $ans = 1;
+                        break;
+                    case 'B':
+                        $ans = 2;
+                        break;
+                    case 'C':
+                        $ans = 3;
+                        break;
+                    case 'D':
+                        $ans = 4;
+                        break;
+                }
+                $cleanedExplanation = htmlspecialchars($item['Explanation'], ENT_QUOTES, 'UTF-8');
+                // return[ $cleanedExplanation,$item['Explanation']];
                 ReadingQuestion::query()
                     ->create([
-                        'question' => $item['question'],
-                        'option_1' => $item['options']['a'],
-                        'option_2' => $item['options']['b'],
-                        'option_3' => $item['options']['c'],
-                        'option_4' => $item['options']['d'],
-                        'correct_option' => $item['answer'],
-                        'explanation' => $item['explanation'],
+                        'question' => $item['Question'],
+                        'option_1' => $item['Option_A'],
+                        'option_2' => $item['Option_B'],
+                        'option_3' => $item['Option_C'],
+                        'option_4' => $item['Option_D'],
+                        'correct_option' => $ans,
+                        'explanation' => $cleanedExplanation,
                         'tst_id' => $tst->id,
                     ]);
             }
@@ -256,7 +268,7 @@ class AdminController extends Controller
         // return $request->input();
         $tst = TestSeriesProduct::query()
             ->where('id', $p_id)
-            ->with('getTsProductCategory.testSeriesCategories', )
+            ->with('getTsProductCategory.testSeriesCategories')
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
             ->first();
         // $categories = [];

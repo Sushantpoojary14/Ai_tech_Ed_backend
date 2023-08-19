@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('test_series_categories', function (Blueprint $table) {
             $table->id();
             $table->string('tsc_type',40);
+            $table->integer('duration');
             // $table->timestamps();
         });
     }
