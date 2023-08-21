@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('verbal_question', function (Blueprint $table) {
+        Schema::create('question', function (Blueprint $table) {
             $table->id();
-            $table->text('question');
+            $table->mediumText('question');
             $table->string('option_1',40);
             $table->string('option_2',40);
             $table->string('option_3',40);
             $table->string('option_4',40);
             $table->string('option_5',40)->nullable();
             $table->string('correct_option',40);
-            $table->text('explanation');
+            $table->mediumText('explanation');
             $table->unsignedBigInteger('tst_id')->index();
             $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');
             $table->string('marks')->nullable();

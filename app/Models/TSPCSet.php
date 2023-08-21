@@ -15,6 +15,7 @@ class TSPCSet extends Model
        'tspc_id',
     //    'tst_id',
        'set_id',
+       'set_name',
        'status'
 
     ];

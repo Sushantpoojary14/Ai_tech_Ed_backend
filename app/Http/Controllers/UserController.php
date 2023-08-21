@@ -34,7 +34,10 @@ class UserController extends Controller
             ], 200);
         }
 
-
+        $timer = TSPCSet::query()
+                ->where('id',$request->set_id,)
+                ->with('getTsPC.testSeriesCategories')
+                ->first();
         $current = Carbon::now();
 
         $uts= UserTestSeries::query()
@@ -43,6 +46,7 @@ class UserController extends Controller
                     'tsps_id' => $request->ps_id,
                     'set_id'=>$request->set_id,
                     'complete_status' => 0,
+                    'current_timer'=> $timer->getTsPC->testSeriesCategories->duration,
                     'start_date' => $current->format('d-m-Y'),
                 ]
             );
@@ -70,7 +74,7 @@ class UserController extends Controller
             $testSeriesProduct = TestSeriesProduct::find($userTestSeries->userPurchases->tsp_id);
 
 
-            $timer = $userTestSeries->current_timer ?? $product->duration;
+            $timer = $userTestSeries->current_timer  ;
 
 
             $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions')->get();

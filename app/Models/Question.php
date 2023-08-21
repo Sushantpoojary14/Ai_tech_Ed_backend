@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class VerbalQuestion extends Model
 {
     use HasFactory;
-    protected $table = 'verbal_question';
+    protected $table = 'question';
     public $timestamps = false;
     protected $fillable = [
         'question',

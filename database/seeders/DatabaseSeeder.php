@@ -32,15 +32,18 @@ class DatabaseSeeder extends Seeder
 
         $tsc = TestSeriesCategories::factory()->create([
             'tsc_type' => 'Maths',
+            'duration'=>30
         ])
         ->create([
             'tsc_type' => 'Reading',
+            'duration'=>45
         ])
         ->create([
             'tsc_type' => 'Thinking',
+            'duration'=>35
         ]);
 
-        $p = TestSeriesProduct::factory(2)->create();
+        // $p = TestSeriesProduct::factory(2)->create();
 
         TestStatus::query()->create([
             'type' => 'Answered',

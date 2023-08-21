@@ -13,7 +13,8 @@ class TestSeriesCategories extends Model
     public $timestamps = false;
     protected $fillable=[
         'id'=>'integer',
-        'tsc_type'
+        'tsc_type',
+        'duration'
     ];
 
     public function topics(){

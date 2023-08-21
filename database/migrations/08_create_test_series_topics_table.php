@@ -18,7 +18,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('tsc_id')->index();
             $table->foreign('tsc_id')->references('id')->on('test_series_categories')->onDelete('cascade');
             $table->tinyInteger('status')->default('1');
-            // $table->timestamps();
+            $table->unsignedBigInteger('ts_id')->index();
+            $table->foreign('ts_id')->references('id')->on('test_series')->onDelete('cascade');
         });
 
         Schema::enableForeignKeyConstraints();

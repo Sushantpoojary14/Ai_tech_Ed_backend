@@ -13,6 +13,7 @@ class TestSeriesTopics extends Model
     protected $fillable=[
         't_name',
         'tsc_id',
+        'ts_id',
         'status'
 
     ];
@@ -20,6 +21,7 @@ class TestSeriesTopics extends Model
     protected $casts = [
         'id'=>'integer',
         'tsc_id' => 'integer',
+        'ts_id' => 'integer',
         'status' => 'integer',
       ];
       public function tsProduct()

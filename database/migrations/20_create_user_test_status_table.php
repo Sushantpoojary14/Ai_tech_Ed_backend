@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('user_test_status', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('q_id')->nullable();
-            $table->foreign('q_id')->references('id')->on('verbal_question')->onDelete('cascade');
+            $table->foreign('q_id')->references('id')->on('question')->onDelete('cascade');
             $table->unsignedBigInteger('status_id')->index()->default('3');
             $table->foreign('status_id')->references('id')->on('test_status')->onDelete('cascade');
             $table->string('test_answer')->nullable();
