@@ -8,6 +8,7 @@ use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
 use App\Models\TestSeriesPurchases;
+use App\Models\TestSeriesTopics;
 use App\Models\TSPCSet;
 use App\Models\TSProductCategory;
 use App\Models\UserTestSeries;
@@ -18,6 +19,32 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    public function getTestSeriesTopics($id)
+    {
+
+        $tst = TestSeriesTopics::query()
+            ->where('tsc_id', $id)
+            ->get();
+
+
+        return response()->json([
+            'tst' => $tst,
+        ], 200);
+    }
+    public function getAdminTestSeries()
+    {
+
+        $ts = TestSeries::query()
+            ->get();
+
+        $tsc = TestSeriesCategories::query()
+            ->get();
+
+        return response()->json([
+            'ts' => $ts,
+            'tsc' => $tsc,
+        ], 200);
+    }
     public function getTestSeries()
     {
         $ts = TestSeries::query()
@@ -29,6 +56,25 @@ class ProductController extends Controller
         return response()->json([
             'ts' => $ts,
             // 'tsc' => $tsc,
+        ], 200);
+    }
+
+    public function showAdminProduct($ts_id)
+    {
+        // return $request->input();
+        $tst = TestSeriesProduct::query()
+            ->where('ts_id', $ts_id)
+            ->with('tsPurchases')
+            ->get();
+
+        $tstWithCounts = $tst->map(function ($testSeriesProduct) {
+            $testSeriesProduct->purchaseCount = $testSeriesProduct->tsPurchases->count();
+            unset($testSeriesProduct->tsPurchases);
+            return $testSeriesProduct;
+        });
+
+        return response()->json([
+            'product' => $tstWithCounts
         ], 200);
     }
     public function getTSPurchases($ts_id = null)
@@ -70,9 +116,12 @@ class ProductController extends Controller
             ->first();
         $test_detail = $detail->getTSSet;
         return response()->json([
-            'test_detail' => $test_detail,
-            'tsp' => $purchase,
-            'uts_id' => $uts_id
+            'subject' => $test_detail->getTsPC->testSeriesCategories->tsc_type,
+            'set_name' => $test_detail->set_name,
+            'total_question' => $purchase->tsproduct->total_question,
+            'uts_id' => $uts_id,
+            'duration'=>$test_detail->getTsPC->testSeriesCategories->duration,
+            'p_name'=>$purchase->tsproduct->p_name
         ], 200);
     }
     public function getTSPurchasesId($id = null)
@@ -291,22 +340,7 @@ class ProductController extends Controller
     }
 
 
-    public function productStatus($p_id, Request $request)
-    {
-        TestSeriesProduct::where('id', $p_id)
-            ->update(['status' => $request->status]);
-        return response()->json([
-            'message' => 'Successfully changed product status'
-        ], 200);
 
-    }
-    public function setStatus($set_id, Request $request)
-    {
-        TSPCSet::where('id', $set_id)
-            ->update(['status' => $request->status]);
-        return response()->json([
-            'message' => 'Successfully changed set status'
-        ], 200);
 
-    }
+
 }
