@@ -20,14 +20,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(2)->create();
+        User::factory(1)->create();
         Admin::factory(1)->create();
 
         $tsc =  TestSeries::factory()->create([
-            'test_type' => 'oc',
+            'test_type' => 'OC',
         ])
         ->create([
-            'test_type' => 'selective',
+            'test_type' => 'Selective',
         ]);
 
         $tsc = TestSeriesCategories::factory()->create([

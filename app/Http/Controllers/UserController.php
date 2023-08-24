@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\SetQuestion;
 use App\Models\TestSeriesPurchases;
 use App\Models\TestSeriesTopics;
 use App\Models\TSPCSet;
 use App\Models\UserTestSeries;
 use App\Models\UserTestStatus;
-use App\Models\VerbalQuestion;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use App\Models\TestSeriesProduct;
 use Carbon\Carbon;
@@ -35,25 +36,25 @@ class UserController extends Controller
         }
 
         $timer = TSPCSet::query()
-                ->where('id',$request->set_id,)
-                ->with('getTsPC.testSeriesCategories')
-                ->first();
+            ->where('id', $request->set_id, )
+            ->with('getTsPC.testSeriesCategories')
+            ->first();
         $current = Carbon::now();
 
-        $uts= UserTestSeries::query()
+        $uts = UserTestSeries::query()
             ->create(
                 [
                     'tsps_id' => $request->ps_id,
-                    'set_id'=>$request->set_id,
+                    'set_id' => $request->set_id,
                     'complete_status' => 0,
-                    'current_timer'=> $timer->getTsPC->testSeriesCategories->duration,
+                    'current_timer' => $timer->getTsPC->testSeriesCategories->duration,
                     'start_date' => $current->format('d-m-Y'),
                 ]
             );
 
 
         return response()->json([
-            'uts_id' =>  $uts->id
+            'uts_id' => $uts->id
         ], 200);
     }
 
@@ -61,86 +62,65 @@ class UserController extends Controller
     public function generateRandomQuestion($id)
     {
 
-            $userTestSeries = UserTestSeries::
+        $userTestSeries = UserTestSeries::
             with('userPurchases.tsProduct')
             ->find($id);
 
-            $product = $userTestSeries->userPurchases->tsProduct;
+        $product = $userTestSeries->userPurchases->tsProduct;
 
-            if (!$userTestSeries || !$userTestSeries->userPurchases) {
-                return response()->json(['message' => 'No purchases'], 200);
-            }
+        if (!$userTestSeries || !$userTestSeries->userPurchases) {
+            return response()->json(['message' => 'No purchases'], 200);
+        }
 
-            $testSeriesProduct = TestSeriesProduct::find($userTestSeries->userPurchases->tsp_id);
-
-
-            $timer = $userTestSeries->current_timer  ;
+        $testSeriesProduct = TestSeriesProduct::find($userTestSeries->userPurchases->tsp_id);
 
 
-            $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions')->get();
-
-            if (!$userTestStatuses->isEmpty()) {
-                return response()->json([
-                    'test_data' => $userTestStatuses,
-                    'current_qid' => $userTestSeries->q_id,
-                    'uts_id' => $userTestSeries->id,
-                    'timer' => $timer
-                ], 200);
-            }
+        $timer = $userTestSeries->current_timer;
 
 
-            $testSeriesTopics = UserTestSeries::where('id', $id)
-            ->with('getTSSet.getTsTopic')
-            ->first();
+        $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions.questionImage')->get();
 
-            $topics = $testSeriesTopics->getTSSet->getTsTopic;
-            // return $topics ;
-            $questions = [];
-
-
-            foreach ($topics as $topic) {
-                $temp_questions = VerbalQuestion::where('tst_id', $topic->tst_id)
-                    // ->where('ts_id', $testSeriesProduct->ts_id)
-                    // ->where('tsc_id', $testSeriesProduct->tsc_id)
-                    ->get();
-                $questions = array_merge($questions, $temp_questions->toArray());
-            }
-            //  return $product->total_question ;
-            $temp = [];
-            $i=[];
-            while (count($temp) < $product->total_question) {
-                $index = rand(0,count($questions)-1);
-                if(!in_array($index,$i)){
-                    $temp[] = $questions[$index];
-                    $i[]=$index;
-                }
-
-            }
-            // return $i;
-
-
-            foreach ($temp as $question) {
-                UserTestStatus::create([
-                    'q_id' => $question['id'],
-                    'uts_id' => $id,
-                    'test_time' => 0
-                ]);
-            }
-
-            $uts2 = UserTestStatus::where('uts_id', $id)->get();
-            UserTestSeries::where('id', $id)->update(['q_id' => $uts2[0]->id]);
-            UserTestStatus::where('id', $uts2[0]->id)->update(['status_id' => 2]);
-
-
-            $userTestSeries = UserTestSeries::with('userPurchases')->find($id);
-            $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions')->get();
-
+        if (!$userTestStatuses->isEmpty()) {
             return response()->json([
                 'test_data' => $userTestStatuses,
                 'current_qid' => $userTestSeries->q_id,
                 'uts_id' => $userTestSeries->id,
                 'timer' => $timer
             ], 200);
+        }
+
+
+        $uts_data = UserTestSeries::where('id', $id)
+            ->with('getTSSet')
+            ->first();
+
+        $temp_questions = SetQuestion::where('set_id', $uts_data->set_id)
+            ->get();
+
+        // return $temp_questions;
+
+        foreach ($temp_questions as $question) {
+            UserTestStatus::create([
+                'q_id' => $question->q_id,
+                'uts_id' => $id,
+                'test_time' => 0
+            ]);
+        }
+
+        $uts2 = UserTestStatus::where('uts_id', $id)->get();
+        UserTestSeries::where('id', $id)->update(['q_id' => $uts2[0]->id]);
+        UserTestStatus::where('id', $uts2[0]->id)->update(['status_id' => 2]);
+
+
+        $userTestSeries = UserTestSeries::with('userPurchases')->find($id);
+        $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions.questionImage')->get();
+
+        return response()->json([
+            'test_data' => $userTestStatuses,
+            'current_qid' => $userTestSeries->q_id,
+            'uts_id' => $userTestSeries->id,
+            'timer' => $timer
+        ], 200);
 
 
     }
@@ -171,7 +151,7 @@ class UserController extends Controller
 
         $questions = UserTestStatus::query()
             ->where('uts_id', $uts_id->uts_id)
-            ->with('questions')
+            ->with('questions.questionImage')
             ->get();
 
         return response()->json([
@@ -219,7 +199,7 @@ class UserController extends Controller
 
         //     ]);
 
-        $time_taken = round(((float) $ps->tsproduct->duration - (float) $request->current_timer));
+        $time_taken = round(((int) $ps->tsproduct->duration - (int) $request->current_timer));
 
         UserTestSeries::query()
             ->where('id', $id)
@@ -234,7 +214,7 @@ class UserController extends Controller
         // return $total;
         return response()->json([
             'message' => 'Successfully Submitted',
-            'uts_id' =>  $id
+            'uts_id' => $id
         ], 200);
     }
     public function getTestResult($id)
@@ -262,15 +242,24 @@ class UserController extends Controller
             ->get();
 
         // return $total_answered;
-        $total = [];
+        $total = 0;
         // $to = [];
+
         foreach ($total_answered as $item) {
             // $total[] = $item->test_answer;
-
             if ($item->test_answer == $item->questions->correct_option) {
-                $total[] = $item->test_answer;
+                UserTestStatus::query()
+                    ->where('uts_id', $id)
+                    ->where('q_id', $item->questions->id)
+                    ->update(['marks'=>1]);
+                $total++;
+
             }
         }
+
+        UserTestSeries::query()
+            ->where('id', $id)
+            ->update(['total_marks' => $total]);
         // return $total;
         // return $total;
         return response()->json([
@@ -279,9 +268,9 @@ class UserController extends Controller
             'total_marks' => $ps->tsProduct->total_question,
             'total_time' => $ps->tsProduct->duration,
             'time_taken' => (int) $uts->time_taken,
-            'right_answer' => count($total),
-            'wrong_answer' => $ps->tsProduct->total_question - count($total),
-            'marks_obtained' => count($total)
+            'right_answer' => $total,
+            'wrong_answer' => $ps->tsProduct->total_question - $total,
+            'marks_obtained' => $total
         ], 200);
 
     }

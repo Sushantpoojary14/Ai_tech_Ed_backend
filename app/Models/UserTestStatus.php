@@ -18,6 +18,7 @@ class UserTestStatus extends Model
         'test_answer',
         'uts_id',
         'test_time',
+        'marks'
 
     ];
 
@@ -25,11 +26,12 @@ class UserTestStatus extends Model
         'id'=>'integer',
         'q_id' => 'integer',
         'status_id' => 'integer',
+        'marks'=> 'integer',
         'uts_id' => 'integer',
     ];
     public function questions(): BelongsTo
     {
-        return $this->belongsTo(VerbalQuestion::class, 'q_id', 'id');
+        return $this->belongsTo(Question::class, 'q_id', 'id');
     }
     public function UserTestSeries(): BelongsTo
     {

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class SetQuestion extends Model
 {
     use HasFactory;
-    protected $table = 'set_questions';
+    protected $table = 'set_question';
     public $timestamps = false;
     protected $fillable = [
         'set_id',

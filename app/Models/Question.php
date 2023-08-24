@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-
-class VerbalQuestion extends Model
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\QuestionImage;
+class Question extends Model
 {
     use HasFactory;
     protected $table = 'question';
@@ -37,9 +38,8 @@ class VerbalQuestion extends Model
             set: fn (string $value) => match ($value) {
                 'A' => 1,
                 'B' => 2,
-                'C' => 2,
-                'D' => 2,
-                default => 5,
+                'C' => 3,
+                'D' => 4,
             }
         );
     }
@@ -68,5 +68,10 @@ class VerbalQuestion extends Model
         return Attribute::make(
             set: fn (string $value) =>  rtrim($value, ',')
         );
+    }
+
+    public function questionImage()
+    {
+        return $this->HasMany(QuestionImage::class,'q_id','id');
     }
 }

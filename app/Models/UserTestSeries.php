@@ -20,7 +20,8 @@ class UserTestSeries extends Model
         'end_date',
         'time_taken',
         'current_timer',
-        'q_id'
+        'q_id',
+        'total_marks'
     ];
 
     protected $casts = [
@@ -29,6 +30,7 @@ class UserTestSeries extends Model
         'tsps_id' => 'integer',
         'set_id' => 'integer',
         'user_id' => 'integer',
+        'total_marks'=> 'integer',
         'complete_status' => 'integer',
       ];
     public function userPurchases(): BelongsTo

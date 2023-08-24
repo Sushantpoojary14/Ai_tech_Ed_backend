@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('end_date',40)->nullable();
             $table->string('time_taken',40)->nullable();
             $table->string('current_timer',40)->nullable();
+            $table->tinyInteger('total_marks')->nullable();
             $table->bigInteger('q_id')->nullable();
             // $table->foreign('q_id')->references('id')->on('user_test_status')->onDelete('cascade');
             // $table->timestamps();

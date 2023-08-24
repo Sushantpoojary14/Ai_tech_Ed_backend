@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('image_url',100);
             $table->unsignedBigInteger('q_id')->nullable();
             $table->foreign('q_id')->references('id')->on('question')->onDelete('cascade');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('q_id')->references('id')->on('question')->onDelete('cascade');
             $table->unsignedBigInteger('set_id')->index();
             $table->foreign('set_id')->references('id')->on('tspc_set')->onDelete('cascade');
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

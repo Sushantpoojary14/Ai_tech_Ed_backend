@@ -14,7 +14,7 @@ class TSPCSet extends Model
     protected $fillable = [
        'tspc_id',
     //    'tst_id',
-       'set_id',
+       'set_number',
        'set_name',
        'status'
 
