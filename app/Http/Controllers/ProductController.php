@@ -120,8 +120,8 @@ class ProductController extends Controller
             'set_name' => $test_detail->set_name,
             'total_question' => $purchase->tsproduct->total_question,
             'uts_id' => $uts_id,
-            'duration'=>$test_detail->getTsPC->testSeriesCategories->duration,
-            'p_name'=>$purchase->tsproduct->p_name
+            'duration' => $test_detail->getTsPC->testSeriesCategories->duration,
+            'p_name' => $purchase->tsproduct->p_name
         ], 200);
     }
     public function getTSPurchasesId($id = null)
@@ -151,8 +151,6 @@ class ProductController extends Controller
 
         if (is_array($request->p_id)) {
 
-
-
             foreach ($request->p_id as $item) {
 
                 $id = TestSeriesPurchases::query()
@@ -179,7 +177,7 @@ class ProductController extends Controller
 
             if ($id)
                 return response()->json([
-                    'message' => 'Added successfully'
+                    'message' => 'Already purchased'
                 ], 200);
 
             Cart::query()

@@ -35,11 +35,11 @@ class Question extends Model
     protected function correctOption(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => match ($value) {
-                'A' => 1,
-                'B' => 2,
-                'C' => 3,
-                'D' => 4,
+            set: fn (string $value) => match (strtolower($value)) {
+                'a' => 1,
+                'b' => 2,
+                'c' => 3,
+                'd' => 4,
             }
         );
     }

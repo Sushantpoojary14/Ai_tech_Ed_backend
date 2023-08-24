@@ -41,4 +41,9 @@ class TSPCSet extends Model
     {
         return $this->hasMany(TSPCTopics::class, 'tspcs_id', 'id');
     }
+
+    public function getSetQuestion()
+    {
+        return $this->hasMany(SetQuestion::class, 'set_id', 'id');
+    }
 }

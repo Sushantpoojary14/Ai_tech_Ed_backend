@@ -12,6 +12,7 @@ class TestSeriesTopics extends Model
     public $timestamps = false;
     protected $fillable=[
         't_name',
+        'topic',
         'tsc_id',
         'ts_id',
         'status'

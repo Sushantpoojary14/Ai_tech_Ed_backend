@@ -19,4 +19,9 @@ class SetQuestion extends Model
         'q_id' => 'integer',
     ];
 
+    public function getQuestions()
+    {
+        return $this->belongsTo(Question::class, 'q_id', 'id');
+    }
+
 }

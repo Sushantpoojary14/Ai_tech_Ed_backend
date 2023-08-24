@@ -25,7 +25,7 @@ class AdminController extends Controller
 
 
 
-    public function addUpdateProduct(Request $request)
+    public function addProduct(Request $request)
     {
 
         $category = $request->tsc_id;
@@ -47,7 +47,7 @@ class AdminController extends Controller
                     'message' => 'topics is not available',
                     "tsc_type" => $c->tsc_type,
                     'ts_id' => $data['ts_id']
-                ], 400);
+                ], 403);
             }
 
         }
@@ -122,10 +122,34 @@ class AdminController extends Controller
         // $tsc = $tsp->productTopics()->sync($request->tst_id);
 
         return response()->json([
-            'message' => 'Updated Successfully'
+            'message' => 'Added Successfully'
         ], 200);
     }
 
+    public function updateProduct(Request $request, $p_id)
+    {
+        $data = $request->input();
+        if ($request->hasFile('p_image')) {
+            $file = $request->file('p_image');
+
+            // Validate the uploaded file
+            if ($file->isValid()) {
+                $filename = "product-" . $filename = time() . '.' . $file->getClientOriginalExtension();
+
+                $file->move(public_path('/images'), $filename);
+
+                $data['p_image'] = "/images/" . $filename;
+            } else {
+
+                return response()->json(['error' => 'File upload failed'], 400);
+            }
+        }
+        $tsp = TestSeriesProduct::where('id', $p_id)->update($data);
+
+        return response()->json([
+            'message' => 'Updated Successfully'
+        ], 200);
+    }
 
     public function addTSProductTopic(Request $request)
     {
@@ -205,28 +229,33 @@ class AdminController extends Controller
 
     public function addTSTopic(Request $request)
     {
-        // return $request->input();
+        // return 't';
+        $data = $request->except(['question']);
         $tst = TestSeriesTopics::query()
-            ->create(['t_name' => $request->t_name, 'tsc_id' => $request->tsc_id, 'ts_id' => $request->ts_id]);
+            ->create(
+                $data
+            );
 
         $questions = $request->question;
 
-        if ($request->tsc_id == 3) {
+        if ($request->tsc_id == 3 || $request->tsc_id == 1) {
             foreach ($questions as $key => $item) {
+                $ans = preg_replace('/\s+/', ' ', trim($item['answer']));
                 Question::query()
                     ->create([
-                        'question' => $item['Question'],
-                        'option_1' => $item['Options']['a'],
-                        'option_2' => $item['Options']['b'],
-                        'option_3' => $item['Options']['c'],
-                        'option_4' => $item['Options']['d'],
-                        'correct_option' => $item['Answer'],
-                        'explanation' => $item['Explanation'],
+                        'question' => $item['question'],
+                        'option_1' => $item['options']['a'],
+                        'option_2' => $item['options']['b'],
+                        'option_3' => $item['options']['c'],
+                        'option_4' => $item['options']['d'],
+                        'correct_option' => $ans,
+                        'explanation' => $item['explanation'],
                         'tst_id' => $tst->id,
                     ]);
             }
-        } elseif ($request->tsc_id == 2 || $request->tsc_id == 1) {
+        } elseif ($request->tsc_id == 2) {
             foreach ($questions as $key => $item) {
+                $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
                 Question::query()
                     ->create([
                         'question' => $item['Question'],
@@ -234,11 +263,11 @@ class AdminController extends Controller
                         'option_2' => $item['Option_B'],
                         'option_3' => $item['Option_C'],
                         'option_4' => $item['Option_D'],
-                        'correct_option' => $item['Answer'],
-                        'explanation' =>$item['Explanation'],
+                        'correct_option' => $ans,
+                        'explanation' => $item['Explanation'],
                         'tst_id' => $tst->id,
                     ]);
-                
+
 
             }
         }
@@ -248,8 +277,53 @@ class AdminController extends Controller
         ], 200);
     }
 
+    public function updateTSTopic(Request $request, $tst_id)
+    {
 
+        $tst = TestSeriesTopics::where('id', $tst_id)->first();
+        $questions = $request->question;
+        $data = $request->except(['question']);
+        TestSeriesTopics::where('id', $tst_id)->update($data);
+        if ($questions) {
+            Question::where('tst_id', $tst_id)
+                ->delete();
+            if ($tst->tsc_id == 3 || $tst->tsc_id == 1) {
+                foreach ($questions as $key => $item) {
+                    $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
+                    Question::query()
+                        ->create([
+                            'question' => $item['Question'],
+                            'option_1' => $item['Options']['a'],
+                            'option_2' => $item['Options']['b'],
+                            'option_3' => $item['Options']['c'],
+                            'option_4' => $item['Options']['d'],
+                            'correct_option' => $ans,
+                            'explanation' => $item['Explanation'],
+                            'tst_id' => $tst_id,
+                        ]);
+                }
+            } elseif ($tst->tsc_id == 2) {
+                foreach ($questions as $key => $item) {
+                    $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
+                    Question::query()
+                        ->create([
+                            'question' => $item['Question'],
+                            'option_1' => $item['Option_A'],
+                            'option_2' => $item['Option_B'],
+                            'option_3' => $item['Option_C'],
+                            'option_4' => $item['Option_D'],
+                            'correct_option' => $ans,
+                            'explanation' => $item['Explanation'],
+                            'tst_id' => $tst_id,
+                        ]);
+                }
 
+            }
+        }
+        return response()->json([
+            'message' => 'Successfully Topic Updated'
+        ], 200);
+    }
 
     public function showProductDetails($p_id)
     {
@@ -258,6 +332,7 @@ class AdminController extends Controller
             ->where('id', $p_id)
             ->with('getTsProductCategory.testSeriesCategories')
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
+            ->with('getTsProductCategory.tsPCSet.getSetQuestion.getQuestions.questionImage')
             ->first();
         // $categories = [];
         $categories = [];
@@ -270,11 +345,20 @@ class AdminController extends Controller
             foreach ($value->tsPCSet as $key2 => $value2) {
                 $set[] = $value2;
                 $topics = [];
+                $questions = [];
                 foreach ($value2->getTsTopic as $key3 => $value3) {
                     $topics[] = $value3->tsTopic;
+
                 }
+                foreach ($value2->getSetQuestion as $key3 => $value3) {
+                    $questions[] = $value3->getQuestions;
+
+                }
+
                 $set[$key2]->topics = $topics;
+                $set[$key2]->questions = $questions;
                 unset($value2->getTsTopic);
+                unset($value2->getSetQuestion);
             }
             $categories[$key]->sets = $set;
             $tst->categories = $categories;
@@ -353,6 +437,7 @@ class AdminController extends Controller
             'Message' => 'Successfully Deleted Set',
         ], 200);
     }
+
     public function deleteTopic($tst_id)
     {
 
