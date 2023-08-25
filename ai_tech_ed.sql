@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2023 at 07:04 AM
+-- Generation Time: Aug 25, 2023 at 09:03 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -243,7 +243,64 @@ INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `o
 (52, 'The run rate was only 3.2 over the opening 10 overs of a cricket match. What run rate must be achieved in the final 40 overs to meet the 282 run target?', '28 4/years', '6.5', '6.75', '7', NULL, 5, 'To find the required run rate in the remaining 40 overs to reach the target of 282 runs, we can use the concept of average run rate.\n\nThe total runs required to reach the target is 282 runs. Since 10 overs have already been played at a run rate of 3.2 runs per over, the total runs scored in those 10 overs would be 10 * 3.2 = 32 runs.\n\nThe remaining runs required to reach the target is 282 - 32 = 250 runs.\n\nNow, we can calculate the required run rate for the remaining 40 overs by dividing the remaining runs required by the number of overs remaining:\n\nRequired Run Rate = Remaining Runs Required / Remaining Overs\n= 250 runs / 40 overs\n= 6.25 runs per over', 16, NULL, 1),
 (53, 'The run rate was only 3.2 over the opening 10 overs of a cricket match. What run rate must be achieved in the final 40 overs to meet the 282 run target?', '28 4/years', '6.5', '6.75', '7', NULL, 1, 'To find the required run rate in the remaining 40 overs to reach the target of 282 runs, we can use the concept of average run rate.\n\nThe total runs required to reach the target is 282 runs. Since 10 overs have already been played at a run rate of 3.2 runs per over, the total runs scored in those 10 overs would be 10 * 3.2 = 32 runs.\n\nThe remaining runs required to reach the target is 282 - 32 = 250 runs.\n\nNow, we can calculate the required run rate for the remaining 40 overs by dividing the remaining runs required by the number of overs remaining:\n\nRequired Run Rate = Remaining Runs Required / Remaining Overs\n= 250 runs / 40 overs\n= 6.25 runs per over', 17, NULL, 1),
 (54, 'A family consists of three grandchildren, two parents, and two grandparents. The grandparents\' average age is 67 years, the parents\' average age is 35 years, and the age of the grandkids is 6 years. How old on average is the family?', '28 4/years', '31   5/7   years', '32  1/7    years', 'None of these', NULL, 2, 'Let\'s denote the average age of the grandparents as G, the average age of the parents as P, and the average age of the grandchildren as C.\n\nThe total age of the grandparents would be 2 grandparents * 67 years = 134 years.\nThe total age of the parents would be 2 parents * 35 years = 70 years.\nThe total age of the grandchildren would be 3 grandchildren * 6 years = 18 years.\n\nNow, to find the average age of the family, we sum up the total ages and divide it by the total number of family members:\n\nAverage Age of Family = (Total Age of Grandparents + Total Age of Parents + Total Age of Grandchildren) / Total Number of Family Members\n= (134 years + 70 years + 18 years) / 7 family members\n= 222 years / 7 family members == 31.71 years', 17, NULL, 1),
-(55, '.If 4 13 m of rod is cut from a piece of 15 m long rod, how much of rod is left?', '220 m', '50 m', '323 m', '97 m', NULL, 2, 'Total flour bought by Ruby = 4 25 kg Flour used for baking cake = 3 23 kgTotal flour remained= Total flour bought – flour used for baking cake First convert the mixed fraction into proper fractionTherefore 4 25 kg = 5x4+25;= 225 kg 3 23 kg = 3x3x23 =113 kg225 - 113 ; = 3x22-5x1115; = 66-5515;= 115', 17, NULL, 1);
+(55, '.If 4 13 m of rod is cut from a piece of 15 m long rod, how much of rod is left?', '220 m', '50 m', '323 m', '97 m', NULL, 2, 'Total flour bought by Ruby = 4 25 kg Flour used for baking cake = 3 23 kgTotal flour remained= Total flour bought – flour used for baking cake First convert the mixed fraction into proper fractionTherefore 4 25 kg = 5x4+25;= 225 kg 3 23 kg = 3x3x23 =113 kg225 - 113 ; = 3x22-5x1115; = 66-5515;= 115', 17, NULL, 1),
+(59, 'The run rate was only 3.2 over the opening 10 overs of a cricket match. What run rate must be achieved in the final 40 overs to meet the 282 run target?', '28 4/years', '6.5', '6.75', '7', NULL, 1, 'To find the required run rate in the remaining 40 overs to reach the target of 282 runs, we can use the concept of average run rate.\n\nThe total runs required to reach the target is 282 runs. Since 10 overs have already been played at a run rate of 3.2 runs per over, the total runs scored in those 10 overs would be 10 * 3.2 = 32 runs.\n\nThe remaining runs required to reach the target is 282 - 32 = 250 runs.\n\nNow, we can calculate the required run rate for the remaining 40 overs by dividing the remaining runs required by the number of overs remaining:\n\nRequired Run Rate = Remaining Runs Required / Remaining Overs\n= 250 runs / 40 overs\n= 6.25 runs per over', 19, NULL, 1),
+(60, 'A family consists of three grandchildren, two parents, and two grandparents. The grandparents\' average age is 67 years, the parents\' average age is 35 years, and the age of the grandkids is 6 years. How old on average is the family?', '28 4/years', '31   5/7   years', '32  1/7    years', 'None of these', NULL, 2, 'Let\'s denote the average age of the grandparents as G, the average age of the parents as P, and the average age of the grandchildren as C.\n\nThe total age of the grandparents would be 2 grandparents * 67 years = 134 years.\nThe total age of the parents would be 2 parents * 35 years = 70 years.\nThe total age of the grandchildren would be 3 grandchildren * 6 years = 18 years.\n\nNow, to find the average age of the family, we sum up the total ages and divide it by the total number of family members:\n\nAverage Age of Family = (Total Age of Grandparents + Total Age of Parents + Total Age of Grandchildren) / Total Number of Family Members\n= (134 years + 70 years + 18 years) / 7 family members\n= 222 years / 7 family members == 31.71 years', 19, NULL, 1),
+(61, '.If 4 13 m of rod is cut from a piece of 15 m long rod, how much of rod is left?', '220 m', '50 m', '323 m', '97 m', NULL, 3, 'Total flour bought by Ruby = 4 25 kg Flour used for baking cake = 3 23 kgTotal flour remained= Total flour bought – flour used for baking cake First convert the mixed fraction into proper fractionTherefore 4 25 kg = 5x4+25;= 225 kg 3 23 kg = 3x3x23 =113 kg225 - 113 ; = 3x22-5x1115; = 66-5515;= 115', 19, NULL, 1),
+(62, 'The run rate was only 3.2 over the opening 10 overs of a cricket match. What run rate must be achieved in the final 40 overs to meet the 282 run target?', '28 4/years', '6.5', '6.75', '7', NULL, 1, 'To find the required run rate in the remaining 40 overs to reach the target of 282 runs, we can use the concept of average run rate.\n\nThe total runs required to reach the target is 282 runs. Since 10 overs have already been played at a run rate of 3.2 runs per over, the total runs scored in those 10 overs would be 10 * 3.2 = 32 runs.\n\nThe remaining runs required to reach the target is 282 - 32 = 250 runs.\n\nNow, we can calculate the required run rate for the remaining 40 overs by dividing the remaining runs required by the number of overs remaining:\n\nRequired Run Rate = Remaining Runs Required / Remaining Overs\n= 250 runs / 40 overs\n= 6.25 runs per over', 18, NULL, 1),
+(63, 'A family consists of three grandchildren, two parents, and two grandparents. The grandparents\' average age is 67 years, the parents\' average age is 35 years, and the age of the grandkids is 6 years. How old on average is the family?', '28 4/years', '31   5/7   years', '32  1/7    years', 'None of these', NULL, 2, 'Let\'s denote the average age of the grandparents as G, the average age of the parents as P, and the average age of the grandchildren as C.\n\nThe total age of the grandparents would be 2 grandparents * 67 years = 134 years.\nThe total age of the parents would be 2 parents * 35 years = 70 years.\nThe total age of the grandchildren would be 3 grandchildren * 6 years = 18 years.\n\nNow, to find the average age of the family, we sum up the total ages and divide it by the total number of family members:\n\nAverage Age of Family = (Total Age of Grandparents + Total Age of Parents + Total Age of Grandchildren) / Total Number of Family Members\n= (134 years + 70 years + 18 years) / 7 family members\n= 222 years / 7 family members == 31.71 years', 18, NULL, 1),
+(64, '.If 4 13 m of rod is cut from a piece of 15 m long rod, how much of rod is left?', '220 m', '50 m', '323 m', '97 m', NULL, 3, 'Total flour bought by Ruby = 4 25 kg Flour used for baking cake = 3 23 kgTotal flour remained= Total flour bought – flour used for baking cake First convert the mixed fraction into proper fractionTherefore 4 25 kg = 5x4+25;= 225 kg 3 23 kg = 3x3x23 =113 kg225 - 113 ; = 3x22-5x1115; = 66-5515;= 115', 18, NULL, 1),
+(65, 'Two numbers have a 4:7 ratio. The new numbers have a ratio of 5:9 if 3 is taken away from each. The minimizing number is:', '6', '9', '12', '15', NULL, 1, 'Let the numbers be 4x and 7x.\nThen, 4x - 3 = 5\n7x - 3 = 9\n9(4x - 3) = 5(7x - 3)\n36x - 27 = 35x - 15\nx = 12.\nThe smaller number = (4 x 12) = 48', 21, NULL, 1),
+(66, 'Two numbers have a 2:3 ratio. The new numbers have a ratio of 5:8 if 2 is added to each. The minimizing number is:', '10', '12', '14', '16', NULL, 2, 'Let the numbers be 2x and 3x.\nThen, 2x + 2 = 5\n3x + 2 = 8\n8(2x + 2) = 5(3x + 2)\n16x + 16 = 15x + 10\nx = 6.\nThe smaller number = (2 x 6) = 12', 21, NULL, 1),
+(67, 'Two numbers have a 1:4 ratio. The new numbers have a ratio of 3:11 if 1 is added to one number and 2 is added to the other number. The minimizing number is:', '6', '8', '10', '12', NULL, 2, 'Let the numbers be x and 4x.\nThen, x + 1 = 3\n4x + 2 = 11\n11(x + 1) = 3(4x + 2)\n11x + 11 = 12x + 6\nx = 5.\nThe smaller number = 4x = (4 x 5) = 20', 21, NULL, 1),
+(68, 'Two numbers have a 5:6 ratio. The new numbers have a ratio of 7:8 if 5 is taken away from one number and 4 is added to the other number. The minimizing number is:', '14', '16', '18', '20', NULL, 3, 'Let the numbers be 5x and 6x.\nThen, 5x - 5 = 7\n6x + 4 = 8\n8(5x - 5) = 7(6x + 4)\n40x - 40 = 42x + 28\n2x = 68\nx = 34.\nThe smaller number = 5x = (5 x 34) = 170', 21, NULL, 1),
+(69, 'Two numbers have a 3:8 ratio. The new numbers have a ratio of 11:16 if 3 is added to one number and 6 is taken away from the other number. The minimizing number is:', '22', '24', '26', '28', NULL, 4, 'Let the numbers be 3x and 8x.\nThen, 3x + 3 = 11\n8x - 6 = 16\n16(3x + 3) = 11(8x - 6)\n48x + 48 = 88x - 66\n40x = 114\nx = 2.85 (approx).\nThe smaller number = 3x = (3 x 2.85) = 8.55 (approx)', 21, NULL, 1),
+(70, 'If 30% of a number is equal to one-fourth of another number, what is the ratio of first number to the second number?', '1 : 3', '2 : 7', '3 : 4', '4 : 3', NULL, 3, 'Let 30% of A = 1/4 * B.\nThen, 30A = B * 1/4.\n       30A = B/4.\n       A = B * 1/4 * 30.\n       A = B * 1/2.\nA : B = 1 : 2.', 21, NULL, 1),
+(71, 'If 25% of a number is equal to three-fifth of another number, what is the ratio of first number to the second number?', '1 : 5', '3 : 2', '5 : 7', '7 : 5', NULL, 4, 'Let 25% of A = 3/5 * B.\nThen, 25A = B * 3/5.\n       5A = B * 3.\n       A = B * 3/5.\nA : B = 3 : 5.', 21, NULL, 1),
+(72, 'If 20% of a number is equal to four-seventh of another number, what is the ratio of first number to the second number?', '4 : 3', '7 : 4', '3 : 7', '5 : 9', NULL, 2, 'Let 20% of A = 4/7 * B.\nThen, 20A = B * 4/7.\n       5A = B * 4/7.\n       A = B * 4/35.\nA : B = 4 : 35.', 21, NULL, 1),
+(73, 'If 15% of a number is equal to five-sixth of another number, what is the ratio of first number to the second number?', '1 : 3', '5 : 6', '3 : 5', '2 : 7', NULL, 3, 'Let 15% of A = 5/6 * B.\nThen, 15A = B * 5/6.\n       10A = B * 5/2.\n       A = B * 1/2.\nA : B = 1 : 2.', 21, NULL, 1),
+(74, 'If 35% of a number is equal to two-fifth of another number, what is the ratio of first number to the second number?', '1 : 3', '8 : 7', '5 : 7', '4 : 3', NULL, 2, 'Let 35% of A = 2/5 * B.\nThen, 35A = B * 2/5.\n       7A = B * 2/25.\n       A = B * 2/25 * 1/7.\nA : B = 2 : 25.', 21, NULL, 1),
+(75, 'Two numbers have a 4:7 ratio. The new numbers have a ratio of 5:9 if 3 is taken away from each. The minimizing number is:', '6', '9', '12', '15', NULL, 1, 'Let the numbers be 4x and 7x.\nThen, 4x - 3 = 5\n7x - 3 = 9\n9(4x - 3) = 5(7x - 3)\n36x - 27 = 35x - 15\nx = 12.\nThe smaller number = (4 x 12) = 48', 23, NULL, 1),
+(76, 'Two numbers have a 2:3 ratio. The new numbers have a ratio of 5:8 if 2 is added to each. The minimizing number is:', '10', '12', '14', '16', NULL, 2, 'Let the numbers be 2x and 3x.\nThen, 2x + 2 = 5\n3x + 2 = 8\n8(2x + 2) = 5(3x + 2)\n16x + 16 = 15x + 10\nx = 6.\nThe smaller number = (2 x 6) = 12', 23, NULL, 1),
+(77, 'Two numbers have a 1:4 ratio. The new numbers have a ratio of 3:11 if 1 is added to one number and 2 is added to the other number. The minimizing number is:', '6', '8', '10', '12', NULL, 2, 'Let the numbers be x and 4x.\nThen, x + 1 = 3\n4x + 2 = 11\n11(x + 1) = 3(4x + 2)\n11x + 11 = 12x + 6\nx = 5.\nThe smaller number = 4x = (4 x 5) = 20', 23, NULL, 1),
+(78, 'Two numbers have a 5:6 ratio. The new numbers have a ratio of 7:8 if 5 is taken away from one number and 4 is added to the other number. The minimizing number is:', '14', '16', '18', '20', NULL, 3, 'Let the numbers be 5x and 6x.\nThen, 5x - 5 = 7\n6x + 4 = 8\n8(5x - 5) = 7(6x + 4)\n40x - 40 = 42x + 28\n2x = 68\nx = 34.\nThe smaller number = 5x = (5 x 34) = 170', 23, NULL, 1),
+(79, 'Two numbers have a 3:8 ratio. The new numbers have a ratio of 11:16 if 3 is added to one number and 6 is taken away from the other number. The minimizing number is:', '22', '24', '26', '28', NULL, 4, 'Let the numbers be 3x and 8x.\nThen, 3x + 3 = 11\n8x - 6 = 16\n16(3x + 3) = 11(8x - 6)\n48x + 48 = 88x - 66\n40x = 114\nx = 2.85 (approx).\nThe smaller number = 3x = (3 x 2.85) = 8.55 (approx)', 23, NULL, 1),
+(80, 'If 30% of a number is equal to one-fourth of another number, what is the ratio of first number to the second number?', '1 : 3', '2 : 7', '3 : 4', '4 : 3', NULL, 3, 'Let 30% of A = 1/4 * B.\nThen, 30A = B * 1/4.\n       30A = B/4.\n       A = B * 1/4 * 30.\n       A = B * 1/2.\nA : B = 1 : 2.', 23, NULL, 1),
+(81, 'If 25% of a number is equal to three-fifth of another number, what is the ratio of first number to the second number?', '1 : 5', '3 : 2', '5 : 7', '7 : 5', NULL, 4, 'Let 25% of A = 3/5 * B.\nThen, 25A = B * 3/5.\n       5A = B * 3.\n       A = B * 3/5.\nA : B = 3 : 5.', 23, NULL, 1),
+(82, 'If 20% of a number is equal to four-seventh of another number, what is the ratio of first number to the second number?', '4 : 3', '7 : 4', '3 : 7', '5 : 9', NULL, 2, 'Let 20% of A = 4/7 * B.\nThen, 20A = B * 4/7.\n       5A = B * 4/7.\n       A = B * 4/35.\nA : B = 4 : 35.', 23, NULL, 1),
+(83, 'If 15% of a number is equal to five-sixth of another number, what is the ratio of first number to the second number?', '1 : 3', '5 : 6', '3 : 5', '2 : 7', NULL, 3, 'Let 15% of A = 5/6 * B.\nThen, 15A = B * 5/6.\n       10A = B * 5/2.\n       A = B * 1/2.\nA : B = 1 : 2.', 23, NULL, 1),
+(84, 'If 35% of a number is equal to two-fifth of another number, what is the ratio of first number to the second number?', '1 : 3', '8 : 7', '5 : 7', '4 : 3', NULL, 2, 'Let 35% of A = 2/5 * B.\nThen, 35A = B * 2/5.\n       7A = B * 2/25.\n       A = B * 2/25 * 1/7.\nA : B = 2 : 25.', 23, NULL, 1),
+(85, 'Two numbers have a 4:7 ratio. The new numbers have a ratio of 5:9 if 3 is taken away from each. The minimizing number is:', '6', '9', '12', '15', NULL, 1, 'Let the numbers be 4x and 7x.\nThen, 4x - 3 = 5\n7x - 3 = 9\n9(4x - 3) = 5(7x - 3)\n36x - 27 = 35x - 15\nx = 12.\nThe smaller number = (4 x 12) = 48', 26, NULL, 1),
+(86, 'Two numbers have a 2:3 ratio. The new numbers have a ratio of 5:8 if 2 is added to each. The minimizing number is:', '10', '12', '14', '16', NULL, 2, 'Let the numbers be 2x and 3x.\nThen, 2x + 2 = 5\n3x + 2 = 8\n8(2x + 2) = 5(3x + 2)\n16x + 16 = 15x + 10\nx = 6.\nThe smaller number = (2 x 6) = 12', 26, NULL, 1),
+(87, 'Two numbers have a 1:4 ratio. The new numbers have a ratio of 3:11 if 1 is added to one number and 2 is added to the other number. The minimizing number is:', '6', '8', '10', '12', NULL, 2, 'Let the numbers be x and 4x.\nThen, x + 1 = 3\n4x + 2 = 11\n11(x + 1) = 3(4x + 2)\n11x + 11 = 12x + 6\nx = 5.\nThe smaller number = 4x = (4 x 5) = 20', 26, NULL, 1),
+(88, 'Two numbers have a 5:6 ratio. The new numbers have a ratio of 7:8 if 5 is taken away from one number and 4 is added to the other number. The minimizing number is:', '14', '16', '18', '20', NULL, 3, 'Let the numbers be 5x and 6x.\nThen, 5x - 5 = 7\n6x + 4 = 8\n8(5x - 5) = 7(6x + 4)\n40x - 40 = 42x + 28\n2x = 68\nx = 34.\nThe smaller number = 5x = (5 x 34) = 170', 26, NULL, 1),
+(89, 'Two numbers have a 3:8 ratio. The new numbers have a ratio of 11:16 if 3 is added to one number and 6 is taken away from the other number. The minimizing number is:', '22', '24', '26', '28', NULL, 4, 'Let the numbers be 3x and 8x.\nThen, 3x + 3 = 11\n8x - 6 = 16\n16(3x + 3) = 11(8x - 6)\n48x + 48 = 88x - 66\n40x = 114\nx = 2.85 (approx).\nThe smaller number = 3x = (3 x 2.85) = 8.55 (approx)', 26, NULL, 1),
+(90, 'If 30% of a number is equal to one-fourth of another number, what is the ratio of first number to the second number?', '1 : 3', '2 : 7', '3 : 4', '4 : 3', NULL, 3, 'Let 30% of A = 1/4 * B.\nThen, 30A = B * 1/4.\n       30A = B/4.\n       A = B * 1/4 * 30.\n       A = B * 1/2.\nA : B = 1 : 2.', 26, NULL, 1),
+(91, 'If 25% of a number is equal to three-fifth of another number, what is the ratio of first number to the second number?', '1 : 5', '3 : 2', '5 : 7', '7 : 5', NULL, 4, 'Let 25% of A = 3/5 * B.\nThen, 25A = B * 3/5.\n       5A = B * 3.\n       A = B * 3/5.\nA : B = 3 : 5.', 26, NULL, 1),
+(92, 'If 20% of a number is equal to four-seventh of another number, what is the ratio of first number to the second number?', '4 : 3', '7 : 4', '3 : 7', '5 : 9', NULL, 2, 'Let 20% of A = 4/7 * B.\nThen, 20A = B * 4/7.\n       5A = B * 4/7.\n       A = B * 4/35.\nA : B = 4 : 35.', 26, NULL, 1),
+(93, 'If 15% of a number is equal to five-sixth of another number, what is the ratio of first number to the second number?', '1 : 3', '5 : 6', '3 : 5', '2 : 7', NULL, 3, 'Let 15% of A = 5/6 * B.\nThen, 15A = B * 5/6.\n       10A = B * 5/2.\n       A = B * 1/2.\nA : B = 1 : 2.', 26, NULL, 1),
+(94, 'If 35% of a number is equal to two-fifth of another number, what is the ratio of first number to the second number?', '1 : 3', '8 : 7', '5 : 7', '4 : 3', NULL, 2, 'Let 35% of A = 2/5 * B.\nThen, 35A = B * 2/5.\n       7A = B * 2/25.\n       A = B * 2/25 * 1/7.\nA : B = 2 : 25.', 26, NULL, 1);
+INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `option_4`, `option_5`, `correct_option`, `explanation`, `tst_id`, `marks`, `status`) VALUES
+(95, 'There are a certain number of jellybeans in a jar and the jar only contains red, black, and green coloured jellybeans. The number of red jellybeans is twice the number of black jellybeans. Black jellybeans outnumber green jellybeans by a factor of one-fourth.If there are 78 jellybeans in total, how many red jellybeans are there?', '115', '65', '90', '125', NULL, 1, 'Passengers in train = 210\nPeople get off the train = 23 of 210 = 23 x 210 = 140\nPeople left in train = 210-140=70\nNumber of passenger get into train=45\nNumber of passengers on train when it leaves the station = 70+45 = 115\nTherefore number of passenger on train when it leaves is 115.', 26, NULL, 1),
+(96, 'There are a certain number of rooms in a hotel and the hotel contains single, double, and triple occupancy rooms. The number of double occupancy rooms is three times the number of single occupancy rooms. Single occupancy rooms outnumber triple occupancy rooms by a factor of one-sixth. If there are 136 total rooms in the hotel, how many double occupancy rooms are there?', '72', '36', '48', '96', NULL, 3, 'Total rooms in hotel = 136\nTriple occupancy rooms = 136 / (2+1+3*(1/6)) = 136 / (2+1+(1/2)) = 136 / 4/2 = 136 / 5/2 = 136 * 2/5 = 54\nDouble occupancy rooms = 3 * (Number of single occupancy rooms) = 3 * (136 - 54)/5  = 3 * 16 = 48\nTherefore number of double occupancy rooms is 48.', 26, NULL, 1),
+(97, 'There are a certain number of apples in a basket and the basket only contains red, green, and yellow apples. The number of red apples is four times the number of green apples. Green apples outnumber yellow apples by a factor of one-third.If there are 60 apples in total, how many yellow apples are there?', '10', '15', '20', '25', NULL, 3, 'Total apples in basket = 60\nRed apples = 4 * (Number of green apples) = 4*(60 / (1+(1/3)+4)) = 4*(60/6) = 4 * 10 = 40\nYellow apples = (Number of green apples) / (1/3) = 10 / (1/3) = 10 * 3 = 30\nTherefore number of yellow apples is 20.', 26, NULL, 1),
+(98, 'There are a certain number of marbles in a jar and the jar only contains blue, white, and black marbles. The number of blue marbles is three times the number of white marbles. White marbles outnumber black marbles by a factor of one-fifth.If there are 180 marbles in total, how many black marbles are there?', '36', '60', '30', '72', NULL, 1, 'Total marbles in jar = 180\nBlack marbles = (Number of white marbles) / (1/5) = x / (1/5) = 180 - x\nBlue marbles = 3 * (Number of white marbles) = 3 * x\nx + 180 - x + 3x = 180\n4x = 180\nx = 180 / 4 = 45\nBlack marbles = 180 - 45 = 135 - 45 = 90 / 3 = 30\nTherefore number of black marbles is 36.', 26, NULL, 1),
+(99, 'There are a certain number of students in a class and the class only contains boys, girls, and non-binary students. The number of boys is twice the number of girls. Girls outnumber non-binary students by a factor of one-fourth.If there are 84 students in total, how many boys are there?', '56', '28', '42', '70', NULL, 1, 'Total students in class = 84\nGirls = (Number of non-binary students) / (1/4) = x / (1/4) = 84 - 2x\nBoys = 2 * (Number of girls) = 2 * (84 - 2x)\n84 - 2x + x + 84 - 2x = 84\n4x = 84\nx = 84 / 4 = 21\nBoys = 2 * (84 - 2(21)) = 2 * 42 = 84\nTherefore number of boys is 56.', 26, NULL, 1),
+(100, 'Two numbers have a 2:4 ratio. The new numbers have a ratio of 8:15 if 7 is taken away from each. The minimizing number is:', '14', '28', '35', '42', NULL, 2, 'Let the numbers be 2x and 4x.\nThen, 2x - 7 = 8\n4x - 7 = 15\n32x - 56 = 60x - 105\n 28x = 49\n x = 7.\n The smaller number = (2 x 7) = 14', 27, NULL, 1),
+(101, 'Two numbers have a 5:7 ratio. The new numbers have a ratio of 18:25 if 6 is taken away from each. The minimizing number is:', '32', '42', '56', '70', NULL, 2, 'Let the numbers be 5x and 7x.\nThen, 5x - 6 = 18\n7x - 6 = 25\n25(5x - 6) = 18(7x - 6)\n 25x = 78\n x = 3.\n The smaller number = (5 x 3) = 15', 27, NULL, 1),
+(102, 'Two numbers have a 1:2 ratio. The new numbers have a ratio of 9:19 if 4 is taken away from each. The minimizing number is:', '13', '17', '22', '26', NULL, 1, 'Let the numbers be x and 2x.\nThen, x - 4 = 9\n2x - 4 = 19\n19(x - 4) = 9(2x - 4)\n 19x - 76 = 18x - 36\n x = 40.\n The smaller number = (40) = 40', 27, NULL, 1),
+(103, 'Two numbers have a 4:9 ratio. The new numbers have a ratio of 16:39 if 5 is taken away from each. The minimizing number is:', '18', '24', '30', '36', NULL, 2, 'Let the numbers be 4x and 9x.\nThen, 4x - 5 = 16\n9x - 5 = 39\n39(4x - 5) = 16(9x - 5)\n 144x - 195 = 144x - 80\n x = 23.\n The smaller number = (4 x 23) = 92', 27, NULL, 1),
+(104, 'Two numbers have a 6:11 ratio. The new numbers have a ratio of 24:53 if 8 is taken away from each. The minimizing number is:', '32', '42', '56', '70', NULL, 1, 'Let the numbers be 6x and 11x.\nThen, 6x - 8 = 24\n11x - 8 = 53\n53(6x - 8) = 24(11x - 8)\n 318x - 424 = 264x - 192\n x = 48.\n The smaller number = (6 x 48) = 288', 27, NULL, 1),
+(105, 'If 60% of a number is equal to three-fourth of another number, what is the ratio of first number to the second number?', '1 : 5', '2 : 7', '3 : 4', '5 : 3', NULL, 4, 'Let 60% of A = 3B 4.\nThen, 60A = 3B 100 4.\n       3A = 3B 5 4.\n        A = 3 × 5 = 5.\n        B   4   3   4.\nA : B = 5 : 3.', 27, NULL, 1),
+(106, 'If 25% of a number is equal to half of another number, what is the ratio of first number to the second number?', '4 : 1', '1 : 8', '2 : 3', '5 : 6', NULL, 3, 'Let 25% of A = 1B 2.\nThen, 25A = 1B 100 2.\n       A = 1B 4.\n        A = 4B.\nThe ratio of A to B is 4 : 1.', 27, NULL, 1),
+(107, 'If 30% of a number is equal to one-fifth of another number, what is the ratio of first number to the second number?', '9 : 2', '2 : 7', '7 : 3', '6 : 5', NULL, 1, 'Let 30% of A = 1B 5.\nThen, 30A = 1B 100 5.\n       A = 1B 3 5.\n        A = 3B.\nThe ratio of A to B is 9 : 2.', 27, NULL, 1),
+(108, 'If 15% of a number is equal to one-third of another number, what is the ratio of first number to the second number?', '3 : 2', '4 : 1', '2 : 5', '1 : 6', NULL, 2, 'Let 15% of A = 1B 3.\nThen, 15A = 1B 100 3.\n       A = 1B 15 3.\n        A = 5B.\nThe ratio of A to B is 5 : 1.', 27, NULL, 1),
+(109, 'If 20% of a number is equal to three-seventh of another number, what is the ratio of first number to the second number?', '3 : 7', '2 : 9', '5 : 4', '1 : 2', NULL, 1, 'Let 20% of A = 3B 7.\nThen, 20A = 3B 100 7.\n       A = 3B 20 7.\n        A = 15B.\nThe ratio of A to B is 15 : 7.', 27, NULL, 1),
+(110, 'There are a certain number of jellybeans in a jar and the jar only contains red, black, and green coloured jellybeans. The number of red jellybeans is twice the number of black jellybeans. Black jellybeans outnumber green jellybeans by a factor of one-fourth. If there are 78 jellybeans in total, how many red jellybeans are there?', '115', '65', '90', '125', NULL, 1, 'Number of black jellybeans = 78/3 = 26\nNumber of green jellybeans = 26/4 = 6.5\nSince we can\'t have half a jellybean, we round it down to 6.\nThe number of red jellybeans = 26 x 2 = 52.\nTherefore, there are 52 red jellybeans in the jar.', 27, NULL, 1),
+(111, 'There are a certain number of notebooks in a store and the store only sells ruled, plain, and dotted notebooks. The number of ruled notebooks is four times the number of plain notebooks. Plain notebooks outnumber dotted notebooks by a factor of one-third. If there are 96 notebooks in total, how many dotted notebooks are there?', '16', '24', '32', '48', NULL, 1, 'Number of plain notebooks = 96/9 = 10.666...\nSince we can\'t have a fraction of a notebook, we round it down to 10.\nThe number of ruled notebooks = 10 x 4 = 40.\nThe number of dotted notebooks = 10/3 = 3.333...\nSince we can\'t have a fraction of a notebook, we round it down to 3.\nTherefore, there are 3 dotted notebooks in the store.', 27, NULL, 1),
+(112, 'There are a certain number of marbles in a bag and the bag only contains red, blue, and green marbles. The number of red marbles is three times the number of blue marbles. Blue marbles outnumber green marbles by a factor of one-fifth. If there are 80 marbles in total, how many green marbles are there?', '10', '20', '30', '40', NULL, 1, 'Number of blue marbles = 80/5 = 16.\nThe number of red marbles = 16 x 3 = 48.\nThe number of green marbles = 80 - 16 - 48 = 16.\nTherefore, there are 16 green marbles in the bag.', 27, NULL, 1),
+(113, 'There are a certain number of students in a class and the class only contains boys, girls, and non-binary students. The number of boys is twice the number of girls. Girls outnumber non-binary students by a factor of one-fourth. If there are 120 students in total, how many boys are there?', '60', '40', '30', '80', NULL, 1, 'Number of girls = 120/5 = 24.\nThe number of boys = 24 x 2 = 48.\nThe number of non-binary students = 24/4 = 6.\nTherefore, there are 48 boys in the class.', 27, NULL, 1),
+(114, 'There are a certain number of apples in a basket and the basket only contains red, yellow, and green apples. The number of red apples is four times the number of yellow apples. Yellow apples outnumber green apples by a factor of one-third. If there are 60 apples in total, how many green apples are there?', '10', '20', '30', '40', NULL, 1, 'Number of yellow apples = 60/9 = 6.666...\nSince we can\'t have a fraction of an apple, we round it down to 6.\nThe number of red apples = 6 x 4 = 24.\nThe number of green apples = 6/3 = 2.\nTherefore, there are 2 green apples in the basket.', 27, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -304,46 +361,46 @@ CREATE TABLE `set_question` (
 --
 
 INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
-(1, 4, 4),
-(2, 1, 4),
-(3, 8, 4),
-(4, 7, 4),
-(5, 3, 4),
-(6, 11, 4),
-(7, 14, 4),
-(8, 19, 4),
-(9, 16, 4),
-(10, 10, 4),
-(11, 11, 5),
-(12, 10, 5),
-(13, 14, 5),
-(14, 19, 5),
-(15, 7, 5),
-(16, 4, 5),
-(17, 13, 5),
-(18, 18, 5),
-(19, 1, 5),
-(20, 12, 5),
-(21, 32, 6),
-(22, 27, 6),
-(23, 24, 6),
-(24, 31, 6),
-(25, 30, 6),
-(26, 33, 6),
-(27, 26, 6),
-(28, 21, 6),
-(29, 25, 6),
-(30, 22, 6),
-(31, 10, 7),
-(32, 7, 7),
-(33, 1, 7),
-(34, 16, 7),
-(35, 2, 7),
-(36, 6, 7),
-(37, 17, 7),
-(38, 14, 7),
-(39, 18, 7),
-(40, 3, 7);
+(94, 46, 16),
+(95, 69, 16),
+(96, 47, 16),
+(97, 43, 16),
+(98, 65, 16),
+(99, 68, 16),
+(100, 37, 16),
+(101, 67, 16),
+(102, 73, 16),
+(103, 42, 16),
+(104, 93, 17),
+(105, 72, 17),
+(106, 87, 17),
+(107, 73, 17),
+(108, 69, 17),
+(109, 90, 17),
+(110, 70, 17),
+(111, 67, 17),
+(112, 71, 17),
+(113, 89, 17),
+(134, 45, 20),
+(135, 49, 20),
+(136, 41, 20),
+(137, 46, 20),
+(138, 38, 20),
+(139, 35, 20),
+(140, 44, 20),
+(141, 48, 20),
+(142, 43, 20),
+(143, 36, 20),
+(144, 102, 21),
+(145, 29, 21),
+(146, 33, 21),
+(147, 110, 21),
+(148, 112, 21),
+(149, 114, 21),
+(150, 21, 21),
+(151, 113, 21),
+(152, 107, 21),
+(153, 30, 21);
 
 -- --------------------------------------------------------
 
@@ -409,9 +466,8 @@ CREATE TABLE `test_series_product` (
 --
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
-(10, 'OC Package - 1', 'sssssss', '22', NULL, 1, 3, 35, NULL, 1),
-(11, 'OC Package - 2', 'sssssss', '22', NULL, 1, 3, 35, NULL, 1),
-(12, 'OC Reading Package - 2', 'fffff', '23', '/images/product-1692786972.JPG', 1, 6, 35, '2023-08-24', 1);
+(16, 'OC Test Package - 2', 'fsfsfsfsf', '23', '/images/product-1692945175.JPG', 1, 3, 35, '2023-08-24', 1),
+(17, 'OC Test Package - 1', 'uogigy', '23', '/images/product-1692946679.JPG', 1, 3, 35, '2023-08-23', 1);
 
 -- --------------------------------------------------------
 
@@ -427,14 +483,6 @@ CREATE TABLE `test_series_purchases` (
   `valid_till` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `test_series_purchases`
---
-
-INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `valid_till`) VALUES
-(2, 11, 1, '2023-08-23', '2023-11-23'),
-(3, 10, 1, '2023-08-23', '2023-11-23');
-
 -- --------------------------------------------------------
 
 --
@@ -444,6 +492,7 @@ INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `v
 CREATE TABLE `test_series_topics` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `t_name` varchar(40) NOT NULL,
+  `topic` varchar(40) NOT NULL,
   `tsc_id` bigint(20) UNSIGNED NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1,
   `ts_id` bigint(20) UNSIGNED NOT NULL
@@ -453,13 +502,23 @@ CREATE TABLE `test_series_topics` (
 -- Dumping data for table `test_series_topics`
 --
 
-INSERT INTO `test_series_topics` (`id`, `t_name`, `tsc_id`, `status`, `ts_id`) VALUES
-(4, 'set - 1', 2, 1, 1),
-(5, 'set - 1', 2, 1, 1),
-(7, 'Averages', 1, 1, 1),
-(8, 'Averages - 2', 1, 1, 1),
-(16, 'Fraction', 2, 1, 1),
-(17, 'Fraction', 2, 1, 1);
+INSERT INTO `test_series_topics` (`id`, `t_name`, `topic`, `tsc_id`, `status`, `ts_id`) VALUES
+(4, 'set - 1', '', 2, 1, 1),
+(5, 'set - 1', '', 2, 1, 1),
+(7, 'Averages', '', 1, 1, 1),
+(8, 'Averages - 2', '', 1, 1, 1),
+(16, 'Fraction', '', 2, 1, 1),
+(17, 'Fraction', '', 2, 1, 1),
+(18, 'test8', 'fraction', 2, 1, 1),
+(19, 'test2', 'fraction', 2, 1, 1),
+(20, 'ratio', 'ratio', 1, 1, 1),
+(21, 'ratio', 'Ratio Advance', 1, 1, 1),
+(22, 'test2', 'fraction', 2, 1, 1),
+(23, 'test2', 'fraction', 1, 1, 1),
+(24, 'test2', 'fraction', 1, 1, 1),
+(25, 'test2', 'fraction', 1, 1, 1),
+(26, 'test2', 'fraction', 1, 1, 1),
+(27, 'ratio', 'Ratio Advance', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -502,10 +561,10 @@ CREATE TABLE `tspc_set` (
 --
 
 INSERT INTO `tspc_set` (`id`, `tspc_id`, `set_number`, `set_name`, `status`) VALUES
-(4, 10, 1, 'oc Reading set - 1', 1),
-(5, 11, 1, 'oc Maths set - 1', 1),
-(6, 12, 1, 'oc Reading set - 1', 1),
-(7, 13, 1, 'OC Reading set - 1', 1);
+(16, 18, 1, 'OC Maths set - 1', 1),
+(17, 18, 2, 'OC Maths set - 2', 1),
+(20, 19, 2, 'OC Maths set - 2', 1),
+(21, 19, 3, 'OC Maths set - 3', 1);
 
 -- --------------------------------------------------------
 
@@ -524,13 +583,13 @@ CREATE TABLE `ts_pc_topics` (
 --
 
 INSERT INTO `ts_pc_topics` (`id`, `tspcs_id`, `tst_id`) VALUES
-(5, 4, 4),
-(6, 4, 5),
-(7, 5, 4),
-(8, 5, 5),
-(9, 6, 7),
-(10, 7, 4),
-(11, 7, 5);
+(26, 16, 8),
+(27, 16, 21),
+(28, 17, 21),
+(29, 17, 26),
+(34, 20, 8),
+(35, 21, 27),
+(36, 21, 7);
 
 -- --------------------------------------------------------
 
@@ -550,10 +609,8 @@ CREATE TABLE `ts_product_category` (
 --
 
 INSERT INTO `ts_product_category` (`id`, `tsp_id`, `tsc_id`, `total_set`) VALUES
-(10, 10, 2, 1),
-(11, 11, 1, 1),
-(12, 11, 2, 1),
-(13, 12, 2, 1);
+(18, 16, 1, 3),
+(19, 17, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -600,19 +657,6 @@ CREATE TABLE `user_test_series` (
   `q_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `user_test_series`
---
-
-INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `total_marks`, `q_id`) VALUES
-(1, 2, 5, 1, '23-08-2023', '23-08-2023', '-0', NULL, 0, 10),
-(4, 2, 6, 1, '23-08-2023', '23-08-2023', '-0', NULL, 0, 31),
-(5, 2, 6, 1, '23-08-2023', '23-08-2023', '-0', NULL, 0, 42),
-(6, 2, 6, 0, '23-08-2023', NULL, NULL, '44.59', NULL, 51),
-(7, 3, 4, 1, '23-08-2023', '23-08-2023', '0', NULL, 0, 61),
-(8, 3, 4, 1, '23-08-2023', '23-08-2023', '0', NULL, 0, 71),
-(9, 3, 4, 0, '23-08-2023', NULL, NULL, NULL, NULL, 81);
-
 -- --------------------------------------------------------
 
 --
@@ -628,82 +672,6 @@ CREATE TABLE `user_test_status` (
   `uts_id` bigint(20) UNSIGNED NOT NULL,
   `test_time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user_test_status`
---
-
-INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `marks`, `uts_id`, `test_time`) VALUES
-(1, 11, 1, '2', NULL, 1, '0'),
-(2, 12, 1, '1', NULL, 1, '0'),
-(3, 13, 1, '2', NULL, 1, '0'),
-(4, 14, 1, '3', NULL, 1, '0'),
-(5, 15, 5, '1', NULL, 1, '0'),
-(6, 16, 1, '1', NULL, 1, '0'),
-(7, 17, 1, '4', NULL, 1, '0'),
-(8, 18, 5, '2', NULL, 1, '0'),
-(9, 19, 1, '1', NULL, 1, '0'),
-(10, 20, 5, '1', NULL, 1, '0'),
-(31, 32, 2, NULL, NULL, 4, '0'),
-(32, 27, 3, NULL, NULL, 4, '0'),
-(33, 24, 3, NULL, NULL, 4, '0'),
-(34, 31, 3, NULL, NULL, 4, '0'),
-(35, 30, 3, NULL, NULL, 4, '0'),
-(36, 33, 3, NULL, NULL, 4, '0'),
-(37, 26, 3, NULL, NULL, 4, '0'),
-(38, 21, 3, NULL, NULL, 4, '0'),
-(39, 25, 3, NULL, NULL, 4, '0'),
-(40, 22, 3, NULL, NULL, 4, '0'),
-(41, 32, 2, NULL, NULL, 5, '0'),
-(42, 27, 2, NULL, NULL, 5, '0'),
-(43, 24, 2, NULL, NULL, 5, '0'),
-(44, 31, 2, NULL, NULL, 5, '0'),
-(45, 30, 2, NULL, NULL, 5, '0'),
-(46, 33, 2, NULL, NULL, 5, '0'),
-(47, 26, 2, NULL, NULL, 5, '0'),
-(48, 21, 2, NULL, NULL, 5, '0'),
-(49, 25, 2, NULL, NULL, 5, '0'),
-(50, 22, 2, NULL, NULL, 5, '0'),
-(51, 32, 2, NULL, NULL, 6, '0'),
-(52, 27, 2, NULL, NULL, 6, '0'),
-(53, 24, 2, NULL, NULL, 6, '0'),
-(54, 31, 2, NULL, NULL, 6, '0'),
-(55, 30, 3, NULL, NULL, 6, '0'),
-(56, 33, 3, NULL, NULL, 6, '0'),
-(57, 26, 3, NULL, NULL, 6, '0'),
-(58, 21, 3, NULL, NULL, 6, '0'),
-(59, 25, 3, NULL, NULL, 6, '0'),
-(60, 22, 3, NULL, NULL, 6, '0'),
-(61, 4, 1, '3', NULL, 7, '0'),
-(62, 1, 2, NULL, NULL, 7, '0'),
-(63, 8, 3, NULL, NULL, 7, '0'),
-(64, 7, 3, NULL, NULL, 7, '0'),
-(65, 3, 3, NULL, NULL, 7, '0'),
-(66, 11, 3, NULL, NULL, 7, '0'),
-(67, 14, 3, NULL, NULL, 7, '0'),
-(68, 19, 3, NULL, NULL, 7, '0'),
-(69, 16, 3, NULL, NULL, 7, '0'),
-(70, 10, 3, NULL, NULL, 7, '0'),
-(71, 4, 1, '2', NULL, 8, '0'),
-(72, 1, 2, NULL, NULL, 8, '0'),
-(73, 8, 2, NULL, NULL, 8, '0'),
-(74, 7, 2, NULL, NULL, 8, '0'),
-(75, 3, 3, NULL, NULL, 8, '0'),
-(76, 11, 3, NULL, NULL, 8, '0'),
-(77, 14, 3, NULL, NULL, 8, '0'),
-(78, 19, 3, NULL, NULL, 8, '0'),
-(79, 16, 3, NULL, NULL, 8, '0'),
-(80, 10, 3, NULL, NULL, 8, '0'),
-(81, 4, 1, '1', NULL, 9, '0'),
-(82, 1, 2, NULL, NULL, 9, '0'),
-(83, 8, 2, NULL, NULL, 9, '0'),
-(84, 7, 3, NULL, NULL, 9, '0'),
-(85, 3, 3, NULL, NULL, 9, '0'),
-(86, 11, 3, NULL, NULL, 9, '0'),
-(87, 14, 3, NULL, NULL, 9, '0'),
-(88, 19, 3, NULL, NULL, 9, '0'),
-(89, 16, 3, NULL, NULL, 9, '0'),
-(90, 10, 3, NULL, NULL, 9, '0');
 
 --
 -- Indexes for dumped tables
@@ -890,7 +858,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -920,7 +888,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
 
 --
 -- AUTO_INCREMENT for table `question_image`
@@ -938,7 +906,7 @@ ALTER TABLE `reading_question`
 -- AUTO_INCREMENT for table `set_question`
 --
 ALTER TABLE `set_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
 
 --
 -- AUTO_INCREMENT for table `test_series`
@@ -956,7 +924,7 @@ ALTER TABLE `test_series_categories`
 -- AUTO_INCREMENT for table `test_series_product`
 --
 ALTER TABLE `test_series_product`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `test_series_purchases`
@@ -968,7 +936,7 @@ ALTER TABLE `test_series_purchases`
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -980,19 +948,19 @@ ALTER TABLE `test_status`
 -- AUTO_INCREMENT for table `tspc_set`
 --
 ALTER TABLE `tspc_set`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
 --
 ALTER TABLE `ts_product_category`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1004,13 +972,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_test_series`
 --
 ALTER TABLE `user_test_series`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_test_status`
 --
 ALTER TABLE `user_test_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- Constraints for dumped tables
