@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\QuestionImage;
+
 class Question extends Model
 {
     use HasFactory;
@@ -26,7 +27,7 @@ class Question extends Model
         'status'
     ];
     protected $casts = [
-        'id'=>'integer',
+        'id' => 'integer',
         'tst_id' => 'integer',
         'status' => 'integer',
         'marks' => 'integer',
@@ -35,7 +36,7 @@ class Question extends Model
     protected function correctOption(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => match (strtolower($value)) {
+            set: fn(string $value) => match (strtolower($value)) {
                 'a' => 1,
                 'b' => 2,
                 'c' => 3,
@@ -46,32 +47,71 @@ class Question extends Model
     protected function option1(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) =>  rtrim($value, ',')
+            set: fn(string $value) => rtrim($value, ',')
 
+        );
+    }
+    protected function getCorrectOptionAttribute($value)
+    {
+        return match ($value) {
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+            4 => 'D',
+            default => null,
+        };
+    }
+
+    protected function getOption3(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $value) {
+                return match ($value) {
+                    '1' => 'A',
+                    '2' => 'B',
+                    '3' => 'C',
+                    '4' => 'D',
+                    default => null,
+                };
+            }
+        );
+    }
+    protected function getOption4(): Attribute
+    {
+        return Attribute::make(
+            get: function (string $value) {
+                return match ($value) {
+                    '1' => 'A',
+                    '2' => 'B',
+                    '3' => 'C',
+                    '4' => 'D',
+                    default => null,
+                };
+            }
         );
     }
     protected function option2(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) =>  rtrim($value, ',')
+            set: fn(string $value) => rtrim($value, ',')
         );
     }
     protected function option3(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) =>  rtrim($value, ',')
+            set: fn(string $value) => rtrim($value, ',')
         );
     }
 
     protected function option4(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) =>  rtrim($value, ',')
+            set: fn(string $value) => rtrim($value, ',')
         );
     }
 
     public function questionImage()
     {
-        return $this->HasMany(QuestionImage::class,'q_id','id');
+        return $this->HasMany(QuestionImage::class, 'q_id', 'id');
     }
 }

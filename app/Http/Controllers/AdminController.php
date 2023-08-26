@@ -159,7 +159,7 @@ class AdminController extends Controller
             $questions = Question::whereIn('tst_id', $item['tst_id'])
                 ->get();
 
-            $totalQuestions = 10;
+            $totalQuestions = 35;
             $selectedQuestions = [];
 
             // Fisher-Yates shuffle algorithm
@@ -170,8 +170,6 @@ class AdminController extends Controller
                 ->with('testSeriesProduct.getTestSeries')
                 ->first();
 
-
-            $totalQuestions = 10;
 
             for ($i = count($questions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
                 $randomIndex = rand(0, $i);
@@ -184,13 +182,14 @@ class AdminController extends Controller
             $q_data[] = [
                 $tspc->testSeriesCategories->tsc_type => $selectedQuestions
             ];
-
+            $sets = TSPCSet::all()->last();
+            $setCount = $sets ? $sets->set_number + 1 : 1;
             // return $q_data;
             $tsps = TSPCSet::query()
                 ->create([
                     'tspc_id' => $tspc->id,
-                    'set_number' => $request->total_set,
-                    'set_name' => $tspc->testSeriesProduct->getTestSeries->test_type . " " . $tspc->testSeriesCategories->tsc_type . ' set - ' . $request->total_set
+                    'set_number' => $setCount,
+                    'set_name' => $tspc->testSeriesProduct->getTestSeries->test_type . " " . $tspc->testSeriesCategories->tsc_type . ' set - ' . $setCount
                 ]);
 
             $tsps->tsPCTopic()->sync($item['tst_id']);
@@ -229,27 +228,32 @@ class AdminController extends Controller
 
     public function addTSTopic(Request $request)
     {
-        // return 't';
+
         $data = $request->except(['question']);
-        $tst = TestSeriesTopics::query()
-            ->create(
-                $data
-            );
+        // return $data;
+        if ($data) {
+            $tst = TestSeriesTopics::query()
+                ->create(
+                    $data
+                );
+        }
+
 
         $questions = $request->question;
 
         if ($request->tsc_id == 3 || $request->tsc_id == 1) {
             foreach ($questions as $key => $item) {
-                $ans = preg_replace('/\s+/', ' ', trim($item['answer']));
+                $item = array_change_key_case($item, CASE_UPPER);
+                $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
                 Question::query()
                     ->create([
-                        'question' => $item['question'],
-                        'option_1' => $item['options']['a'],
-                        'option_2' => $item['options']['b'],
-                        'option_3' => $item['options']['c'],
-                        'option_4' => $item['options']['d'],
+                        'question' => $item['QUESTION'],
+                        'option_1' => $item['OPTIONS']['a'],
+                        'option_2' => $item['OPTIONS']['b'],
+                        'option_3' => $item['OPTIONS']['c'],
+                        'option_4' => $item['OPTIONS']['d'],
                         'correct_option' => $ans,
-                        'explanation' => $item['explanation'],
+                        'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
                     ]);
             }
@@ -281,9 +285,14 @@ class AdminController extends Controller
     {
 
         $tst = TestSeriesTopics::where('id', $tst_id)->first();
+
         $questions = $request->question;
+
         $data = $request->except(['question']);
-        TestSeriesTopics::where('id', $tst_id)->update($data);
+        if (count($data) != 0) {
+            TestSeriesTopics::where('id', $tst_id)->update($data);
+        }
+
         if ($questions) {
             Question::where('tst_id', $tst_id)
                 ->delete();
@@ -389,7 +398,34 @@ class AdminController extends Controller
             'topics' => $topics
         ], 200);
     }
+    public function showSetTopics(Request $request)
+    {
+        // return $request->input();
+        $tspc = TestSeriesProduct::query()
+            ->where('id', $request->p_id)
+            ->with('getTsProductCategory', function ($query) use ($request) {
+                $query->where('tsc_id', $request->tsc_id);
+            })
+            ->first();
+        $topics = TestSeriesCategories::query()
+            ->where('id', $request->tsc_id)
+            ->with('topics')
+            ->first();
 
+        if (count($topics->topics) == 0 && $tspc ) {
+            return response()->json([
+                'message' => "Topics does not exist in " . $topics->tsc_type." or product doest not exist",
+            ], 403);
+        }
+
+        return response()->json([
+            'set_data' => [$topics],
+            'tspc' => [
+                $topics->tsc_type => $tspc->getTsProductCategory[0]->id
+            ]
+
+        ], 200);
+    }
     public function showTopicsDetails($tst_id)
     {
         $topics = TestSeriesTopics::where('id', $tst_id)

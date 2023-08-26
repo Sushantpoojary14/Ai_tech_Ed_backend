@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('question', function (Blueprint $table) {
             $table->id();
             $table->mediumText('question');
-            $table->string('option_1',40);
-            $table->string('option_2',40);
-            $table->string('option_3',40);
-            $table->string('option_4',40);
-            $table->string('option_5',40)->nullable();
-            $table->string('correct_option',40);
+            $table->string('option_1',255);
+            $table->string('option_2',255);
+            $table->string('option_3',255);
+            $table->string('option_4',255);
+            $table->string('option_5',255)->nullable();
+            $table->string('correct_option',11);
             $table->mediumText('explanation');
             $table->unsignedBigInteger('tst_id')->index();
             $table->foreign('tst_id')->references('id')->on('test_series_topics')->onDelete('cascade');

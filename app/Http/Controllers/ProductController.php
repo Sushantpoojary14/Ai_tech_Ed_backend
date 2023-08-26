@@ -77,6 +77,9 @@ class ProductController extends Controller
             'product' => $tstWithCounts
         ], 200);
     }
+
+
+
     public function getTSPurchases($ts_id = null)
     {
 
