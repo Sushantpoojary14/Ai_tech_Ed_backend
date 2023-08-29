@@ -23,5 +23,8 @@ class SetQuestion extends Model
     {
         return $this->belongsTo(Question::class, 'q_id', 'id');
     }
-
+    public function getSet()
+    {
+        return $this->belongsTo(TSPCSet::class, 'set_id', 'id');
+    }
 }

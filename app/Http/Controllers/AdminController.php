@@ -52,13 +52,14 @@ class AdminController extends Controller
                     $topics[] = $value3->tsTopic;
 
                 }
+
                 foreach ($value2->getSetQuestion as $key3 => $value3) {
                     $questions[] = $value3->getQuestions;
 
                 }
 
                 $set[$key2]->topics = $topics;
-                $set[$key2]->questions = $questions;
+                // $set[$key2]->questions = $questions;
                 unset($value2->getTsTopic);
                 unset($value2->getSetQuestion);
             }
@@ -96,10 +97,10 @@ class AdminController extends Controller
         }
 
 
-        $p = TestSeriesProduct::all()->last();
-        // return $request->input('p_image');
-        $count = $p ? $p->id + 1 : 1;
-
+        if (!$request->release_date) {
+            $data['release_date'] = date('Y-m-d');
+        }
+        // return $data;
         $data['total_question'] = 35;
 
         // return $data;
@@ -207,15 +208,14 @@ class AdminController extends Controller
                 ->with('testSeriesCategories')
                 ->with('testSeriesProduct.getTestSeries')
                 ->first();
-            $temp = $this->pCSet([$tspc]);
-            $categories[] = $temp[0];
+
             // return  $categories;
             $selectedQuestions = $this->questionGenerator($questions);
 
             $q_data[] = [
                 $tspc->testSeriesCategories->tsc_type => $selectedQuestions
             ];
-            $sets = TSPCSet::all()->last();
+            $sets = TSPCSet::where('id', $item['tspc_id'])->get()->last();
             $setCount = $sets ? $sets->set_number + 1 : 1;
             // return $q_data;
             $tsps = TSPCSet::query()
@@ -235,13 +235,14 @@ class AdminController extends Controller
                     ]);
             }
 
-            //     ->where([
-            //         ['tspc_id', $item['tspc_id']],
-            //         ['set_number', null],
-            //     ])
-            //     ->update([
-            //         'set_number' => $request->total_set
-            //     ]);
+            $tspc = TSProductCategory::query()
+                ->where('id', $item['tspc_id'])
+                ->with('testSeriesCategories')
+                ->with('testSeriesProduct.getTestSeries')
+                ->first();
+
+            $temp = $this->pCSet([$tspc]);
+            $categories[] = $temp[0];
 
             TSProductCategory::query()
                 ->where('id', $tspc->id)
@@ -374,7 +375,7 @@ class AdminController extends Controller
             ->where('id', $p_id)
             ->with('getTsProductCategory.testSeriesCategories')
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
-            ->with('getTsProductCategory.tsPCSet.getSetQuestion.getQuestions.questionImage')
+            ->with('getTsProductCategory.tsPCSet')
             ->first();
         // $categories = [];
         // $set = [];
@@ -405,8 +406,8 @@ class AdminController extends Controller
         //     $categories[$key]->sets = $set;
         // }
         // $tst->categories = $categories;
+        // return($tst->getTsProductCategory);
         $tst->categories = $this->pCSet($tst->getTsProductCategory);
-
         unset($tst->getTsProductCategory);
 
 
@@ -415,6 +416,22 @@ class AdminController extends Controller
         ], 200);
     }
 
+    public function getSetQuestion($set_id)
+    {
+        $set = TSPCSet::where('id', $set_id)
+            ->with('getSetQuestion.getQuestions')
+            ->first();
+        $questions = [];
+        foreach ($set->getSetQuestion as $value) {
+            $questions[] = $value->getQuestions;
+        }
+        unset($set->getSetQuestion);
+        $set->questions = $questions;
+        return response()->json([
+            'set_questions' => $set
+        ], 200);
+
+    }
 
     public function totalUser()
     {
@@ -424,9 +441,10 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function showTopics($tsc_id)
+    public function showTopics($tsc_id, $ts_id)
     {
         $topics = TestSeriesTopics::where('tsc_id', $tsc_id)
+            ->where('ts_id', $ts_id)
             ->get();
         return response()->json([
             'topics' => $topics
@@ -475,7 +493,7 @@ class AdminController extends Controller
     {
         $current_date = date('Y-m-d');
         $product = TestSeriesProduct::where('id', $p_id)
-            ->where('release_date', "<", $current_date)
+            ->where('release_date', "<=", $current_date)
             ->first();
 
         if ($product) {
@@ -504,7 +522,7 @@ class AdminController extends Controller
         // Check if the set has a release date before the current date
         $set = TSPCSet::where('id', $set_id)
             ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
-                $query->where('release_date', '<', $current_date);
+                $query->where('release_date', '<=', $current_date);
             })
             ->first();
 
@@ -557,7 +575,7 @@ class AdminController extends Controller
         $current_date = date('Y-m-d');
         $set = TSPCSet::where('id', $set_id)
             ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
-                $query->where('release_date', "<", $current_date);
+                $query->where('release_date', "<=", $current_date);
             })
             ->first();
 
@@ -577,7 +595,7 @@ class AdminController extends Controller
     {
         $current_date = date('Y-m-d');
         $topic = TestSeriesProduct::
-            where('release_date', "<", $current_date)
+            where('release_date', "<=", $current_date)
             ->whereHas('getTsProductCategory.tsPCSet.getTsTopic', function ($query) use ($tst_id) {
                 $query->where('tst_id', $tst_id);
             })
@@ -602,7 +620,7 @@ class AdminController extends Controller
     {
         $current_date = date('Y-m-d');
         $topic = TestSeriesProduct::
-            where('release_date', "<", $current_date)
+            where('release_date', "<=", $current_date)
             ->whereHas('getTsProductCategory.tsPCSet.getTsTopic', function ($query) use ($tst_id) {
                 $query->where('tst_id', $tst_id);
             })

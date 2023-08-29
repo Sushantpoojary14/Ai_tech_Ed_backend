@@ -25,7 +25,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::get('/get-test-series', [ProductController::class, 'getAdminTestSeries']);
 
     //topic
-    Route::get('/show-topics/{tsc_id}', [AdminController::class, 'showTopics']);
+    Route::get('/show-topics/{tsc_id}/{ts_id}', [AdminController::class, 'showTopics']);
     Route::get('/show-topics-details/{tst_id}', [AdminController::class, 'showTopicsDetails']);
     Route::get('/check-topic/{tst_id}', [AdminController::class, 'topicCheck']);
     Route::post('/add-test-series-product-topics', [AdminController::class, 'addTSProductTopic']);
@@ -38,6 +38,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::delete('/delete-set/{set_id}', [AdminController::class, 'deleteSet']);
     Route::post('/update-set-status/{set_id}', [AdminController::class, 'setStatus']);
     Route::get('/check-set/{set_id}', [AdminController::class, 'setCheck']);
-
+    Route::get('/get-set-question/{set_id}', [AdminController::class, 'getSetQuestion']);
     //product
 });
