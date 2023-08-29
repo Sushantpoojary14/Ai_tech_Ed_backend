@@ -609,15 +609,16 @@ class AdminController extends Controller
             ->first();
 
         if ($topic) {
-            $topic_data = TestSeriesTopics::where('id',$tst_id)->first();
             return response()->json([
                 'Message' => 'Already Product Released (topic)',
-                'topic_data'=>$topic_data
+
             ], 403);
         }
 
+        $topic_data = TestSeriesTopics::where('id', $tst_id)->first();
         return response()->json([
             'Message' => 'Product is not Released (topic)',
+            'topic_data' => $topic_data
         ], 200);
     }
 
