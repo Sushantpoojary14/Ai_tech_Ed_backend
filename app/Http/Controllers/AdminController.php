@@ -17,6 +17,7 @@ use App\Models\User;
 use App\Models\Question;
 use App\Models\UserTestSeries;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
 
@@ -475,12 +476,18 @@ class AdminController extends Controller
         $current_date = date('Y-m-d');
         $product = TestSeriesProduct::where('id', $p_id)
             ->where('release_date', "<", $current_date)
-            ->get();
+            ->first();
 
-        if (count($product) != 0) {
+        if ($product) {
             return response()->json([
                 'Message' => 'Product Already Released (Product)',
             ], 403);
+        }
+        $product = TestSeriesProduct::where('id', $p_id)
+            ->first();
+        // File::delete($product->p_image);
+        if (File::exists(public_path($product->p_image))) {
+            File::delete(public_path($product->p_image));
         }
         TestSeriesProduct::where('id', $p_id)
             ->delete();
@@ -575,6 +582,7 @@ class AdminController extends Controller
                 $query->where('tst_id', $tst_id);
             })
             ->first();
+
         // return $topic;
         if ($topic) {
             return response()->json([
@@ -601,10 +609,13 @@ class AdminController extends Controller
             ->first();
 
         if ($topic) {
+            $topic = TestSeriesTopics::where('id',$tst_id)->first();
             return response()->json([
                 'Message' => 'Already Product Released (topic)',
+                'topic_data'=>$topic
             ], 403);
         }
+
         return response()->json([
             'Message' => 'Product is not Released (topic)',
         ], 200);
