@@ -22,7 +22,49 @@ use stdClass;
 
 class AdminController extends Controller
 {
+    private function questionGenerator($questions)
+    {
+        $totalQuestions = 35;
+        $selectedQuestions = [];
 
+        for ($i = count($questions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
+            $randomIndex = rand(0, $i);
+            $temp = $questions[$i];
+            $questions[$i] = $questions[$randomIndex];
+            $questions[$randomIndex] = $temp;
+            $selectedQuestions[] = $questions[$i];
+        }
+        return $selectedQuestions;
+    }
+
+    private function pCSet($tSPC)
+    {
+        $categories = [];
+        foreach ($tSPC as $key => $value) {
+            $categories[] = $value->TestSeriesCategories;
+            $set = [];
+            foreach ($value->tsPCSet as $key2 => $value2) {
+                $set[] = $value2;
+                $topics = [];
+                $questions = [];
+                foreach ($value2->getTsTopic as $key3 => $value3) {
+                    $topics[] = $value3->tsTopic;
+
+                }
+                foreach ($value2->getSetQuestion as $key3 => $value3) {
+                    $questions[] = $value3->getQuestions;
+
+                }
+
+                $set[$key2]->topics = $topics;
+                $set[$key2]->questions = $questions;
+                unset($value2->getTsTopic);
+                unset($value2->getSetQuestion);
+            }
+            $categories[$key]->sets = $set;
+        }
+        return $categories;
+    }
 
 
     public function addProduct(Request $request)
@@ -69,10 +111,8 @@ class AdminController extends Controller
                 // $imageFiles = glob(public_path('/images/product-*.*'));
                 // $count = count($imageFiles) + 1;
                 $filename = "product-" . $filename = time() . '.' . $file->getClientOriginalExtension();
-
                 // Move the file to the desired location
                 $file->move(public_path('/images'), $filename);
-
                 // Update the data with the stored image path
                 $data['p_image'] = "/images/" . $filename;
             } else {
@@ -140,44 +180,36 @@ class AdminController extends Controller
 
                 $data['p_image'] = "/images/" . $filename;
             } else {
-
                 return response()->json(['error' => 'File upload failed'], 400);
             }
         }
-        $tsp = TestSeriesProduct::where('id', $p_id)->update($data);
-
+        TestSeriesProduct::where('id', $p_id)->update($data);
+        $tsp = TestSeriesProduct::where('id', $p_id)->first();
         return response()->json([
-            'message' => 'Updated Successfully'
+            'product_detail' => $tsp,
+            'message' => 'Product Updated Successfully',
         ], 200);
     }
 
     public function addTSProductTopic(Request $request)
     {
+        // return $request->input();
         $q_data = [];
         foreach ($request->data as $item) {
             // $q_data = new stdClass();
             $questions = Question::whereIn('tst_id', $item['tst_id'])
                 ->get();
 
-            $totalQuestions = 35;
-            $selectedQuestions = [];
-
-            // Fisher-Yates shuffle algorithm
 
             $tspc = TSProductCategory::query()
                 ->where('id', $item['tspc_id'])
                 ->with('testSeriesCategories')
                 ->with('testSeriesProduct.getTestSeries')
                 ->first();
-
-
-            for ($i = count($questions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
-                $randomIndex = rand(0, $i);
-                $temp = $questions[$i];
-                $questions[$i] = $questions[$randomIndex];
-                $questions[$randomIndex] = $temp;
-                $selectedQuestions[] = $questions[$i];
-            }
+            $temp = $this->pCSet([$tspc]);
+            $categories[] = $temp[0];
+            // return  $categories;
+            $selectedQuestions = $this->questionGenerator($questions);
 
             $q_data[] = [
                 $tspc->testSeriesCategories->tsc_type => $selectedQuestions
@@ -222,7 +254,7 @@ class AdminController extends Controller
 
         return response()->json([
             'message' => 'Successfully TSProductTopic added',
-            'question' => $q_data
+            'categories_data' => $categories
         ], 200);
     }
 
@@ -344,34 +376,35 @@ class AdminController extends Controller
             ->with('getTsProductCategory.tsPCSet.getSetQuestion.getQuestions.questionImage')
             ->first();
         // $categories = [];
-        $categories = [];
         // $set = [];
+        // return $tst;
 
-        foreach ($tst->getTsProductCategory as $key => $value) {
+        // $categories = [];
+        // foreach ($tst->getTsProductCategory as $key => $value) {
+        //     $categories[] = $value->TestSeriesCategories;
+        //     $set = [];
+        //     foreach ($value->tsPCSet as $key2 => $value2) {
+        //         $set[] = $value2;
+        //         $topics = [];
+        //         $questions = [];
+        //         foreach ($value2->getTsTopic as $key3 => $value3) {
+        //             $topics[] = $value3->tsTopic;
 
-            $categories[] = $value->TestSeriesCategories;
-            $set = [];
-            foreach ($value->tsPCSet as $key2 => $value2) {
-                $set[] = $value2;
-                $topics = [];
-                $questions = [];
-                foreach ($value2->getTsTopic as $key3 => $value3) {
-                    $topics[] = $value3->tsTopic;
+        //         }
+        //         foreach ($value2->getSetQuestion as $key3 => $value3) {
+        //             $questions[] = $value3->getQuestions;
 
-                }
-                foreach ($value2->getSetQuestion as $key3 => $value3) {
-                    $questions[] = $value3->getQuestions;
+        //         }
 
-                }
-
-                $set[$key2]->topics = $topics;
-                $set[$key2]->questions = $questions;
-                unset($value2->getTsTopic);
-                unset($value2->getSetQuestion);
-            }
-            $categories[$key]->sets = $set;
-            $tst->categories = $categories;
-        }
+        //         $set[$key2]->topics = $topics;
+        //         $set[$key2]->questions = $questions;
+        //         unset($value2->getTsTopic);
+        //         unset($value2->getSetQuestion);
+        //     }
+        //     $categories[$key]->sets = $set;
+        // }
+        // $tst->categories = $categories;
+        $tst->categories = $this->pCSet($tst->getTsProductCategory);
 
         unset($tst->getTsProductCategory);
 
@@ -412,9 +445,9 @@ class AdminController extends Controller
             ->with('topics')
             ->first();
 
-        if (count($topics->topics) == 0 && $tspc ) {
+        if (count($topics->topics) == 0 && $tspc) {
             return response()->json([
-                'message' => "Topics does not exist in " . $topics->tsc_type." or product doest not exist",
+                'message' => "Topics does not exist in " . $topics->tsc_type . " or product doest not exist",
             ], 403);
         }
 
@@ -439,12 +472,14 @@ class AdminController extends Controller
     }
     public function deleteProduct($p_id)
     {
-        $product = TestSeriesPurchases::where('tsp_id', $p_id)
+        $current_date = date('Y-m-d');
+        $product = TestSeriesProduct::where('id', $p_id)
+            ->where('release_date', "<", $current_date)
             ->get();
 
         if (count($product) != 0) {
             return response()->json([
-                'Message' => 'Already',
+                'Message' => 'Product Already Released (Product)',
             ], 403);
         }
         TestSeriesProduct::where('id', $p_id)
@@ -457,39 +492,93 @@ class AdminController extends Controller
 
     public function deleteSet($set_id)
     {
-        $set = UserTestSeries::where('set_id', $set_id)
-            ->get();
+        $current_date = date('Y-m-d');
 
-        if (count($set) != 0) {
+        // Check if the set has a release date before the current date
+        $set = TSPCSet::where('id', $set_id)
+            ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
+                $query->where('release_date', '<', $current_date);
+            })
+            ->first();
+
+        if ($set) {
             return response()->json([
-                'Message' => 'Already Answered',
+                'Message' => 'Product Already Released (Set)',
             ], 403);
         }
 
-        TSPCSet::where('id', $set_id)
-            ->delete();
+        // Get the tspc_id for the set
+        $tspc_id = TSPCSet::where('id', $set_id)
+            ->first('tspc_id');
 
+        // Delete the set
+        TSPCSet::where('id', $set_id)->delete();
+
+        // Retrieve tspc with related data
+        $tspc = TSProductCategory::query()
+            ->where('id', $tspc_id->tspc_id)
+            ->with('testSeriesCategories', 'tsPCSet', 'testSeriesProduct.getTestSeries')
+            ->first();
+
+        // Update set_number and set_name for tspc sets
+        foreach ($tspc->tsPCSet as $key => $value) {
+            TSPCSet::where('id', $value->id)
+                ->update([
+                    'set_number' => $key + 1,
+                    'set_name' => $tspc->testSeriesProduct->getTestSeries->test_type . " " . $tspc->testSeriesCategories->tsc_type . ' set - ' . ($key + 1)
+                ]);
+        }
+
+        // Get tspc with updated data
+        $tspc = TSProductCategory::query()
+            ->where('id', $tspc_id->tspc_id)
+            ->with('testSeriesCategories', 'testSeriesProduct.getTestSeries')
+            ->first();
+
+        // Prepare category data
+        $categories = $this->pCSet([$tspc]);
+
+        // Return the response
         return response()->json([
             'Message' => 'Successfully Deleted Set',
+            'category_data' => $categories[0]
+        ], 200);
+
+    }
+    public function setCheck($set_id)
+    {
+        $current_date = date('Y-m-d');
+        $set = TSPCSet::where('id', $set_id)
+            ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
+                $query->where('release_date', "<", $current_date);
+            })
+            ->first();
+
+        // return $set;
+
+        if ($set) {
+            return response()->json([
+                'Message' => 'Product Already Released (Set)',
+            ], 403);
+        }
+
+        return response()->json([
+            'Message' => 'Product is not Released (Set)',
         ], 200);
     }
-
     public function deleteTopic($tst_id)
     {
-
+        $current_date = date('Y-m-d');
         $topic = TestSeriesProduct::
-            whereHas('getTsProductCategory', function ($query) use ($tst_id) {
-                $query->whereHas('tsPCSet', function ($query) use ($tst_id) {
-                    $query->whereHas('getTsTopic', function ($query) use ($tst_id) {
-                        $query->where('tst_id', $tst_id);
-                    });
-                });
+            where('release_date', "<", $current_date)
+            ->whereHas('getTsProductCategory.tsPCSet.getTsTopic', function ($query) use ($tst_id) {
+                $query->where('tst_id', $tst_id);
             })
-            ->get();
-
-        if (count($topic) != 0) {
+            ->first();
+        // return $topic;
+        if ($topic) {
             return response()->json([
-                'Message' => 'Already Used Topic',
+                'Message' => 'Already Product Released (topic)',
             ], 403);
         }
 
@@ -500,27 +589,24 @@ class AdminController extends Controller
             'Message' => 'Successfully Deleted Topic',
         ], 200);
     }
+
     public function topicCheck($tst_id)
     {
-
+        $current_date = date('Y-m-d');
         $topic = TestSeriesProduct::
-            whereHas('getTsProductCategory', function ($query) use ($tst_id) {
-                $query->whereHas('tsPCSet', function ($query) use ($tst_id) {
-                    $query->whereHas('getTsTopic', function ($query) use ($tst_id) {
-                        $query->where('tst_id', $tst_id);
-                    });
-                });
+            where('release_date', "<", $current_date)
+            ->whereHas('getTsProductCategory.tsPCSet.getTsTopic', function ($query) use ($tst_id) {
+                $query->where('tst_id', $tst_id);
             })
-            ->get();
+            ->first();
 
-        if (count($topic) != 0) {
+        if ($topic) {
             return response()->json([
-                'Message' => 'Already Used Topic',
+                'Message' => 'Already Product Released (topic)',
             ], 403);
         }
-
         return response()->json([
-            'Message' => 'Not Used',
+            'Message' => 'Product is not Released (topic)',
         ], 200);
     }
 

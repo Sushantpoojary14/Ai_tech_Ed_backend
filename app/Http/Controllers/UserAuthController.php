@@ -126,7 +126,7 @@ class UserAuthController extends Controller
 
         return response()->json([
             'message' => 'Successfully Changed',
-            'user'=>[
+            'data'=>[
                 'id' => auth()->user()->id,
                 'name' => auth()->user()->name,
                 'email' => auth()->user()->email,

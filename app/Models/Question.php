@@ -54,42 +54,14 @@ class Question extends Model
     protected function getCorrectOptionAttribute($value)
     {
         return match ($value) {
-            1 => 'A',
-            2 => 'B',
-            3 => 'C',
-            4 => 'D',
-            default => null,
+            '1' => 'A',
+            '2' => 'B',
+           '3' => 'C',
+           '4' => 'D',
         };
     }
 
-    protected function getOption3(): Attribute
-    {
-        return Attribute::make(
-            get: function (string $value) {
-                return match ($value) {
-                    '1' => 'A',
-                    '2' => 'B',
-                    '3' => 'C',
-                    '4' => 'D',
-                    default => null,
-                };
-            }
-        );
-    }
-    protected function getOption4(): Attribute
-    {
-        return Attribute::make(
-            get: function (string $value) {
-                return match ($value) {
-                    '1' => 'A',
-                    '2' => 'B',
-                    '3' => 'C',
-                    '4' => 'D',
-                    default => null,
-                };
-            }
-        );
-    }
+
     protected function option2(): Attribute
     {
         return Attribute::make(
