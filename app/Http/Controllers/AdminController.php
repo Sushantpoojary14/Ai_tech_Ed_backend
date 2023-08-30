@@ -258,7 +258,42 @@ class AdminController extends Controller
             'categories_data' => $categories
         ], 200);
     }
+    public function updateTSProductTopic(Request $request)
+    {
+        $item = $request->data;
 
+        $questions = Question::whereIn('tst_id', $item['tst_id'])
+            ->get();
+
+        $selectedQuestions = $this->questionGenerator($questions);
+
+        // $q_data[] = [
+        //     $tspc->testSeriesCategories->tsc_type => $selectedQuestions
+        // ];
+        $set = TSPCSet::where('id', $item['set_id'])->first();
+
+        // return $item['set_id'] ;
+
+        $set->tsPCTopic()->sync($item['tst_id']);
+        SetQuestion::query()->where('set_id', $set->id)->delete();
+        foreach ($selectedQuestions as $value) {
+            SetQuestion::query()
+                // ->where('set_id', $set->id)
+                ->create([
+                    'set_id' => $set->id,
+                    'q_id' => $value->id
+                ]);
+        }
+        $sets = TSPCSet::where('id', $item['set_id'])->with('getTsTopic.tsTopic')->first();
+
+
+        // $tsc =  $tsp->productTopics()->sync($request->tst_id);
+
+        return response()->json([
+            'message' => 'Successfully TSProductTopic added',
+            'set_data' => $sets
+        ], 200);
+    }
     public function addTSTopic(Request $request)
     {
 
@@ -320,6 +355,7 @@ class AdminController extends Controller
                         ]);
                     }
                 }
+
             }
         }
 
@@ -374,6 +410,7 @@ class AdminController extends Controller
                             ]);
                         }
                     }
+
                 }
             } elseif ($tst->tsc_id == 2) {
                 foreach ($questions as $key => $item) {
