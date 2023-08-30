@@ -731,7 +731,7 @@ class AdminController extends Controller
             }
         }
         return response()->json([
-            'message' => $request->images
+            'message' => 'SuccessFully'
         ], 200);
 
     }
