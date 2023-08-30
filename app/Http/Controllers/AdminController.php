@@ -52,12 +52,10 @@ class AdminController extends Controller
                 $questions = [];
                 foreach ($value2->getTsTopic as $key3 => $value3) {
                     $topics[] = $value3->tsTopic;
-
                 }
 
                 foreach ($value2->getSetQuestion as $key3 => $value3) {
                     $questions[] = $value3->getQuestions;
-
                 }
 
                 $set[$key2]->topics = $topics;
@@ -95,7 +93,6 @@ class AdminController extends Controller
                     'ts_id' => $data['ts_id']
                 ], 403);
             }
-
         }
 
 
@@ -153,7 +150,6 @@ class AdminController extends Controller
                     })
                     ->with('topics')
                     ->first();
-
             }
 
             return response()->json([
@@ -293,7 +289,7 @@ class AdminController extends Controller
                         'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
                     ]);
-                if (array_key_exists("IMAGES",$item)) {
+                if (array_key_exists("IMAGES", $item)) {
                     foreach ($item['IMAGES'] as $key => $image) {
                         QuestionImage::create([
                             'q_id' => $q_data->id,
@@ -316,15 +312,14 @@ class AdminController extends Controller
                         'explanation' => $item['Explanation'],
                         'tst_id' => $tst->id,
                     ]);
-                    if (array_key_exists("IMAGES",$item)) {
-                        foreach ($item['IMAGES'] as $key => $image) {
-                            QuestionImage::create([
-                                'q_id' =>$q_data->id,
-                                'image_url' => $image
-                            ]);
-                        }
+                if (array_key_exists("IMAGES", $item)) {
+                    foreach ($item['IMAGES'] as $key => $image) {
+                        QuestionImage::create([
+                            'q_id' => $q_data->id,
+                            'image_url' => $image
+                        ]);
                     }
-
+                }
             }
         }
 
@@ -371,15 +366,14 @@ class AdminController extends Controller
                             'explanation' => $item['Explanation'],
                             'tst_id' => $tst_id,
                         ]);
-                        if (array_key_exists("IMAGES",$item)) {
-                            foreach ($item['IMAGES'] as $key => $image) {
-                                QuestionImage::create([
-                                    'q_id' =>$q_data->id,
-                                    'image_url' => $image
-                                ]);
-                            }
+                    if (array_key_exists("IMAGES", $item)) {
+                        foreach ($item['IMAGES'] as $key => $image) {
+                            QuestionImage::create([
+                                'q_id' => $q_data->id,
+                                'image_url' => $image
+                            ]);
                         }
-
+                    }
                 }
             } elseif ($tst->tsc_id == 2) {
                 foreach ($questions as $key => $item) {
@@ -395,16 +389,15 @@ class AdminController extends Controller
                             'explanation' => $item['Explanation'],
                             'tst_id' => $tst_id,
                         ]);
-                        if (array_key_exists("IMAGES",$item)) {
-                            foreach ($item['IMAGES'] as $key => $image) {
-                                QuestionImage::create([
-                                    'q_id' =>$q_data->id,
-                                    'image_url' => $image
-                                ]);
-                            }
+                    if (array_key_exists("IMAGES", $item)) {
+                        foreach ($item['IMAGES'] as $key => $image) {
+                            QuestionImage::create([
+                                'q_id' => $q_data->id,
+                                'image_url' => $image
+                            ]);
                         }
+                    }
                 }
-
             }
         }
         return response()->json([
@@ -477,7 +470,6 @@ class AdminController extends Controller
         return response()->json([
             'set_questions' => $set
         ], 200);
-
     }
 
     public function totalUser()
@@ -615,7 +607,6 @@ class AdminController extends Controller
             'Message' => 'Successfully Deleted Set',
             'category_data' => $categories[0]
         ], 200);
-
     }
     public function setCheck($set_id)
     {
@@ -641,8 +632,7 @@ class AdminController extends Controller
     public function deleteTopic($tst_id)
     {
         $current_date = date('Y-m-d');
-        $topic = TestSeriesProduct::
-            where('release_date', "<=", $current_date)
+        $topic = TestSeriesProduct::where('release_date', "<=", $current_date)
             ->whereHas('getTsProductCategory.tsPCSet.getTsTopic', function ($query) use ($tst_id) {
                 $query->where('tst_id', $tst_id);
             })
@@ -666,8 +656,7 @@ class AdminController extends Controller
     public function topicCheck($tst_id)
     {
         $current_date = date('Y-m-d');
-        $topic = TestSeriesProduct::
-            where('release_date', "<=", $current_date)
+        $topic = TestSeriesProduct::where('release_date', "<=", $current_date)
             ->whereHas('getTsProductCategory.tsPCSet.getTsTopic', function ($query) use ($tst_id) {
                 $query->where('tst_id', $tst_id);
             })
@@ -695,7 +684,6 @@ class AdminController extends Controller
         return response()->json([
             'message' => 'Successfully changed product status'
         ], 200);
-
     }
 
     public function setStatus($set_id, Request $request)
@@ -705,36 +693,35 @@ class AdminController extends Controller
         return response()->json([
             'message' => 'Successfully changed set status'
         ], 200);
-
     }
 
 
     public function imageUpload(Request $request)
     {
-        foreach ($request->images as $value) {
-            // return $value;
-            // $value =$request->images;
-            if ($value) {
-                $file =$value;
-                if ($file->isValid()) {
-                    $image_name = explode(".",$file->getClientOriginalName());
-                    $filename = "question-" . $filename = time() . '.' . $file->getClientOriginalExtension();
-                    $file->move(public_path('/images'), $filename);
-                    $filepath= "/images/" . $filename;
-                    Images::create([
-                        'image_url'=> $filepath,
-                        'image_name'=>$image_name[0]
-                    ]);
-                } else {
-                    return response()->json(['error' => 'File upload failed'], 400);
+        $values = $request->file('images');
+        if (is_array($values) || is_object($values)) {
+            foreach ($values as $file) {
+                // return $value;
+                // $value =$request->images;
+                if ($file) {
+                    // $file = $value;
+                    if ($file->isValid()) {
+                        $image_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                        $filename = $image_name . '.' . $file->getClientOriginalExtension();
+                        $file->move(public_path('/images'), $filename);
+                        $filepath = "/images/" . $filename;
+                        Images::create([
+                            'image_url' => $filepath,
+                            'image_name' => $image_name
+                        ]);
+                    } else {
+                        return response()->json(['error' => 'File upload failed'], 400);
+                    }
                 }
             }
         }
         return response()->json([
             'message' => 'SuccessFully'
         ], 200);
-
     }
-
-
 }
