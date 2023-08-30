@@ -29,5 +29,9 @@ class TestSeriesTopics extends Model
       {
           return $this->HasMany(TSProductCategory::class, 'tsc_id', 'id');
       }
+      public function getQuestion()
+      {
+          return $this->HasMany(Question::class, 'tst_id', 'id');
+      }
 
 }

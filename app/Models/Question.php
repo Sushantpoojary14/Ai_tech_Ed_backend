@@ -53,11 +53,11 @@ class Question extends Model
     }
     protected function getCorrectOptionAttribute($value)
     {
-        return match ($value) {
-            '1' => 'A',
-            '2' => 'B',
-           '3' => 'C',
-           '4' => 'D',
+        return match ((int)$value) {
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+            4 => 'D',
         };
     }
 

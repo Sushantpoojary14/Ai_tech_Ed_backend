@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Images;
+use App\Models\QuestionImage;
 use App\Models\ReadingQuestion;
 use App\Models\SetQuestion;
 use App\Models\TestSeries;
@@ -59,7 +61,7 @@ class AdminController extends Controller
                 }
 
                 $set[$key2]->topics = $topics;
-                // $set[$key2]->questions = $questions;
+                $set[$key2]->questions = $questions;
                 unset($value2->getTsTopic);
                 unset($value2->getSetQuestion);
             }
@@ -185,6 +187,7 @@ class AdminController extends Controller
                 return response()->json(['error' => 'File upload failed'], 400);
             }
         }
+
         TestSeriesProduct::where('id', $p_id)->update($data);
         $tsp = TestSeriesProduct::where('id', $p_id)->first();
         return response()->json([
@@ -215,9 +218,9 @@ class AdminController extends Controller
             $q_data[] = [
                 $tspc->testSeriesCategories->tsc_type => $selectedQuestions
             ];
-            $sets = TSPCSet::where('id', $item['tspc_id'])->get()->last();
-            $setCount = $sets ? $sets->set_number + 1 : 1;
-            // return $q_data;
+            $sets = TSPCSet::where('tspc_id', $item['tspc_id'])->get();
+            $setCount = count($sets) + 1;
+            // return $sets ;
             $tsps = TSPCSet::query()
                 ->create([
                     'tspc_id' => $tspc->id,
@@ -279,7 +282,7 @@ class AdminController extends Controller
             foreach ($questions as $key => $item) {
                 $item = array_change_key_case($item, CASE_UPPER);
                 $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
-                Question::query()
+                $q_data = Question::query()
                     ->create([
                         'question' => $item['QUESTION'],
                         'option_1' => $item['OPTIONS']['a'],
@@ -290,11 +293,19 @@ class AdminController extends Controller
                         'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
                     ]);
+                if (array_key_exists("IMAGES",$item)) {
+                    foreach ($item['IMAGES'] as $key => $image) {
+                        QuestionImage::create([
+                            'q_id' => $q_data->id,
+                            'image_url' => $image
+                        ]);
+                    }
+                }
             }
         } elseif ($request->tsc_id == 2) {
             foreach ($questions as $key => $item) {
                 $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
-                Question::query()
+                $q_data = Question::query()
                     ->create([
                         'question' => $item['Question'],
                         'option_1' => $item['Option_A'],
@@ -305,7 +316,14 @@ class AdminController extends Controller
                         'explanation' => $item['Explanation'],
                         'tst_id' => $tst->id,
                     ]);
-
+                    if (array_key_exists("IMAGES",$item)) {
+                        foreach ($item['IMAGES'] as $key => $image) {
+                            QuestionImage::create([
+                                'q_id' =>$q_data->id,
+                                'image_url' => $image
+                            ]);
+                        }
+                    }
 
             }
         }
@@ -314,7 +332,16 @@ class AdminController extends Controller
             'message' => 'Successfully Topic added'
         ], 200);
     }
-
+    public function getTopicQuestion($tst_id)
+    {
+        $question = TestSeriesTopics::where('id', $tst_id)
+            ->with('getQuestion')
+            ->first();
+        return response()->json([
+            'message' => 'Success',
+            'topic_questions' => $question
+        ], 200);
+    }
     public function updateTSTopic(Request $request, $tst_id)
     {
 
@@ -333,7 +360,7 @@ class AdminController extends Controller
             if ($tst->tsc_id == 3 || $tst->tsc_id == 1) {
                 foreach ($questions as $key => $item) {
                     $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
-                    Question::query()
+                    $q_data = Question::query()
                         ->create([
                             'question' => $item['Question'],
                             'option_1' => $item['Options']['a'],
@@ -344,11 +371,20 @@ class AdminController extends Controller
                             'explanation' => $item['Explanation'],
                             'tst_id' => $tst_id,
                         ]);
+                        if (array_key_exists("IMAGES",$item)) {
+                            foreach ($item['IMAGES'] as $key => $image) {
+                                QuestionImage::create([
+                                    'q_id' =>$q_data->id,
+                                    'image_url' => $image
+                                ]);
+                            }
+                        }
+
                 }
             } elseif ($tst->tsc_id == 2) {
                 foreach ($questions as $key => $item) {
                     $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
-                    Question::query()
+                    $q_data = Question::query()
                         ->create([
                             'question' => $item['Question'],
                             'option_1' => $item['Option_A'],
@@ -359,6 +395,14 @@ class AdminController extends Controller
                             'explanation' => $item['Explanation'],
                             'tst_id' => $tst_id,
                         ]);
+                        if (array_key_exists("IMAGES",$item)) {
+                            foreach ($item['IMAGES'] as $key => $image) {
+                                QuestionImage::create([
+                                    'q_id' =>$q_data->id,
+                                    'image_url' => $image
+                                ]);
+                            }
+                        }
                 }
 
             }
@@ -367,6 +411,9 @@ class AdminController extends Controller
             'message' => 'Successfully Topic Updated'
         ], 200);
     }
+
+
+
 
     public function showProductDetails($p_id)
     {
@@ -661,6 +708,33 @@ class AdminController extends Controller
 
     }
 
+
+    public function imageUpload(Request $request)
+    {
+        foreach ($request->images as $value) {
+            // return $value;
+            // $value =$request->images;
+            if ($value) {
+                $file =$value;
+                if ($file->isValid()) {
+                    $image_name = explode(".",$file->getClientOriginalName());
+                    $filename = "question-" . $filename = time() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('/images'), $filename);
+                    $filepath= "/images/" . $filename;
+                    Images::create([
+                        'image_url'=> $filepath,
+                        'image_name'=>$image_name[0]
+                    ]);
+                } else {
+                    return response()->json(['error' => 'File upload failed'], 400);
+                }
+            }
+        }
+        return response()->json([
+            'message' => $request->images
+        ], 200);
+
+    }
 
 
 }

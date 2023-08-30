@@ -33,11 +33,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::put('/update-test-series-topics/{tst_id}', [AdminController::class, 'updateTSTopic']);
     Route::delete('/delete-topic/{tst_id}', [AdminController::class, 'deleteTopic']);
     Route::get('/get-test-series-topics/{id}', [ProductController::class, 'getTestSeriesTopics']);
+    Route::get('/get-topic-question/{tst_id}', [AdminController::class, 'getTopicQuestion']);
 
     //set
     Route::delete('/delete-set/{set_id}', [AdminController::class, 'deleteSet']);
     Route::post('/update-set-status/{set_id}', [AdminController::class, 'setStatus']);
     Route::get('/check-set/{set_id}', [AdminController::class, 'setCheck']);
     Route::get('/get-set-question/{set_id}', [AdminController::class, 'getSetQuestion']);
+
     //product
+    Route::post('/image-upload', [AdminController::class, 'imageUpload']);
 });
