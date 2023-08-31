@@ -562,10 +562,12 @@ class AdminController extends Controller
             ->where('tspcs_id', $set_id)
             ->with('tsTopic')
             ->get();
-
-
+        $all_topic = [];
+        foreach ($topics as $value) {
+            $all_topic[] = $value->tsTopic;
+        }
         return response()->json([
-            'set_data' =>$topics,
+            'set_data' => $all_topic,
 
         ], 200);
     }
