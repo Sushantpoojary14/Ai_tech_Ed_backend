@@ -554,6 +554,22 @@ class AdminController extends Controller
 
         ], 200);
     }
+    public function getSetTopic($set_id)
+    {
+        // return $request->input();
+
+        $topics = TSPCTopics::query()
+            ->where('tspcs_id', $set_id)
+            ->with('tsTopic')
+            ->get();
+
+
+        return response()->json([
+            'set_data' =>$topics,
+
+        ], 200);
+    }
+
     public function showTopicsDetails($tst_id)
     {
         $topics = TestSeriesTopics::where('id', $tst_id)
@@ -759,6 +775,16 @@ class AdminController extends Controller
         }
         return response()->json([
             'message' => 'SuccessFully'
+        ], 200);
+    }
+
+    public function getImage(Request $request)
+    {
+        $images = Images::all();
+
+
+        return response()->json([
+            'images' => $images
         ], 200);
     }
 }
