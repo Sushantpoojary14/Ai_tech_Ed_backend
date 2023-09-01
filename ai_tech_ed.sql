@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2023 at 12:30 PM
+-- Generation Time: Sep 01, 2023 at 08:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -89,8 +89,14 @@ CREATE TABLE `images` (
 --
 
 INSERT INTO `images` (`id`, `image_name`, `image_url`) VALUES
-(1, 'DSC06259.JPG', '/images/product-1693390907.JPG'),
-(4, '20230823_181510', '/images/question-1693391339.jpg');
+(5, 'boy', '/images/boy.jpg'),
+(6, 'car', '/images/car.jpg'),
+(7, 'girl', '/images/girl.jpg'),
+(8, 'men', '/images/men.jpg'),
+(9, 'motor', '/images/motor.jpg'),
+(10, 'ship', '/images/ship.jpg'),
+(11, 'train', '/images/train.jpg'),
+(12, 'women', '/images/women.jpg');
 
 -- --------------------------------------------------------
 
@@ -612,7 +618,102 @@ INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `o
 (410, 'Which fraction is equivalent to 3/5?', '1/5', '2/10', '4/5', '6/5', NULL, '2', 'To find an equivalent fraction, multiply or divide both the numerator and the denominator of the given fraction by the same non-zero number. In this case, multiplying 3/5 by 2/2, we get 6/10, which is equivalent to 3/5.', 14, NULL, 1),
 (411, 'If 2/5 of a bucket of water is poured out, what fraction of the water remains?', '1/5', '2/5', '3/5', '4/5', NULL, '3', 'If 2/5 of the water is poured out, 3/5 of the water remains.', 14, NULL, 1),
 (412, 'What is 2/5 of 40?', '8', '10', '16', '20', NULL, '4', 'To find a fraction of a whole number, multiply the whole number by the numerator and divide by the denominator. In this case, (2/5) * 40 = (2 * 40) / 5 = 80 / 5 = 16. Therefore, 2/5 of 40 is 16.', 14, NULL, 1),
-(413, 'Which of the following fractions is equivalent to 1/2?', '3/4', '2/3', '4/5', '5/10', NULL, '4', 'To find an equivalent fraction, the numerator and denominator of the original fraction can be multiplied or divided by the same number.', 14, NULL, 1);
+(413, 'Which of the following fractions is equivalent to 1/2?', '3/4', '2/3', '4/5', '5/10', NULL, '4', 'To find an equivalent fraction, the numerator and denominator of the original fraction can be multiplied or divided by the same number.', 14, NULL, 1),
+(414, 'A recipe calls for 1/2 cup of flour. If you want to make half of the recipe, how much flour do you need?', '1/4 cup', '1/2 cup', '1 cup', '2 cups', NULL, '1', 'If a recipe calls for 1/2 cup of flour and you want to make half of the recipe, you need 1/4 cup of flour.', 15, NULL, 1),
+(415, 'Sandy has a candy bar that is divided into 10 equal pieces. If he eats 3 pieces, what fraction of the candy bar does he have left?', '1/5', '2/5', '3/5', '4/5', NULL, '4', 'Solution: Since there are 10 pieces in total and Sandy eats 3 pieces, he has 10 - 3 = 7 pieces left. Therefore, the fraction of the candy bar he has left is 7/10.', 15, NULL, 1),
+(416, 'A rectangle is divided into 12 equal parts. If 9 parts are shaded, what fraction of the rectangle is shaded?', '1/2', '2/3', '3/4', '3/2', NULL, '2', 'If 9 out of 12 parts are shaded, the fraction of the rectangle that is shaded is 9/12, which simplifies to 3/4.', 15, NULL, 1),
+(417, 'Linda won 5/6 of the total prize money in a contest. What fraction of the prize money did the other contestants win?', '1/6', '1/3', '1/4', '1/2', NULL, '1', 'To find the fraction of the prize money won by the other contestants, we need to subtract Linda\'s fraction (5/6) from 1. 1 - 5/6 = 1/6.', 15, NULL, 1),
+(418, 'Sara finished reading 4/5 of a book. How much of the book does she have left to read?', '1/5', '2/5', '3/5', '4/5', NULL, '1', 'Finishing 4/5 of the book means she has 1/5 of the book left to read.', 15, NULL, 1),
+(419, 'A pizza pie is divided into 8 equal slices. If 3 slices are eaten, what fraction of the pie remains?', '5/8', '3/8', '1/8', '2/8', NULL, '2', 'If 3 slices are eaten, there are 8 - 3 = 5 slices remaining. The fraction of the pie that remains is 5/8.', 15, NULL, 1),
+(420, 'Sally bought a cake and ate 3/4 of it. If the cake originally weighed 1.5 kg, how much cake did Sally eat?', '0.2 kg', '0.8 kg', '1 kg', '1.2 kg', NULL, '2', 'If Sally ate 3/4 of a cake that originally weighed 1.5 kg, she ate 0.8 kg of cake.', 15, NULL, 1),
+(421, 'If a pizza is divided into 8 equal slices and you eat 3 slices, what fraction of the pizza have you eaten?', '1/2', '3/16', '3/8', '2/3', NULL, '3', 'Eating 3 slices out of 8 is equivalent to eating 3/8 of the pizza.', 15, NULL, 1),
+(422, 'A tank is filled with 15 liters of water. If 2/5 of the water is drained, how many liters of water are left in the tank?', '3', '6', '9', '12', NULL, '2', 'To find the answer, we need to subtract 2/5 of 15 liters from 15. This gives us 6 liters, which is the amount of water left in the tank.', 15, NULL, 1),
+(423, 'A group of friends ordered 3 large pizzas to share. Each pizza was cut into 8 equal slices. If each person had 2 slices, what fraction of the pizzas remained?', '3/16', '1/4', '5/16', '7/16', NULL, '4', 'Solution: There were a total of 24 slices (3 x 8) and each person had 2 slices which means 8 people were served. The remaining slices are 24 - (2 x 8) = 24 - 16 = 8. The fraction representing the remaining slices is 8/24 which simplifies to 1/3 or 7/16.', 15, NULL, 1),
+(424, 'A bag contains 12 red marbles and 8 green marbles. What fraction of the marbles are red?', '3/4', '2/3', '3/5', '5/8', NULL, '1', 'Solution: The total number of marbles is 12 + 8 = 20. The fraction of red marbles is 12/20, which can be simplified to 3/5.', 15, NULL, 1),
+(425, 'If Amy has 3/5 of a pizza and Sam has 2/5 of the same pizza, what fraction of the pizza do they have in total?', '1/5', '2/5', '3/5', '4/5', NULL, '3', 'By adding 3/5 and 2/5, we get a total of 5/5, which is equal to the whole pizza.', 15, NULL, 1),
+(426, 'What is the value of 3/4 divided by 2/3?', '1/2', '3/8', '9/8', '8/9', NULL, '3', 'To divide fractions, we need to multiply the first fraction by the reciprocal of the second fraction. So, (3/4) / (2/3) becomes (3/4) * (3/2) = 9/8.', 15, NULL, 1),
+(427, 'If 3/4 of a pizza is left, what fraction of the pizza has been eaten?', '1/4', '1/3', '1/2', '3/5', NULL, '3', 'To find the fraction that has been eaten, subtract the fraction that is left from 1 (whole). In this case, 1 - 3/4 = 1/4. Therefore, 3/4 of the pizza has been eaten.', 15, NULL, 1),
+(428, 'There are 20 students in a class, and 3/5 of them are girls. How many boys are there in the class?', '4', '6', '8', '12', NULL, '3', 'If 3/5 of the students in a class are girls, then 2/5 of the students are boys. If there are 20 students in total, there are 8 boys in the class.', 15, NULL, 1),
+(429, 'Simplify the fraction 16/24.', '2/3', '3/4', '4/5', '5/6', NULL, '1', 'To simplify a fraction, the numerator and denominator can be divided by their greatest common factor (GCF).', 15, NULL, 1),
+(430, 'If a pizza is divided into 8 equal slices, and 3 slices are eaten, what fraction of the pizza remains?', '1/5', '1/3', '3/8', '5/8', NULL, '4', 'If 3 out of 8 slices are eaten, 5/8 of the pizza remains.', 15, NULL, 1),
+(431, 'What is the equivalent fraction of 5/10?', '1/5', '3/10', '1/2', '2/5', NULL, '3', '5/10 is equivalent to 1/2.', 15, NULL, 1),
+(432, 'Which fraction is greater: 2/3 or 3/4?', '2/3', '3/4', 'They are equal', 'Cannot be determined', NULL, '2', 'To compare fractions with different denominators, find a common denominator. In this case, the common denominator is 12. Then, convert each fraction to have a denominator of 12 by multiplying the numerator and denominator by the appropriate factors. Comparing 8/12 and 9/12, we can see that 3/4 is greater than 2/3.', 15, NULL, 1),
+(433, 'What is the fraction equivalent to 0.75?', '3/4', '1/2', '4/3', '1/3', NULL, '1', 'To convert a decimal to a fraction, the decimal can be written as the numerator and a power of 10 as the denominator.', 15, NULL, 1),
+(434, 'A recipe calls for 2/3 cup of sugar. If Laura only has 1/4 cup of sugar, what fraction of the required sugar does she have?', '1/4', '2/7', '1/6', '4/7', NULL, '2', 'To find the fraction of the required sugar that Laura has, we need to divide the amount she has (1/4 cup) by the required amount (2/3 cup). So, (1/4 cup) / (2/3 cup) = (1/4 cup) * (3/2 cup) = 3/8. Therefore, she has 2/7 of the required sugar.', 15, NULL, 1),
+(435, 'If a basketball team scores 4/5 of their shots, what fraction of shots do they miss?', '1/5', '1/4', '1/3', '2/5', NULL, '1', 'To find the fraction of shots missed, we subtract the fraction of shots made (4/5) from 1, which gives us 1 - 4/5 = 1/5. So, they miss 1/5 of their shots.', 15, NULL, 1),
+(436, 'Emily spent 3/10 of her money on a new book. If she had $50 before buying the book, how much money does she have left?', '$20', '$25', '$30', '$35', NULL, '3', 'To find the answer, we need to multiply $50 by 3/10 and then subtract the result from $50. This gives us $30, which is the amount of money Emily has left.', 15, NULL, 1),
+(437, 'What fraction is equivalent to 0.6?', '1/2', '2/3', '3/5', '6/10', NULL, '4', 'To convert a decimal to a fraction, place the decimal number over a power of 10. In this case, 0.6 can be expressed as 6/10, which is equivalent to 3/5.', 15, NULL, 1),
+(438, 'What is 3/8 as a decimal?', '0.25', '0.3', '0.375', '0.4', NULL, '3', 'To convert a fraction to a decimal, divide the numerator by the denominator. In this case, 3 divided by 8 equals 0.375.', 15, NULL, 1),
+(439, 'What is the result of adding 2/3 and 1/4?', '3/7', '4/7', '5/7', '6/7', NULL, '2', 'To add fractions with different denominators, find a common denominator. In this case, the common denominator of 3 and 4 is 12. Then, convert both fractions to have the same denominator. 2/3 becomes 8/12 and 1/4 becomes 3/12. Lastly, add the numerators: 8/12 + 3/12 = 11/12, which simplifies to 4/7.', 15, NULL, 1),
+(440, 'The length of a rectangle is 12 cm and its width is 3 cm. What is the fraction representing the ratio of the width to the length?', '3/12', '1/4', '4/1', '12/3', NULL, '2', 'Solution: The fraction representing the ratio of the width to the length is 3/12 which simplifies to 1/4.', 15, NULL, 1),
+(441, 'Which fraction is greater: 3/4 or 2/3?', '3/4', '2/3', 'Equal', 'Cannot be determined', NULL, '2', '2/3 is greater than 3/4.', 15, NULL, 1),
+(442, 'James baked a cake using a recipe that calls for 1 1/2 cups of flour. If he wants to make half of the recipe, how many cups of flour does he need?', '3/4', '1/2', '1/4', '1/8', NULL, '1', 'To make half of the recipe, James needs to divide the amount of flour by 2, which is (1 1/2) / 2 = 3/4 cup of flour.', 15, NULL, 1),
+(443, 'If a pizza is divided into 8 equal slices and you eat 3 of them, what fraction of the pizza have you eaten?', '1/4', '3/8', '3/5', '3/8', NULL, '2', 'If a pizza is divided into 8 equal slices and you eat 3 of them, you have eaten 3/8 of the pizza.', 15, NULL, 1),
+(444, 'A recipe calls for 3/4 cup of sugar. If you want to halve the recipe, how much sugar should you use?', '1/4 cup', '1/2 cup', '1 cup', '1 1/2 cups', NULL, '1', 'Solution: Halving the recipe means using half the amount of each ingredient. Half of 3/4 cup is 3/4 x 1/2 = 3/8 cup. Therefore, you should use 1/4 cup of sugar.', 15, NULL, 1),
+(445, 'What is 1/2 of 3/4?', '1/4', '3/8', '5/8', '3/4', NULL, '2', '1/2 of 3/4 is equal to 3/8.', 15, NULL, 1),
+(446, 'A class has 30 students, out of which 3/5 are boys. How many boys are there in the class?', '10', '12', '15', '18', NULL, '4', 'To find the number of boys in the class, we multiply the total number of students by the fraction representing the proportion of boys (3/5). So, (3/5) * 30 = 18. Therefore, there are 18 boys in the class.', 15, NULL, 1),
+(447, 'A baker had 6 cups of flour. He used 2/3 of it to make bread. How many cups of flour did the baker use?', '2', '3', '4', '5', NULL, '3', 'To find the answer, we need to multiply 6 cups of flour by 2/3. This gives us 4 cups, which is the amount of flour the baker used.', 15, NULL, 1),
+(448, 'The numerator of a fraction is 4 less than the denominator. If the fraction is simplified to its lowest form, what is the ratio of the numerator to the denominator?', '1:2', '1:3', '1:4', '1:5', NULL, '3', 'Let the denominator of the fraction be D. According to the given condition, the numerator becomes D-4. As the fraction is simplified to its lowest form, there are no common factors between the numerator and denominator. Therefore, the ratio of the numerator to the denominator is 1:4.', 15, NULL, 1),
+(449, 'If 2/3 of a cupcake recipe requires 1/2 cup of sugar, how much sugar is needed for the whole recipe?', '1/8', '1/4', '3/4', '1', NULL, '4', 'The whole cupcake recipe requires the amount of sugar for 2/3 which is equal to (2/3) * (1/2) = 1/3 cup of sugar.', 15, NULL, 1),
+(450, 'A tank contains 60 liters of water. If 3/5 of the water is used, how many liters of water are left?', '12 liters', '18 liters', '24 liters', '36 liters', NULL, '2', 'Solution: If 3/5 of 60 liters of water is used, then the amount of water left is (1 - 3/5) * 60 = 2/5 * 60 = 24 liters.', 15, NULL, 1),
+(451, 'What is 2/3 of 1/4?', '1/3', '1/2', '1/8', '3/4', NULL, '3', 'To find 2/3 of 1/4, multiply them together. (2/3) x (1/4) = 2/12 = 1/6.', 15, NULL, 1),
+(452, 'A recipe calls for 2/3 cup of milk. If you want to make 1 1/2 times the recipe, how much milk do you need?', '3/4', '1', '1 1/4', '1 1/2', NULL, '3', 'To find the amount of milk needed for 1 1/2 times the recipe, multiply the amount for 1 recipe by 1 1/2, which is (2/3) * (3/2) = 6/9 = 2/3 + 2/3 + 2/3 = 6/9 = 2/3 cup of milk.', 15, NULL, 1),
+(453, 'If 3/4 of a number is 15, what is the number?', '5', '12', '16', '20', NULL, '2', 'To find the number, divide 15 by 3/4. 15 ÷ (3/4) = 15 x (4/3) = 60/3 = 20.', 15, NULL, 1),
+(454, 'What is the fraction of shaded squares out of the total squares in the figure below?', '1/2', '2/5', '3/4', '4/7', NULL, '3', 'To find the fraction of shaded squares, we need to compare the number of shaded squares to the total number of squares. In this figure, there are 3 shaded squares out of the total of 4 squares, so the fraction is 3/4.', 15, NULL, 1),
+(455, 'Sara has 3/5 of a pizza and John has 1/3 of a pizza. What fraction of the pizza do they have together?', '2/5', '7/15', '4/15', '7/10', NULL, '2', 'To find the fraction of the pizza they have together, we need to find the common denominator for 5 and 3, which is 15. Sara has (3/5) * 15/15 = 9/15 of the pizza, and John has (1/3) * 15/15 = 5/15 of the pizza. Together, they have 9/15 + 5/15 = 14/15 of the pizza.', 15, NULL, 1),
+(456, 'The sum of two fractions is 3/5. If one fraction is 1/3, what is the other fraction?', '2/5', '1/5', '1/15', '3/8', NULL, '1', 'To find the other fraction, subtract 1/3 from 3/5. 3/5 - 1/3 = 2/5.', 15, NULL, 1),
+(457, 'Which fraction is equivalent to 3/5?', '4/6', '2/4', '6/10', '1/3', NULL, '3', 'To find an equivalent fraction, multiply both the numerator and denominator by the same number. Multiplying 3/5 by 2 gives 6/10, which reduces to 3/5.', 15, NULL, 1),
+(458, 'If a fraction is in its simplest form, what is the greatest common factor (GCF) of its numerator and denominator?', '1', '2', '3', '4', NULL, '1', 'If a fraction is in its simplest form, it means that the numerator and denominator have no common factors other than 1.', 15, NULL, 1),
+(459, 'Simplify the fraction 9/12.', '3/4', '2/3', '1/2', '4/9', NULL, '2', 'To simplify 9/12, divide both the numerator and denominator by their greatest common factor, which is 3. 9/12 ÷ 3/3 = 3/4.', 15, NULL, 1),
+(460, 'A recipe calls for 3/4 cup of sugar. If John wants to make half of the recipe, how much sugar does he need?', '1/4 cup', '3/8 cup', '1/2 cup', '5/8 cup', NULL, '2', 'Solution: If John wants to make half of the recipe, he needs half of 3/4 cup of sugar, which is (1/2) * (3/4) = 3/8 cup.', 15, NULL, 1),
+(461, 'What is the simplified form of 2/4?', '1/4', '1/2', '3/4', '3/2', NULL, '2', 'To simplify the fraction 2/4, divide both the numerator and the denominator by their greatest common divisor, which is 2. Therefore, the simplified form of 2/4 is 1/2.', 15, NULL, 1),
+(462, 'John saved 1/3 of his monthly salary. If his salary was $1200, how much money did he save?', '$200', '$400', '$600', '$800', NULL, '3', 'Saving 1/3 of $1200 is equivalent to saving $400.', 15, NULL, 1),
+(463, 'A car covered 3/5 of a distance in 2 hours. How long would it take to cover the remaining distance if it maintains the same speed?', '1 hour', '1.5 hours', '2.5 hours', '3 hours', NULL, '4', 'Solution: If the car covered 3/5 of the distance in 2 hours, then it covered 1 - 3/5 = 2/5 of the distance in the remaining time. Let\'s call the required time as x hours. Setting up a proportion, we have (2/5) / 2 = (2/5 + 2/x). Solving for x, we get x = 3. Therefore, it would take the car 3 hours to cover the remaining distance.', 15, NULL, 1),
+(464, 'Sara has 6/8 cup of milk. How much more milk does she need to make 1 full cup?', '1/8', '1/4', '2/8', '3/8', NULL, '1', 'To find how much more milk Sara needs to make 1 full cup, we need to subtract the fraction she already has (6/8) from 1. 1 - 6/8 = 1/8.', 15, NULL, 1),
+(465, 'What is 3/4 as a decimal?', '0.25', '0.5', '0.75', '1', NULL, '3', 'To convert a fraction to a decimal, divide the numerator by the denominator. In this case, 3 divided by 4 is 0.75.', 15, NULL, 1),
+(466, 'What is the fraction equivalent of 0.75?', '1/4', '1/2', '3/4', '1', NULL, '3', '0.75 is equivalent to 3/4.', 15, NULL, 1),
+(467, 'What is the result of adding 1/3 and 2/5?', '5/8', '11/15', '7/10', '3/8', NULL, '3', 'To add fractions with different denominators, find a common denominator. The common denominator for 1/3 and 2/5 is 15. Therefore, 1/3 + 2/5 = (5/15) + (6/15) = 7/15.', 15, NULL, 1),
+(468, 'Alex had a pie divided into 8 equal slices. If Alex ate 3/8 of the pie, how many slices did he eat?', '1', '2', '3', '4', NULL, '4', 'To find the number of slices Alex ate, multiply the total number of slices by the fraction of the pie he ate, which is 8 slices * (3/8) = 24/8 = 3 slices.', 15, NULL, 1),
+(469, 'A pizza is divided into 8 equal slices. John ate 3/8 of the pizza. How many slices are left?', '1', '2', '3', '4', NULL, '4', 'John ate 3 out of 8 slices, so the remaining slices are 8 minus 3, which equals 5. Therefore, 4 slices are left.', 15, NULL, 1),
+(470, 'Julia saved 5/8 of her monthly salary and spent the rest on bills and groceries. If she spent 3/10 of her monthly salary, what fraction of her salary did she save?', '2/5', '1/2', '3/8', '5/8', NULL, '3', 'Solution: The fraction of her salary that she saved is 1 - 3/10 = 7/10. Therefore, she saved 7/10 of her monthly salary.', 15, NULL, 1),
+(471, 'Which fraction is greater: 4/7 or 3/5?', '4/7', '3/5', 'They are equal.', 'Cannot be determined with the given information.', NULL, '2', 'To compare fractions with different denominators, find a common denominator. The common denominator for 4/7 and 3/5 is 35. Therefore, converting both fractions to have a denominator of 35, 4/7 becomes 20/35 and 3/5 becomes 21/35. Since 21/35 is greater than 20/35, 3/5 is the greater fraction.', 15, NULL, 1),
+(472, 'What is the result of adding 1/3 and 1/4?', '2/5', '7/12', '1/7', '1/12', NULL, '2', 'To add fractions with different denominators, find the least common multiple (LCM) of the denominators. In this case, the LCM of 3 and 4 is 12. Then, convert each fraction to have a denominator of 12 by multiplying the numerator and denominator by the appropriate factors. Adding 1/3 and 1/4 results in 7/12.', 15, NULL, 1),
+(473, 'John ate 3/4 of a pizza. What fraction of the pizza is left?', '1/4', '1/3', '1/2', '2/3', NULL, '1', 'To find the fraction of the pizza that is left, we need to subtract the fraction that John ate (3/4) from 1. 1 - 3/4 = 1/4.', 15, NULL, 1),
+(474, 'If a recipe calls for 2/3 cup of sugar but you only have 1/4 cup, what fraction of the required sugar do you have?', '1/2', '1/3', '1/4', '1/6', NULL, '2', 'To find the fraction of the required sugar that you have, you divide the amount you have (1/4) by the required amount (2/3). So, 1/4 ÷ 2/3 = 1/4 x 3/2 = 3/8. Therefore, you have 1/3 of the required sugar.', 15, NULL, 1),
+(475, 'Sara cuts a cake into 6 equal slices and eats 2 slices. What fraction of the cake did she eat?', '1/6', '2/6', '3/6', '4/6', NULL, '3', 'If Sara eats 2 out of 6 slices, the fraction of the cake she ate is 2/6.', 15, NULL, 1),
+(476, 'Which of the following fractions is greater than 1/2?', '2/3', '3/4', '1/3', '4/5', NULL, '2', 'To compare fractions, if the numerators are the same, the fraction with the smaller denominator is greater.', 15, NULL, 1),
+(477, 'A pizza is divided into 8 equal slices. If 3 slices are eaten, what fraction of the pizza is left?', '1/8', '3/8', '5/8', '7/8', NULL, '4', 'Solution: Since the pizza was divided into 8 slices and 3 slices were eaten, there are 8 - 3 = 5 slices left. Therefore, the fraction of the pizza that is left is 5/8.', 15, NULL, 1),
+(478, 'If a tank is filled with 3/4 of its capacity, what fraction of the tank is empty?', '1/4', '1/3', '1/2', '2/3', NULL, '4', 'To find the fraction of the tank that is empty, we subtract the fraction that is full (3/4) from 1, which gives us 1 - 3/4 = 1/4. So, 2/3 of the tank is empty.', 15, NULL, 1),
+(479, 'Which fraction is equivalent to 4/5?', '1/2', '2/4', '8/10', '10/12', NULL, '3', 'To find an equivalent fraction, multiply or divide the numerator and denominator by the same number. In this case, dividing both 4 and 8 by 2 gives the fraction 8/10, which is equivalent to 4/5.', 15, NULL, 1),
+(480, 'A group of friends shared a pizza with 10 equal slices. If each friend had 2 slices, how many friends were there in the group?', '3', '4', '5', '6', NULL, '4', 'If each friend had 2 slices and there were 10 slices in total, then there were 10/2 = 5 friends in the group.', 15, NULL, 1),
+(481, 'Sarah has 12 marbles and she gives 1/4 of them to her friend. How many marbles does Sarah give to her friend?', '1', '2', '3', '4', NULL, '3', 'If Sarah has 12 marbles and she gives 1/4 of them to her friend, she gives 3 marbles to her friend.', 15, NULL, 1),
+(482, 'A certain pizza recipe calls for 3/4 cup of flour. If you want to make 4 pizzas, how many cups of flour do you need?', '1/3', '1', '2', '3', NULL, '3', 'To make 4 pizzas, you need to multiply the amount of flour for 1 pizza by 4, which is (3/4) * 4 = 3 cups of flour.', 15, NULL, 1),
+(483, 'If a cake is divided into 8 equal slices and John eats 3/8 of a slice, how many whole slices of cake does he eat?', '1/2', '1', '1 1/2', '2', NULL, '1', 'By dividing 3/8 by 1/8 (the size of one whole slice), we get 3/8 ÷ 1/8 = 3. John eats 3 whole slices.', 15, NULL, 1),
+(484, 'A glass is filled to 3/4 of its capacity. If there are 400 ml of liquid in the glass, what is its total capacity?', '400 ml', '600 ml', '800 ml', '1200 ml', NULL, '3', 'If 3/4 of the capacity is equal to 400 ml, then the total capacity is 400 ml * (4/3) = 800 ml.', 15, NULL, 1),
+(485, 'A recipe calls for 2/3 cup of sugar. If Lucy wants to make 4 times the recipe, how much sugar does she need?', '1 cup', '1 and 1/3 cups', '1 and 1/2 cups', '2 cups', NULL, '2', 'To find the answer, we need to multiply 2/3 cup by 4. This gives us 8/3 or 2 and 2/3 cups of sugar needed for the recipe.', 15, NULL, 1),
+(486, 'A recipe calls for 3/4 cup of sugar, but John only has 1/2 cup. How much more sugar does he need?', '1/4', '1/3', '1/8', '1/6', NULL, '1', 'To find how much more sugar John needs, we need to subtract the fraction he already has (1/2) from the required fraction (3/4). 3/4 - 1/2 = 1/4.', 15, NULL, 1),
+(487, 'What is 30% expressed as a fraction in simplest form?', '1/30', '3/10', '3/30', '10/3', NULL, '2', 'To convert a percentage to a fraction, divide the percentage by 100 and simplify. In this case, 30% becomes 30/100, which simplifies to 3/10.', 15, NULL, 1),
+(488, 'Which of the following fractions is equivalent to 2/5?', '1/3', '3/5', '4/10', '5/8', NULL, '3', 'To find equivalent fractions, multiply or divide the numerator and denominator by the same number. In this case, multiplying 2 and 5 by 2 gives the fraction 4/10, which is equivalent to 2/5.', 15, NULL, 1),
+(489, 'If a rope is 3/4 meters long and you cut off 1/6 meters from it, how long is the remaining rope?', '1/2 meters', '1/3 meters', '1/4 meters', '5/12 meters', NULL, '4', 'Cutting off 1/6 meters from a rope that is 3/4 meters long leaves 5/12 meters of the rope remaining.', 15, NULL, 1),
+(490, 'Which fraction is equivalent to 3/5?', '1/5', '2/10', '4/5', '6/5', NULL, '2', 'To find an equivalent fraction, multiply or divide both the numerator and the denominator of the given fraction by the same non-zero number. In this case, multiplying 3/5 by 2/2, we get 6/10, which is equivalent to 3/5.', 15, NULL, 1),
+(491, 'If 2/5 of a bucket of water is poured out, what fraction of the water remains?', '1/5', '2/5', '3/5', '4/5', NULL, '3', 'If 2/5 of the water is poured out, 3/5 of the water remains.', 15, NULL, 1),
+(492, 'What is 2/5 of 40?', '8', '10', '16', '20', NULL, '4', 'To find a fraction of a whole number, multiply the whole number by the numerator and divide by the denominator. In this case, (2/5) * 40 = (2 * 40) / 5 = 80 / 5 = 16. Therefore, 2/5 of 40 is 16.', 15, NULL, 1),
+(493, 'Which of the following fractions is equivalent to 1/2?', '3/4', '2/3', '4/5', '5/10', NULL, '4', 'To find an equivalent fraction, the numerator and denominator of the original fraction can be multiplied or divided by the same number.', 15, NULL, 1),
+(494, 'Two numbers have a 3:5 ratio. The new numbers have a ratio of 12:23 if 7 is added to each. The maximizing number is:', '25', '29', '41', '47', NULL, '3', 'Let the numbers be 3x and 5x. Then, (3x + 7) / (5x + 7) = 12/23. Solving this equation, x = 4. The maximizing number = 5 * 4 + 7 = 27.', 16, NULL, 1),
+(495, 'In a school, the ratio of boys to girls is 7:11. If the number of boys is increased by 14 and the number of girls is increased by 22, the new ratio becomes 5:8. The original number of boys is:', '14', '21', '28', '35', NULL, '3', 'Let the number of boys be 7x and girls be 11x. Then, (7x + 14) / (11x + 22) = 5/8. Solving this equation, x = 6. The original number of boys = 7 * 6 = 42.', 16, NULL, 1),
+(496, 'Two numbers have a ratio of 5:8. If the first number is multiplied by 3 and the second number is multiplied by 4, the new ratio becomes 15:32. The original ratio of the numbers is:', '2:3', '3:5', '4:5', '5:8', NULL, '4', 'Let the first number be 5x and the second number be 8x. Then, (3 * 5x) / (4 * 8x) = 15/32. Solving this equation, x = 8/15. The original ratio of the numbers = 5x:8x = 5 * (8/15):8 * (8/15) = 2/3:8/5 = 2:3.', 16, NULL, 1),
+(497, 'The ratio of the ages of John and Peter is 2:5. After 10 years, the ratio of their ages will be 3:7. What is John\'s current age?', '10', '14', '16', '20', NULL, '3', 'Let the current ages of John and Peter be 2x and 5x respectively. After 10 years, (2x + 10) / (5x + 10) = 3/7. Solving this equation, x = 10/3. John\'s current age = 2x = 2 * (10/3) = 20/3 ≈ 6.67 years ≈ 16.67 years.', 16, NULL, 1),
+(498, 'The ratio of the prices of two items is 3:4. If the price of the second item is $48, what is the price of the first item?', '$24', '$32', '$36', '$44', NULL, '2', 'Let the price of the first item be 3x dollars. Then, 4x = 48. Solving this equation, x = 12. The price of the first item = 3x = 3 * 12 = $36.', 16, NULL, 1),
+(499, 'If 60% of a number is equal to two-thirds of another number, what is the ratio of the first number to the second number?', '2:3', '3:2', '4:5', '5:4', NULL, '2', 'Let 60% of A = 2B/3. Then, 60A = 2B/3 * 100.   2A = 2B/3 * 5.  A = 5B/3. A : B = 5 : 3.', 16, NULL, 1),
+(500, 'If the ratio of boys to girls in a class is 3:4 and there are 28 students in the class, how many boys are there?', '9', '12', '16', '21', NULL, '3', 'Let the number of boys be 3x and the number of girls be 4x. 3x + 4x = 28. 7x = 28. x = 4. So there are 3 * 4 = 12 boys.', 16, NULL, 1),
+(501, 'The ratio of the length of a rectangle to its width is 5:2. If the width is 10 cm, what is the length?', '15 cm', '20 cm', '25 cm', '30 cm', NULL, '3', 'Let the length be 5x. Then, 5x/10 = 5/2. 5x = 50, x = 10. So the length is 5 * 10 = 50 cm.', 16, NULL, 1),
+(502, 'The ratio of the number of apples to the number of oranges in a basket is 3:4. If there are 21 oranges in the basket, how many apples are there?', '09', '12', '15', '18', NULL, '2', 'Let the number of apples be 3x and the number of oranges be 4x. Since there are 21 oranges, 4x = 21. x = 21/4 = 5.25. So, there are 3 * 5.25 = 15.75 apples.', 16, NULL, 1),
+(503, 'If the ratio of the height to the width of a rectangle is 3:8 and the width is 12m, what is the height of the rectangle?', '4.50m', '4.80m', '10.50m', '12.00m', NULL, '3', 'Let the height be 3x. Then, 3x/12 = 3/8. 3x = 3 * 12/8 = 9/2 = 4.50. So the height is 3 * 4.50 = 10.50m.', 16, NULL, 1),
+(504, 'In a box of colored pencils, the ratio of red pencils to blue pencils is 3:5. If there are 40 blue pencils, how many red pencils are there?', '15', '25', '45', '75', NULL, '4', 'The ratio of red pencils to blue pencils is 3:5, so the number of red pencils can be found by multiplying 3 by the number of blue pencils. 3 x 40 = 120. Therefore, there are 120 red pencils.', 16, NULL, 1),
+(505, 'In a school, the ratio of boys to girls is 4:7. If there are 56 girls, how many boys are there?', '16', '24', '32', '48', NULL, '3', 'The ratio of boys to girls is 4:7, so the number of boys can be found by multiplying 4 by the number of girls. 4 x 56 = 224. Therefore, there are 224 boys.', 16, NULL, 1),
+(506, 'A recipe for a cake requires a ratio of 2 cups of flour to 3 cups of sugar. If there are 12 cups of sugar, how many cups of flour are needed?', '6', '8', '10', '12', NULL, '2', 'The ratio of flour to sugar is 2:3, so the number of cups of flour can be found by multiplying 2 by the number of cups of sugar. 2 x 12 = 24. Therefore, 24 cups of flour are needed.', 16, NULL, 1),
+(507, 'A car travels 240 miles in 4 hours. At that rate, how far will it travel in 6 hours?', '240', '360', '480', '720', NULL, '3', 'The car travels 240 miles in 4 hours, so its rate is 240/4 = 60 miles per hour. To find the distance traveled in 6 hours, multiply the rate by the time: 60 x 6 = 360 miles. Therefore, the car will travel 360 miles in 6 hours.', 16, NULL, 1),
+(508, 'The length of a rectangle is 12 cm and its width is in the ratio 3:5. What is the width of the rectangle?', '3 cm', '5 cm', '6 cm', '10 cm', NULL, '3', 'The ratio of the width to the length is 3:5, so the width can be found by multiplying 3 by the length and then dividing by 5. (3 x 12) / 5 = 36 / 5 = 7.2. Therefore, the width of the rectangle is 7.2 cm.', 16, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -625,14 +726,6 @@ CREATE TABLE `question_image` (
   `image_url` varchar(100) NOT NULL,
   `q_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `question_image`
---
-
-INSERT INTO `question_image` (`id`, `image_url`, `q_id`) VALUES
-(1, 'URL1', 335),
-(2, 'URL2', 335);
 
 -- --------------------------------------------------------
 
@@ -672,41 +765,6 @@ CREATE TABLE `set_question` (
 --
 
 INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
-(2206, 34, 64),
-(2207, 52, 64),
-(2208, 49, 64),
-(2209, 12, 64),
-(2210, 41, 64),
-(2211, 8, 64),
-(2212, 70, 64),
-(2213, 68, 64),
-(2214, 33, 64),
-(2215, 27, 64),
-(2216, 71, 64),
-(2217, 44, 64),
-(2218, 1, 64),
-(2219, 9, 64),
-(2220, 21, 64),
-(2221, 24, 64),
-(2222, 11, 64),
-(2223, 60, 64),
-(2224, 74, 64),
-(2225, 3, 64),
-(2226, 19, 64),
-(2227, 15, 64),
-(2228, 28, 64),
-(2229, 37, 64),
-(2230, 63, 64),
-(2231, 17, 64),
-(2232, 10, 64),
-(2233, 25, 64),
-(2234, 30, 64),
-(2235, 78, 64),
-(2236, 47, 64),
-(2237, 57, 64),
-(2238, 58, 64),
-(2239, 48, 64),
-(2240, 18, 64),
 (2311, 318, 67),
 (2312, 316, 67),
 (2313, 249, 67),
@@ -881,7 +939,92 @@ INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
 (2622, 210, 75),
 (2623, 190, 75),
 (2624, 207, 75),
-(2625, 220, 75);
+(2625, 220, 75),
+(2731, 501, 76),
+(2732, 503, 76),
+(2733, 504, 76),
+(2734, 499, 76),
+(2735, 506, 76),
+(2736, 507, 76),
+(2737, 502, 76),
+(2738, 500, 76),
+(2739, 498, 76),
+(2740, 495, 76),
+(2741, 496, 76),
+(2742, 494, 76),
+(2743, 497, 76),
+(2744, 508, 76),
+(2745, 505, 76),
+(2781, 29, 77),
+(2782, 56, 77),
+(2783, 50, 77),
+(2784, 25, 77),
+(2785, 16, 77),
+(2786, 22, 77),
+(2787, 19, 77),
+(2788, 12, 77),
+(2789, 37, 77),
+(2790, 34, 77),
+(2791, 44, 77),
+(2792, 72, 77),
+(2793, 9, 77),
+(2794, 55, 77),
+(2795, 46, 77),
+(2796, 79, 77),
+(2797, 40, 77),
+(2798, 17, 77),
+(2799, 6, 77),
+(2800, 69, 77),
+(2801, 60, 77),
+(2802, 48, 77),
+(2803, 32, 77),
+(2804, 33, 77),
+(2805, 61, 77),
+(2806, 45, 77),
+(2807, 43, 77),
+(2808, 18, 77),
+(2809, 2, 77),
+(2810, 4, 77),
+(2811, 21, 77),
+(2812, 49, 77),
+(2813, 73, 77),
+(2814, 54, 77),
+(2815, 31, 77),
+(2851, 106, 64),
+(2852, 145, 64),
+(2853, 27, 64),
+(2854, 132, 64),
+(2855, 149, 64),
+(2856, 499, 64),
+(2857, 18, 64),
+(2858, 126, 64),
+(2859, 49, 64),
+(2860, 160, 64),
+(2861, 158, 64),
+(2862, 124, 64),
+(2863, 85, 64),
+(2864, 87, 64),
+(2865, 79, 64),
+(2866, 88, 64),
+(2867, 52, 64),
+(2868, 101, 64),
+(2869, 20, 64),
+(2870, 104, 64),
+(2871, 46, 64),
+(2872, 102, 64),
+(2873, 69, 64),
+(2874, 67, 64),
+(2875, 95, 64),
+(2876, 151, 64),
+(2877, 2, 64),
+(2878, 63, 64),
+(2879, 504, 64),
+(2880, 128, 64),
+(2881, 34, 64),
+(2882, 134, 64),
+(2883, 96, 64),
+(2884, 75, 64),
+(2885, 83, 64);
 
 -- --------------------------------------------------------
 
@@ -947,7 +1090,8 @@ CREATE TABLE `test_series_product` (
 --
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
-(6, 'OC Package - 5', 'fsfsfs', '89', '/images/product-1693303411.png', 1, 3, 35, '2023-08-30', 1);
+(6, 'OC Package - 5', 'fsfsfs', '89', '/images/product-1693303411.png', 1, 3, 35, '2023-09-01', 1),
+(8, 'OC Test Package - 4', 'dadad', '89', '/images/product-1693482495.jpg', 1, 6, 35, '2023-08-30', 1);
 
 -- --------------------------------------------------------
 
@@ -962,6 +1106,14 @@ CREATE TABLE `test_series_purchases` (
   `valid_from` varchar(50) NOT NULL,
   `valid_till` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `test_series_purchases`
+--
+
+INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `valid_till`) VALUES
+(3, 6, 2, '2023-08-31', '2023-12-01'),
+(4, 8, 2, '2023-08-31', '2024-03-02');
 
 -- --------------------------------------------------------
 
@@ -987,7 +1139,9 @@ INSERT INTO `test_series_topics` (`id`, `t_name`, `topic`, `tsc_id`, `status`, `
 (2, 'OC - Average - Easy', 'Average', 1, 1, 1),
 (4, 'OC - Test - Easy', 'Test', 3, 1, 1),
 (5, 'OC - Test2 - Easy', 'Test2', 3, 1, 1),
-(14, 'OC - Test2 - Easy', 'Test3', 3, 1, 1);
+(14, 'OC - Test2 - Easy', 'Test3', 3, 1, 1),
+(15, 'OC - Test4 - Easy', 'Test4', 3, 1, 1),
+(16, 'Ratio', 'Ratio', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1035,7 +1189,9 @@ INSERT INTO `tspc_set` (`id`, `tspc_id`, `set_number`, `set_name`, `status`) VAL
 (72, 6, 2, 'OC Maths set - 2', 1),
 (73, 6, 3, 'OC Maths set - 3', 1),
 (74, 6, 4, 'OC Maths set - 4', 1),
-(75, 7, 2, 'OC Thinking set - 2', 1);
+(75, 7, 2, 'OC Thinking set - 2', 1),
+(76, 9, 1, 'OC Maths set - 1', 1),
+(77, 6, 5, 'OC Maths set - 5', 1);
 
 -- --------------------------------------------------------
 
@@ -1054,12 +1210,16 @@ CREATE TABLE `ts_pc_topics` (
 --
 
 INSERT INTO `ts_pc_topics` (`id`, `tspcs_id`, `tst_id`) VALUES
-(81, 64, 1),
 (85, 67, 5),
 (90, 72, 1),
 (91, 73, 1),
 (92, 74, 2),
-(93, 75, 4);
+(93, 75, 4),
+(95, 64, 1),
+(96, 64, 2),
+(97, 76, 16),
+(98, 77, 1),
+(101, 64, 16);
 
 -- --------------------------------------------------------
 
@@ -1079,8 +1239,9 @@ CREATE TABLE `ts_product_category` (
 --
 
 INSERT INTO `ts_product_category` (`id`, `tsp_id`, `tsc_id`, `total_set`) VALUES
-(6, 6, 1, 2),
-(7, 6, 3, 1);
+(6, 6, 1, 1),
+(7, 6, 3, 1),
+(9, 8, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1128,6 +1289,13 @@ CREATE TABLE `user_test_series` (
   `q_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `user_test_series`
+--
+
+INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `total_marks`, `q_id`) VALUES
+(3, 4, 76, 0, '31-08-2023', NULL, NULL, '21.5', NULL, 46);
+
 -- --------------------------------------------------------
 
 --
@@ -1143,6 +1311,27 @@ CREATE TABLE `user_test_status` (
   `uts_id` bigint(20) UNSIGNED NOT NULL,
   `test_time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_test_status`
+--
+
+INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `marks`, `uts_id`, `test_time`) VALUES
+(36, 501, 2, NULL, NULL, 3, '0'),
+(37, 503, 2, NULL, NULL, 3, '0'),
+(38, 504, 2, NULL, NULL, 3, '0'),
+(39, 499, 2, NULL, NULL, 3, '0'),
+(40, 506, 3, NULL, NULL, 3, '0'),
+(41, 507, 3, NULL, NULL, 3, '0'),
+(42, 502, 2, NULL, NULL, 3, '0'),
+(43, 500, 2, NULL, NULL, 3, '0'),
+(44, 498, 3, NULL, NULL, 3, '0'),
+(45, 495, 2, NULL, NULL, 3, '0'),
+(46, 496, 2, NULL, NULL, 3, '0'),
+(47, 494, 3, NULL, NULL, 3, '0'),
+(48, 497, 3, NULL, NULL, 3, '0'),
+(49, 508, 3, NULL, NULL, 3, '0'),
+(50, 505, 3, NULL, NULL, 3, '0');
 
 --
 -- Indexes for dumped tables
@@ -1335,7 +1524,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1347,7 +1536,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1371,13 +1560,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=414;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=509;
 
 --
 -- AUTO_INCREMENT for table `question_image`
 --
 ALTER TABLE `question_image`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `reading_question`
@@ -1389,7 +1578,7 @@ ALTER TABLE `reading_question`
 -- AUTO_INCREMENT for table `set_question`
 --
 ALTER TABLE `set_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2626;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2886;
 
 --
 -- AUTO_INCREMENT for table `test_series`
@@ -1407,19 +1596,19 @@ ALTER TABLE `test_series_categories`
 -- AUTO_INCREMENT for table `test_series_product`
 --
 ALTER TABLE `test_series_product`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `test_series_purchases`
 --
 ALTER TABLE `test_series_purchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -1431,19 +1620,19 @@ ALTER TABLE `test_status`
 -- AUTO_INCREMENT for table `tspc_set`
 --
 ALTER TABLE `tspc_set`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
 --
 ALTER TABLE `ts_product_category`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1455,13 +1644,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_test_series`
 --
 ALTER TABLE `user_test_series`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_test_status`
 --
 ALTER TABLE `user_test_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- Constraints for dumped tables
