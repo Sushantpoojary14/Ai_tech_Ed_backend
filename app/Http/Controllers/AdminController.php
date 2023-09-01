@@ -196,6 +196,7 @@ class AdminController extends Controller
     {
         // return $request->input();
         $q_data = [];
+
         foreach ($request->data as $item) {
             // $q_data = new stdClass();
             $questions = Question::whereIn('tst_id', $item['tst_id'])
@@ -261,6 +262,22 @@ class AdminController extends Controller
     public function updateTSProductTopic(Request $request)
     {
         $item = $request->data;
+
+        $current_date = date('Y-m-d');
+        $set = TSPCSet::where('id', $item['tst_id'])
+            ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
+                $query->where('release_date', "<=", $current_date);
+            })
+            ->first();
+
+        // return $set;
+
+        if ($set) {
+            return response()->json([
+                'Message' => 'Product Already Released (Set)',
+            ], 403);
+        }
+
 
         $questions = Question::whereIn('tst_id', $item['tst_id'])
             ->get();
@@ -454,42 +471,18 @@ class AdminController extends Controller
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
             ->with('getTsProductCategory.tsPCSet')
             ->first();
-        // $categories = [];
-        // $set = [];
-        // return $tst;
 
-        // $categories = [];
-        // foreach ($tst->getTsProductCategory as $key => $value) {
-        //     $categories[] = $value->TestSeriesCategories;
-        //     $set = [];
-        //     foreach ($value->tsPCSet as $key2 => $value2) {
-        //         $set[] = $value2;
-        //         $topics = [];
-        //         $questions = [];
-        //         foreach ($value2->getTsTopic as $key3 => $value3) {
-        //             $topics[] = $value3->tsTopic;
-
-        //         }
-        //         foreach ($value2->getSetQuestion as $key3 => $value3) {
-        //             $questions[] = $value3->getQuestions;
-
-        //         }
-
-        //         $set[$key2]->topics = $topics;
-        //         $set[$key2]->questions = $questions;
-        //         unset($value2->getTsTopic);
-        //         unset($value2->getSetQuestion);
-        //     }
-        //     $categories[$key]->sets = $set;
-        // }
-        // $tst->categories = $categories;
-        // return($tst->getTsProductCategory);
         $tst->categories = $this->pCSet($tst->getTsProductCategory);
         unset($tst->getTsProductCategory);
 
+        $current_date = date('Y-m-d');
+        $product = TestSeriesProduct::where('id', $p_id)
+            ->where('release_date', "<=", $current_date)
+            ->first();
 
         return response()->json([
-            'product_detail' => $tst
+            'product_detail' => $tst,
+            'release_status'=> !!$product
         ], 200);
     }
 
