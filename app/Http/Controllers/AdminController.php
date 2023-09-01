@@ -479,10 +479,11 @@ class AdminController extends Controller
         $product = TestSeriesProduct::where('id', $p_id)
             ->where('release_date', "<=", $current_date)
             ->first();
+        $tst->release_status = !!$product;
 
         return response()->json([
             'product_detail' => $tst,
-            'release_status'=> !!$product
+
         ], 200);
     }
 
