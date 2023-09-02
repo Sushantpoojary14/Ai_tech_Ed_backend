@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Images extends Model
+class ImagesNames extends Model
 {
     use HasFactory;
 
-    protected $table = 'images';
+    protected $table = 'images_names';
     public $timestamps = false;
     protected $fillable = [
-        'image_url',
+        'image_id',
         'image_name',
-        'tsc_id'
     ];
-    protected $casts = [
 
-        'tsc_id' => 'integer',
-    ];
+    public function images()
+    {
+        return $this->belongsTo(Images::class, 'image_id', 'id');
+    }
 }

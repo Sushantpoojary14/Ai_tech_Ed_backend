@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Images;
+use App\Models\ImagesNames;
 use App\Models\QuestionImage;
 use App\Models\ReadingQuestion;
 use App\Models\SetQuestion;
@@ -761,7 +762,9 @@ class AdminController extends Controller
                         $filepath = "/images/" . $filename;
                         Images::create([
                             'image_url' => $filepath,
-                            'image_name' => $image_name
+                            'image_name' => $image_name,
+                            'tsc_id' => $request->tsc_id
+
                         ]);
                     } else {
                         return response()->json(['error' => 'File upload failed'], 400);
@@ -774,10 +777,14 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function getImage(Request $request)
+    public function getImage($tsc_id)
     {
-        $images = Images::all();
+        $images = Images::where('tsc_id',$tsc_id)->get();
 
+        // foreach ($images as $key => $value) {
+        //     $value->image_url = $value->images->image_url;
+        //     unset($value->images);
+        // }
 
         return response()->json([
             'images' => $images
