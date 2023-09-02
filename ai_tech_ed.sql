@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 01, 2023 at 08:58 AM
+-- Generation Time: Sep 02, 2023 at 08:12 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -81,22 +81,52 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `images` (
   `id` int(11) NOT NULL,
   `image_name` varchar(40) NOT NULL,
-  `image_url` varchar(150) NOT NULL
+  `image_url` varchar(150) NOT NULL,
+  `tsc_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `images`
 --
 
-INSERT INTO `images` (`id`, `image_name`, `image_url`) VALUES
-(5, 'boy', '/images/boy.jpg'),
-(6, 'car', '/images/car.jpg'),
-(7, 'girl', '/images/girl.jpg'),
-(8, 'men', '/images/men.jpg'),
-(9, 'motor', '/images/motor.jpg'),
-(10, 'ship', '/images/ship.jpg'),
-(11, 'train', '/images/train.jpg'),
-(12, 'women', '/images/women.jpg');
+INSERT INTO `images` (`id`, `image_name`, `image_url`, `tsc_id`) VALUES
+(5, 'boy', '/images/boy.jpg', 3),
+(6, 'car', '/images/car.jpg', 1),
+(7, 'girl', '/images/girl.jpg', 3),
+(8, 'men', '/images/men.jpg', 1),
+(9, 'motor', '/images/motor.jpg', 1),
+(10, 'ship', '/images/ship.jpg', 1),
+(11, 'train', '/images/train.jpg', 1),
+(12, 'Oliver', '/images/boy.jpg', 3),
+(13, 'James', '/images/boy.jpg', 3),
+(14, 'Jack', '/images/boy.jpg', 3),
+(15, 'Thomas', '/images/boy.jpg', 3),
+(16, 'Ella', '/images/girl.jpg', 3),
+(17, 'Evie', '/images/girl.jpg', 3),
+(18, 'Sienna', '/images/girl.jpg', 3),
+(19, 'Isla', '/images/girl.jpg', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `images_names`
+--
+
+CREATE TABLE `images_names` (
+  `id` int(11) NOT NULL,
+  `image_id` bigint(20) NOT NULL,
+  `image_name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `images_names`
+--
+
+INSERT INTO `images_names` (`id`, `image_id`, `image_name`) VALUES
+(1, 5, 'James'),
+(2, 7, 'sneha'),
+(3, 5, 'car'),
+(4, 11, 'train');
 
 -- --------------------------------------------------------
 
@@ -713,7 +743,28 @@ INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `o
 (505, 'In a school, the ratio of boys to girls is 4:7. If there are 56 girls, how many boys are there?', '16', '24', '32', '48', NULL, '3', 'The ratio of boys to girls is 4:7, so the number of boys can be found by multiplying 4 by the number of girls. 4 x 56 = 224. Therefore, there are 224 boys.', 16, NULL, 1),
 (506, 'A recipe for a cake requires a ratio of 2 cups of flour to 3 cups of sugar. If there are 12 cups of sugar, how many cups of flour are needed?', '6', '8', '10', '12', NULL, '2', 'The ratio of flour to sugar is 2:3, so the number of cups of flour can be found by multiplying 2 by the number of cups of sugar. 2 x 12 = 24. Therefore, 24 cups of flour are needed.', 16, NULL, 1),
 (507, 'A car travels 240 miles in 4 hours. At that rate, how far will it travel in 6 hours?', '240', '360', '480', '720', NULL, '3', 'The car travels 240 miles in 4 hours, so its rate is 240/4 = 60 miles per hour. To find the distance traveled in 6 hours, multiply the rate by the time: 60 x 6 = 360 miles. Therefore, the car will travel 360 miles in 6 hours.', 16, NULL, 1),
-(508, 'The length of a rectangle is 12 cm and its width is in the ratio 3:5. What is the width of the rectangle?', '3 cm', '5 cm', '6 cm', '10 cm', NULL, '3', 'The ratio of the width to the length is 3:5, so the width can be found by multiplying 3 by the length and then dividing by 5. (3 x 12) / 5 = 36 / 5 = 7.2. Therefore, the width of the rectangle is 7.2 cm.', 16, NULL, 1);
+(508, 'The length of a rectangle is 12 cm and its width is in the ratio 3:5. What is the width of the rectangle?', '3 cm', '5 cm', '6 cm', '10 cm', NULL, '3', 'The ratio of the width to the length is 3:5, so the width can be found by multiplying 3 by the length and then dividing by 5. (3 x 12) / 5 = 36 / 5 = 7.2. Therefore, the width of the rectangle is 7.2 cm.', 16, NULL, 1),
+(509, 'Sneha bought 5 8 kg of flour. If she used 1 4 kg of flour to make a cake, how much flour does Sneha have now?', '1 2 kg', '3 8 kg', '3 4 kg', '9 8 kg', NULL, '3', 'Total weight of flour = 5 8 kg\nFraction of flour used in cake = 1 4 kg\nWeight of flour left = 5 8 kg - 1 4 kg = 3 8 kg\nTherefore Sneha has 3 8 kg of flour now.', 17, NULL, 1),
+(510, 'sushant has 10 apples and he gives sneha 3 apples. How many apples does sushant have left?', '5', '6', '7', '8', NULL, '1', 'Apples sushant has = 10\nApples given to sneha = 3\nApples left with sushant = 10 - 3 = 7', 17, NULL, 1),
+(511, 'sushant bought 3 1/2 kg of rice. sneha used 2 1/4 kg of rice to cook. How much rice is left?', '1/4 kg', '5/4 kg', '1 kg', '2 1/4 kg', NULL, '2', 'Total rice bought by sushant = 3 1/2 kg = 3x2+1 = 7/2 kg\nRice used for cooking = 2 1/4 kg = 2x4+1 = 9/4 kg\nRice left = Total rice bought - Rice used for cooking = 7/2 - 9/4\nTo subtract fractions, find a common denominator and subtract the numerators. The common denominator is 4.\n7/2 - 9/4 = (7x2)/(2x4) - 9/4 = 14/8 - 9/4 = (14-18)/8 = -4/8 = -1/2\nTherefore, the rice left is 1/2 kg. Note that a negative value suggests that more rice was used than bought, so please check the calculations.', 17, NULL, 1),
+(512, 'A bag contains 9 red marbles and 3 4 of the marbles are green. How many green marbles are there in the bag?', '3 green marbles', '6 green marbles', '7 green marbles', '9 green marbles', NULL, '2', 'Total marbles in the bag = 9 + 3 4 = 9 + 9 4 = 36 4 + 9 4 = 45 4\nNumber of green marbles = 3 4 of 45 4 = 3 4 × 45 4 = 135 4 = 33 3 4 = 6 green marbles\nTherefore there are 6 green marbles in the bag.', 17, NULL, 1),
+(513, 'A cake recipe requires 1/2 cup of sugar. If sneha only has 1/4 cup of sugar, how much more does she need?', '1/4 cup', '1/8 cup', '3/4 cup', '1/2 cup', NULL, '3', 'Sugar required for the recipe = 1/2 cup\nSugar sneha has = 1/4 cup\nSugar more needed = Sugar required - Sugar sneha has = 1/2 - 1/4 = 2/4 - 1/4 = 1/4 = 3/4 cup', 17, NULL, 1),
+(514, 'Ruby baked a cake using 3 1/2 cups of flour. If the recipe required 2 3/4 cups of flour, how much extra flour did Ruby use?', '3/4 cups', '1 cups', '2 1/4 cups', '4 3/4 cups', NULL, '3', 'Flour used by Ruby = 3 1/2 cups = 3x2+1 = 7/2 cups\nFlour required by the recipe = 2 3/4 cups = 2x4+3 = 11/4 cups\nExtra flour used = Flour used by Ruby - Flour required by the recipe\nTo subtract fractions, find a common denominator and subtract the numerators. The common denominator is 4.\n7/2 - 11/4 = (7x2)/(2x2) - 11/4 = 14/4 - 11/4 = (14-11)/4 = 3/4\nTherefore, Ruby used an extra 3/4 cups of flour.', 17, NULL, 1),
+(515, 'sneha spent 3/5 of her allowance on a toy. If her allowance is $20, how much money did she spend?', '$10', '$8', '$12', '$15', NULL, '3', 'Allowance of sneha = $20\nMoney spent by sneha = 3/5 of $20 = (3/5) x $20 = $12', 17, NULL, 1),
+(516, 'sneha bought 2 3/8 meters of fabric. If she used 1 7/8 meters to make a dress, how much fabric does she have left?', '1/4 meters', '3 meters', '3 3/8 meters', '4 7/8 meters', NULL, '3', 'Total fabric bought by sneha = 2 3/8 meters = 2x8+3 = 19/8 meters\nFabric used to make a dress = 1 7/8 meters = 1x8+7 = 15/8 meters\nFabric left = Total fabric bought - Fabric used to make a dress\nTo subtract fractions, find a common denominator and subtract the numerators. The common denominator is 8.\n19/8 - 15/8 = (19-15)/8 = 4/8 = 1/2\nTherefore, sneha has 1/2 meters of fabric left.', 17, NULL, 1),
+(517, 'A cake recipe requires 3/4 cups of sugar. If sushant only has 1/8 cups of sugar, how much more sugar does he need?', '5/8 cups', '7/8 cups', '1 cups', '1 1/8 cups', NULL, '1', 'Sugar required by the recipe = 3/4 cups\nSugar sushant has = 1/8 cups\nSugar needed = Sugar required by the recipe - Sugar sushant has\nTo subtract fractions, find a common denominator and subtract the numerators. The common denominator is 8.\n3/4 - 1/8 = (3x2)/8 - 1/8 = 6/8 - 1/8 = (6-1)/8 = 5/8\nTherefore, sushant needs an additional 5/8 cups of sugar.', 17, NULL, 1),
+(518, 'A rectangular cake is divided into 5 equal parts. If Sneha ate 2 5 parts of the cake, how much cake is left?', '3 5 parts', '2 5 parts', '1 5 parts', '4 5 parts', NULL, '1', 'Total parts of the cake = 5\nFraction of cake eaten by Sneha = 2 5 parts\nParts of cake left = 5 parts - 2 5 parts = 3 5 parts\nTherefore 3 5 parts of cake is left.', 17, NULL, 1),
+(519, 'If a rope measuring 9 12 m is cut into 3 equal parts, what is the length of each part?', '1 12 m', '2 12 m', '3 12 m', '4 12 m', NULL, '2', 'Total length of rope = 9 12 m\nNumber of equal parts = 3\nLength of each part = 9 12 m ÷ 3 = 3 12 m = 2 12 m\nTherefore the length of each part is 2 12 m.', 17, NULL, 1),
+(520, 'If sneha ate 1/4 of a pizza that was cut into 8 equal slices, how many slices are left?', '6', '5', '4', '3', NULL, '3', 'Total slices = 8\nSlices eaten by sneha = 1/4 of 8 = 8/4 = 2\nSlices left = Total slices - Slices eaten = 8 - 2 = 6', 17, NULL, 1);
+INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `option_4`, `option_5`, `correct_option`, `explanation`, `tst_id`, `marks`, `status`) VALUES
+(521, 'In a container, there are 5/8 liters of milk. 3/4 liters of milk are used to make tea. How much milk is left in the container?', '1/8 liters', '7/8 liters', '1 3/8 liters', '1 1/4 liters', NULL, '1', 'Total milk in the container = 5/8 liters\nMilk used to make tea = 3/4 liters\nMilk left = Total milk - Milk used to make tea\nTo subtract fractions, find a common denominator and subtract the numerators. The common denominator is 8.\n5/8 - 3/4 = (5x1)/(8x1) - 3/4 = 5/8 - (3x2)/(4x2) = 5/8 - 6/8 = (5-6)/8 = -1/8\nTherefore, the milk left in the container is -1/8 liters. Note that a negative value suggests that more milk was used than available, so please check the calculations.', 17, NULL, 1),
+(522, 'Sushant had 12 34 kg of apples. If he gave 3 12 kg of apples to his friend, how much apples does Sushant have now?', '7 22 kg', '9 22 kg', '8 22 kg', '7 24 kg', NULL, '2', 'Total weight of apples = 12 34 kg\nFraction of apples given to friend = 3 12 kg\nWeight of apples left = 12 34 kg - 3 12 kg = 9 22 kg\nTherefore Sushant has 9 22 kg of apples now.', 17, NULL, 1),
+(523, 'sushant solved 2/3 of a math problem. If the problem had 12 parts, how many parts are left to solve?', '4', '6', '8', '10', NULL, '4', 'Total parts of the problem = 12\nParts solved by sushant = 2/3 of 12 = 2/3 x 12 = 8\nParts left to solve = Total parts - Parts solved = 12 - 8 = 4', 17, NULL, 1),
+(524, 'Sneha has 12 pieces of candy. She eats 4 pieces and gives some to her friends. How many pieces of candy does she give to her friends?', '3', '5', '7', '9', NULL, '3', 'Number of candy Sneha eats = 4\nNumber of candy she gives to her friends = 12 - 4 = 8\nTherefore, Sneha gives 8 pieces of candy to her friends.', 17, NULL, 1),
+(525, 'Sushant has 15 marbles. He wants to divide them equally among his 5 friends. How many marbles does each friend receive?', '2', '3', '4', '5', NULL, '2', 'Number of marbles Sushant has = 15\nNumber of friends = 5\nEach friend will receive 15 ÷ 5 = 3 marbles.', 17, NULL, 1),
+(526, 'Sneha has 18 books. She wants to organize them into 3 equal stacks. How many books will be in each stack?', '4', '6', '8', '10', NULL, '3', 'Number of books Sneha has = 18\nNumber of stacks = 3\nEach stack will have 18 ÷ 3 = 6 books.', 17, NULL, 1),
+(527, 'Sushant drank 3/4 of a glass of juice. What fraction of the glass is left?', '1/4', '1/3', '1/2', '2/3', NULL, '1', 'Fraction of the glass of juice Sushant drank = 3/4\nFraction of the glass left = 1 - 3/4 = 1/4.', 17, NULL, 1),
+(528, 'Sneha solved 2/3 of a math worksheet. What fraction of the worksheet is left to be solved?', '1/6', '1/3', '1/2', '2/3', NULL, '4', 'Fraction of the math worksheet Sneha solved = 2/3\nFraction of the worksheet left = 1 - 2/3 = 1/3.', 17, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -726,6 +777,30 @@ CREATE TABLE `question_image` (
   `image_url` varchar(100) NOT NULL,
   `q_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `question_image`
+--
+
+INSERT INTO `question_image` (`id`, `image_url`, `q_id`) VALUES
+(12, '/images/girl.jpg', 509),
+(13, '/images/boy.jpg', 510),
+(14, '/images/girl.jpg', 510),
+(15, '/images/boy.jpg', 511),
+(16, '/images/girl.jpg', 511),
+(17, '/images/girl.jpg', 513),
+(18, '/images/girl.jpg', 515),
+(19, '/images/girl.jpg', 516),
+(20, '/images/boy.jpg', 517),
+(21, '/images/girl.jpg', 518),
+(22, '/images/girl.jpg', 520),
+(23, '/images/boy.jpg', 522),
+(24, '/images/boy.jpg', 523),
+(25, '/images/girl.jpg', 524),
+(26, '/images/boy.jpg', 525),
+(27, '/images/girl.jpg', 526),
+(28, '/images/boy.jpg', 527),
+(29, '/images/girl.jpg', 528);
 
 -- --------------------------------------------------------
 
@@ -940,21 +1015,6 @@ INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
 (2623, 190, 75),
 (2624, 207, 75),
 (2625, 220, 75),
-(2731, 501, 76),
-(2732, 503, 76),
-(2733, 504, 76),
-(2734, 499, 76),
-(2735, 506, 76),
-(2736, 507, 76),
-(2737, 502, 76),
-(2738, 500, 76),
-(2739, 498, 76),
-(2740, 495, 76),
-(2741, 496, 76),
-(2742, 494, 76),
-(2743, 497, 76),
-(2744, 508, 76),
-(2745, 505, 76),
 (2781, 29, 77),
 (2782, 56, 77),
 (2783, 50, 77),
@@ -1024,7 +1084,42 @@ INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
 (2882, 134, 64),
 (2883, 96, 64),
 (2884, 75, 64),
-(2885, 83, 64);
+(2885, 83, 64),
+(2886, 520, 76),
+(2887, 503, 76),
+(2888, 497, 76),
+(2889, 509, 76),
+(2890, 502, 76),
+(2891, 507, 76),
+(2892, 518, 76),
+(2893, 498, 76),
+(2894, 499, 76),
+(2895, 500, 76),
+(2896, 508, 76),
+(2897, 522, 76),
+(2898, 526, 76),
+(2899, 512, 76),
+(2900, 528, 76),
+(2901, 506, 76),
+(2902, 511, 76),
+(2903, 504, 76),
+(2904, 521, 76),
+(2905, 510, 76),
+(2906, 501, 76),
+(2907, 517, 76),
+(2908, 519, 76),
+(2909, 523, 76),
+(2910, 505, 76),
+(2911, 513, 76),
+(2912, 496, 76),
+(2913, 516, 76),
+(2914, 525, 76),
+(2915, 515, 76),
+(2916, 527, 76),
+(2917, 524, 76),
+(2918, 494, 76),
+(2919, 495, 76),
+(2920, 514, 76);
 
 -- --------------------------------------------------------
 
@@ -1091,7 +1186,7 @@ CREATE TABLE `test_series_product` (
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
 (6, 'OC Package - 5', 'fsfsfs', '89', '/images/product-1693303411.png', 1, 3, 35, '2023-09-01', 1),
-(8, 'OC Test Package - 4', 'dadad', '89', '/images/product-1693482495.jpg', 1, 6, 35, '2023-08-30', 1);
+(8, 'OC Test Package - 4', 'dadad', '89', '/images/product-1693482495.jpg', 1, 6, 35, '2023-08-31', 1);
 
 -- --------------------------------------------------------
 
@@ -1113,7 +1208,8 @@ CREATE TABLE `test_series_purchases` (
 
 INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `valid_till`) VALUES
 (3, 6, 2, '2023-08-31', '2023-12-01'),
-(4, 8, 2, '2023-08-31', '2024-03-02');
+(4, 8, 2, '2023-08-31', '2024-03-02'),
+(5, 8, 2, '2023-09-01', '2024-03-01');
 
 -- --------------------------------------------------------
 
@@ -1141,7 +1237,8 @@ INSERT INTO `test_series_topics` (`id`, `t_name`, `topic`, `tsc_id`, `status`, `
 (5, 'OC - Test2 - Easy', 'Test2', 3, 1, 1),
 (14, 'OC - Test2 - Easy', 'Test3', 3, 1, 1),
 (15, 'OC - Test4 - Easy', 'Test4', 3, 1, 1),
-(16, 'Ratio', 'Ratio', 1, 1, 1);
+(16, 'Ratio', 'Ratio', 1, 1, 1),
+(17, 'Fraction', 'Fractions', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1219,7 +1316,8 @@ INSERT INTO `ts_pc_topics` (`id`, `tspcs_id`, `tst_id`) VALUES
 (96, 64, 2),
 (97, 76, 16),
 (98, 77, 1),
-(101, 64, 16);
+(101, 64, 16),
+(102, 76, 17);
 
 -- --------------------------------------------------------
 
@@ -1294,7 +1392,8 @@ CREATE TABLE `user_test_series` (
 --
 
 INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `total_marks`, `q_id`) VALUES
-(3, 4, 76, 0, '31-08-2023', NULL, NULL, '21.5', NULL, 46);
+(3, 4, 76, 0, '31-08-2023', NULL, NULL, '21.5', NULL, 46),
+(4, 5, 76, 0, '01-09-2023', NULL, NULL, '26.16', NULL, 70);
 
 -- --------------------------------------------------------
 
@@ -1331,7 +1430,42 @@ INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `marks
 (47, 494, 3, NULL, NULL, 3, '0'),
 (48, 497, 3, NULL, NULL, 3, '0'),
 (49, 508, 3, NULL, NULL, 3, '0'),
-(50, 505, 3, NULL, NULL, 3, '0');
+(50, 505, 3, NULL, NULL, 3, '0'),
+(51, 520, 2, NULL, NULL, 4, '0'),
+(52, 503, 2, NULL, NULL, 4, '0'),
+(53, 497, 2, NULL, NULL, 4, '0'),
+(54, 509, 2, NULL, NULL, 4, '0'),
+(55, 502, 2, NULL, NULL, 4, '0'),
+(56, 507, 2, NULL, NULL, 4, '0'),
+(57, 518, 2, NULL, NULL, 4, '0'),
+(58, 498, 2, NULL, NULL, 4, '0'),
+(59, 499, 3, NULL, NULL, 4, '0'),
+(60, 500, 3, NULL, NULL, 4, '0'),
+(61, 508, 3, NULL, NULL, 4, '0'),
+(62, 522, 2, NULL, NULL, 4, '0'),
+(63, 526, 3, NULL, NULL, 4, '0'),
+(64, 512, 3, NULL, NULL, 4, '0'),
+(65, 528, 3, NULL, NULL, 4, '0'),
+(66, 506, 2, NULL, NULL, 4, '0'),
+(67, 511, 2, NULL, NULL, 4, '0'),
+(68, 504, 2, NULL, NULL, 4, '0'),
+(69, 521, 2, NULL, NULL, 4, '0'),
+(70, 510, 2, NULL, NULL, 4, '0'),
+(71, 501, 3, NULL, NULL, 4, '0'),
+(72, 517, 3, NULL, NULL, 4, '0'),
+(73, 519, 3, NULL, NULL, 4, '0'),
+(74, 523, 3, NULL, NULL, 4, '0'),
+(75, 505, 3, NULL, NULL, 4, '0'),
+(76, 513, 3, NULL, NULL, 4, '0'),
+(77, 496, 3, NULL, NULL, 4, '0'),
+(78, 516, 3, NULL, NULL, 4, '0'),
+(79, 525, 3, NULL, NULL, 4, '0'),
+(80, 515, 3, NULL, NULL, 4, '0'),
+(81, 527, 3, NULL, NULL, 4, '0'),
+(82, 524, 3, NULL, NULL, 4, '0'),
+(83, 494, 3, NULL, NULL, 4, '0'),
+(84, 495, 3, NULL, NULL, 4, '0'),
+(85, 514, 3, NULL, NULL, 4, '0');
 
 --
 -- Indexes for dumped tables
@@ -1363,7 +1497,15 @@ ALTER TABLE `failed_jobs`
 -- Indexes for table `images`
 --
 ALTER TABLE `images`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tsc_id` (`tsc_id`);
+
+--
+-- Indexes for table `images_names`
+--
+ALTER TABLE `images_names`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `image_id` (`image_id`);
 
 --
 -- Indexes for table `migrations`
@@ -1524,7 +1666,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1536,7 +1678,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `images_names`
+--
+ALTER TABLE `images_names`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1560,13 +1708,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=509;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=529;
 
 --
 -- AUTO_INCREMENT for table `question_image`
 --
 ALTER TABLE `question_image`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `reading_question`
@@ -1578,7 +1726,7 @@ ALTER TABLE `reading_question`
 -- AUTO_INCREMENT for table `set_question`
 --
 ALTER TABLE `set_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2886;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2921;
 
 --
 -- AUTO_INCREMENT for table `test_series`
@@ -1602,13 +1750,13 @@ ALTER TABLE `test_series_product`
 -- AUTO_INCREMENT for table `test_series_purchases`
 --
 ALTER TABLE `test_series_purchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -1626,7 +1774,7 @@ ALTER TABLE `tspc_set`
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
@@ -1644,13 +1792,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_test_series`
 --
 ALTER TABLE `user_test_series`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_test_status`
 --
 ALTER TABLE `user_test_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- Constraints for dumped tables
