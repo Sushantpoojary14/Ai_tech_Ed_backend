@@ -112,6 +112,7 @@ class ProductController extends Controller
             foreach ($value->category as $value2) {
                 // return $value2;
                 foreach ($value2['set'] as $value3) {
+                    $value3->purchase_id = $value->id;
                     $value3->valid_from = $value->valid_from;
                     $value3->valid_till = $value->valid_till;
                     $value3-> tsc_type =$value2['tsc_type'];

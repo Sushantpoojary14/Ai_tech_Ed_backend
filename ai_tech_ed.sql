@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 02, 2023 at 08:12 AM
+-- Generation Time: Sep 05, 2023 at 12:30 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,20 +57,12 @@ CREATE TABLE `cart` (
   `user_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `failed_jobs`
+-- Dumping data for table `cart`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `cart` (`id`, `tsp_id`, `user_id`) VALUES
+(8, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -98,13 +90,14 @@ INSERT INTO `images` (`id`, `image_name`, `image_url`, `tsc_id`) VALUES
 (10, 'ship', '/images/ship.jpg', 1),
 (11, 'train', '/images/train.jpg', 1),
 (12, 'Oliver', '/images/boy.jpg', 3),
-(13, 'James', '/images/boy.jpg', 3),
-(14, 'Jack', '/images/boy.jpg', 3),
-(15, 'Thomas', '/images/boy.jpg', 3),
-(16, 'Ella', '/images/girl.jpg', 3),
+(13, 'James', '/images/left_boy.jpg', 3),
+(14, 'Jack', '/images/left_boy.jpg', 3),
+(15, 'Thomas', '/images/left_boy.jpg', 3),
+(16, 'Ella', '/images/right_girl.jpg', 3),
 (17, 'Evie', '/images/girl.jpg', 3),
 (18, 'Sienna', '/images/girl.jpg', 3),
-(19, 'Isla', '/images/girl.jpg', 3);
+(19, 'Isla', '/images/girl.jpg', 3),
+(20, 'bag', '/images/bag.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -188,37 +181,6 @@ CREATE TABLE `non_verbal_question` (
   `tst_id` bigint(20) UNSIGNED NOT NULL,
   `marks` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `password_reset_tokens`
---
-
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1050,41 +1012,6 @@ INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
 (2813, 73, 77),
 (2814, 54, 77),
 (2815, 31, 77),
-(2851, 106, 64),
-(2852, 145, 64),
-(2853, 27, 64),
-(2854, 132, 64),
-(2855, 149, 64),
-(2856, 499, 64),
-(2857, 18, 64),
-(2858, 126, 64),
-(2859, 49, 64),
-(2860, 160, 64),
-(2861, 158, 64),
-(2862, 124, 64),
-(2863, 85, 64),
-(2864, 87, 64),
-(2865, 79, 64),
-(2866, 88, 64),
-(2867, 52, 64),
-(2868, 101, 64),
-(2869, 20, 64),
-(2870, 104, 64),
-(2871, 46, 64),
-(2872, 102, 64),
-(2873, 69, 64),
-(2874, 67, 64),
-(2875, 95, 64),
-(2876, 151, 64),
-(2877, 2, 64),
-(2878, 63, 64),
-(2879, 504, 64),
-(2880, 128, 64),
-(2881, 34, 64),
-(2882, 134, 64),
-(2883, 96, 64),
-(2884, 75, 64),
-(2885, 83, 64),
 (2886, 520, 76),
 (2887, 503, 76),
 (2888, 497, 76),
@@ -1119,7 +1046,42 @@ INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
 (2917, 524, 76),
 (2918, 494, 76),
 (2919, 495, 76),
-(2920, 514, 76);
+(2920, 514, 76),
+(2921, 500, 64),
+(2922, 155, 64),
+(2923, 113, 64),
+(2924, 105, 64),
+(2925, 160, 64),
+(2926, 154, 64),
+(2927, 505, 64),
+(2928, 96, 64),
+(2929, 124, 64),
+(2930, 513, 64),
+(2931, 503, 64),
+(2932, 522, 64),
+(2933, 143, 64),
+(2934, 524, 64),
+(2935, 106, 64),
+(2936, 104, 64),
+(2937, 123, 64),
+(2938, 130, 64),
+(2939, 149, 64),
+(2940, 512, 64),
+(2941, 507, 64),
+(2942, 132, 64),
+(2943, 140, 64),
+(2944, 494, 64),
+(2945, 517, 64),
+(2946, 81, 64),
+(2947, 88, 64),
+(2948, 137, 64),
+(2949, 100, 64),
+(2950, 157, 64),
+(2951, 497, 64),
+(2952, 525, 64),
+(2953, 128, 64),
+(2954, 87, 64),
+(2955, 515, 64);
 
 -- --------------------------------------------------------
 
@@ -1185,7 +1147,7 @@ CREATE TABLE `test_series_product` (
 --
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
-(6, 'OC Package - 5', 'fsfsfs', '89', '/images/product-1693303411.png', 1, 3, 35, '2023-09-01', 1),
+(6, 'OC Package - 5', 'fsfsfs', '89', '/images/product-1693303411.png', 1, 3, 35, '2023-09-04', 1),
 (8, 'OC Test Package - 4', 'dadad', '89', '/images/product-1693482495.jpg', 1, 6, 35, '2023-08-31', 1);
 
 -- --------------------------------------------------------
@@ -1207,9 +1169,7 @@ CREATE TABLE `test_series_purchases` (
 --
 
 INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `valid_till`) VALUES
-(3, 6, 2, '2023-08-31', '2023-12-01'),
-(4, 8, 2, '2023-08-31', '2024-03-02'),
-(5, 8, 2, '2023-09-01', '2024-03-01');
+(3, 6, 2, '2023-08-31', '2023-12-01');
 
 -- --------------------------------------------------------
 
@@ -1312,12 +1272,12 @@ INSERT INTO `ts_pc_topics` (`id`, `tspcs_id`, `tst_id`) VALUES
 (91, 73, 1),
 (92, 74, 2),
 (93, 75, 4),
-(95, 64, 1),
 (96, 64, 2),
 (97, 76, 16),
 (98, 77, 1),
 (101, 64, 16),
-(102, 76, 17);
+(102, 76, 17),
+(103, 64, 17);
 
 -- --------------------------------------------------------
 
@@ -1384,6 +1344,8 @@ CREATE TABLE `user_test_series` (
   `time_taken` varchar(40) DEFAULT NULL,
   `current_timer` varchar(40) DEFAULT NULL,
   `total_marks` tinyint(4) DEFAULT NULL,
+  `percentage` int(11) DEFAULT 0,
+  `total_answered` int(11) DEFAULT NULL,
   `q_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -1391,9 +1353,10 @@ CREATE TABLE `user_test_series` (
 -- Dumping data for table `user_test_series`
 --
 
-INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `total_marks`, `q_id`) VALUES
-(3, 4, 76, 0, '31-08-2023', NULL, NULL, '21.5', NULL, 46),
-(4, 5, 76, 0, '01-09-2023', NULL, NULL, '26.16', NULL, 70);
+INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `total_marks`, `percentage`, `total_answered`, `q_id`) VALUES
+(5, 3, 64, 1, '02-09-2023', '02-09-2023', '2', NULL, 0, 0, 0, 93),
+(9, 3, 75, 1, '04-09-2023', '04-09-2023', '1', NULL, 1, 3, 0, 156),
+(10, 3, 74, 1, '04-09-2023', '04-09-2023', '2', NULL, 3, 9, 6, 214);
 
 -- --------------------------------------------------------
 
@@ -1406,7 +1369,7 @@ CREATE TABLE `user_test_status` (
   `q_id` bigint(20) UNSIGNED DEFAULT NULL,
   `status_id` bigint(20) UNSIGNED NOT NULL DEFAULT 3,
   `test_answer` varchar(255) DEFAULT NULL,
-  `marks` tinyint(4) DEFAULT NULL,
+  `marks` tinyint(4) DEFAULT 0,
   `uts_id` bigint(20) UNSIGNED NOT NULL,
   `test_time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1416,56 +1379,111 @@ CREATE TABLE `user_test_status` (
 --
 
 INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `marks`, `uts_id`, `test_time`) VALUES
-(36, 501, 2, NULL, NULL, 3, '0'),
-(37, 503, 2, NULL, NULL, 3, '0'),
-(38, 504, 2, NULL, NULL, 3, '0'),
-(39, 499, 2, NULL, NULL, 3, '0'),
-(40, 506, 3, NULL, NULL, 3, '0'),
-(41, 507, 3, NULL, NULL, 3, '0'),
-(42, 502, 2, NULL, NULL, 3, '0'),
-(43, 500, 2, NULL, NULL, 3, '0'),
-(44, 498, 3, NULL, NULL, 3, '0'),
-(45, 495, 2, NULL, NULL, 3, '0'),
-(46, 496, 2, NULL, NULL, 3, '0'),
-(47, 494, 3, NULL, NULL, 3, '0'),
-(48, 497, 3, NULL, NULL, 3, '0'),
-(49, 508, 3, NULL, NULL, 3, '0'),
-(50, 505, 3, NULL, NULL, 3, '0'),
-(51, 520, 2, NULL, NULL, 4, '0'),
-(52, 503, 2, NULL, NULL, 4, '0'),
-(53, 497, 2, NULL, NULL, 4, '0'),
-(54, 509, 2, NULL, NULL, 4, '0'),
-(55, 502, 2, NULL, NULL, 4, '0'),
-(56, 507, 2, NULL, NULL, 4, '0'),
-(57, 518, 2, NULL, NULL, 4, '0'),
-(58, 498, 2, NULL, NULL, 4, '0'),
-(59, 499, 3, NULL, NULL, 4, '0'),
-(60, 500, 3, NULL, NULL, 4, '0'),
-(61, 508, 3, NULL, NULL, 4, '0'),
-(62, 522, 2, NULL, NULL, 4, '0'),
-(63, 526, 3, NULL, NULL, 4, '0'),
-(64, 512, 3, NULL, NULL, 4, '0'),
-(65, 528, 3, NULL, NULL, 4, '0'),
-(66, 506, 2, NULL, NULL, 4, '0'),
-(67, 511, 2, NULL, NULL, 4, '0'),
-(68, 504, 2, NULL, NULL, 4, '0'),
-(69, 521, 2, NULL, NULL, 4, '0'),
-(70, 510, 2, NULL, NULL, 4, '0'),
-(71, 501, 3, NULL, NULL, 4, '0'),
-(72, 517, 3, NULL, NULL, 4, '0'),
-(73, 519, 3, NULL, NULL, 4, '0'),
-(74, 523, 3, NULL, NULL, 4, '0'),
-(75, 505, 3, NULL, NULL, 4, '0'),
-(76, 513, 3, NULL, NULL, 4, '0'),
-(77, 496, 3, NULL, NULL, 4, '0'),
-(78, 516, 3, NULL, NULL, 4, '0'),
-(79, 525, 3, NULL, NULL, 4, '0'),
-(80, 515, 3, NULL, NULL, 4, '0'),
-(81, 527, 3, NULL, NULL, 4, '0'),
-(82, 524, 3, NULL, NULL, 4, '0'),
-(83, 494, 3, NULL, NULL, 4, '0'),
-(84, 495, 3, NULL, NULL, 4, '0'),
-(85, 514, 3, NULL, NULL, 4, '0');
+(86, 500, 2, NULL, NULL, 5, '0'),
+(87, 155, 1, '2', NULL, 5, '0'),
+(88, 113, 1, '1', NULL, 5, '0'),
+(89, 105, 1, '1', NULL, 5, '0'),
+(90, 160, 1, '1', NULL, 5, '0'),
+(91, 154, 1, '1', NULL, 5, '0'),
+(92, 505, 1, '1', NULL, 5, '0'),
+(93, 96, 1, '2', NULL, 5, '0'),
+(94, 124, 3, NULL, NULL, 5, '0'),
+(95, 513, 3, NULL, NULL, 5, '0'),
+(96, 503, 3, NULL, NULL, 5, '0'),
+(97, 522, 3, NULL, NULL, 5, '0'),
+(98, 143, 3, NULL, NULL, 5, '0'),
+(99, 524, 3, NULL, NULL, 5, '0'),
+(100, 106, 3, NULL, NULL, 5, '0'),
+(101, 104, 3, NULL, NULL, 5, '0'),
+(102, 123, 3, NULL, NULL, 5, '0'),
+(103, 130, 3, NULL, NULL, 5, '0'),
+(104, 149, 3, NULL, NULL, 5, '0'),
+(105, 512, 3, NULL, NULL, 5, '0'),
+(106, 507, 3, NULL, NULL, 5, '0'),
+(107, 132, 3, NULL, NULL, 5, '0'),
+(108, 140, 3, NULL, NULL, 5, '0'),
+(109, 494, 3, NULL, NULL, 5, '0'),
+(110, 517, 3, NULL, NULL, 5, '0'),
+(111, 81, 3, NULL, NULL, 5, '0'),
+(112, 88, 3, NULL, NULL, 5, '0'),
+(113, 137, 3, NULL, NULL, 5, '0'),
+(114, 100, 3, NULL, NULL, 5, '0'),
+(115, 157, 3, NULL, NULL, 5, '0'),
+(116, 497, 3, NULL, NULL, 5, '0'),
+(117, 525, 3, NULL, NULL, 5, '0'),
+(118, 128, 3, NULL, NULL, 5, '0'),
+(119, 87, 3, NULL, NULL, 5, '0'),
+(120, 515, 3, NULL, NULL, 5, '0'),
+(156, 203, 1, '1', 1, 9, '0'),
+(157, 238, 1, '2', 0, 9, '0'),
+(158, 196, 3, NULL, 0, 9, '0'),
+(159, 224, 3, NULL, 0, 9, '0'),
+(160, 227, 3, NULL, 0, 9, '0'),
+(161, 179, 3, NULL, 0, 9, '0'),
+(162, 233, 3, NULL, 0, 9, '0'),
+(163, 225, 3, NULL, 0, 9, '0'),
+(164, 223, 3, NULL, 0, 9, '0'),
+(165, 178, 3, NULL, 0, 9, '0'),
+(166, 195, 3, NULL, 0, 9, '0'),
+(167, 212, 3, NULL, 0, 9, '0'),
+(168, 216, 3, NULL, 0, 9, '0'),
+(169, 204, 3, NULL, 0, 9, '0'),
+(170, 194, 3, NULL, 0, 9, '0'),
+(171, 165, 3, NULL, 0, 9, '0'),
+(172, 213, 3, NULL, 0, 9, '0'),
+(173, 168, 3, NULL, 0, 9, '0'),
+(174, 173, 3, NULL, 0, 9, '0'),
+(175, 166, 3, NULL, 0, 9, '0'),
+(176, 192, 3, NULL, 0, 9, '0'),
+(177, 209, 3, NULL, 0, 9, '0'),
+(178, 186, 3, NULL, 0, 9, '0'),
+(179, 221, 3, NULL, 0, 9, '0'),
+(180, 205, 3, NULL, 0, 9, '0'),
+(181, 169, 3, NULL, 0, 9, '0'),
+(182, 232, 3, NULL, 0, 9, '0'),
+(183, 172, 3, NULL, 0, 9, '0'),
+(184, 170, 3, NULL, 0, 9, '0'),
+(185, 199, 3, NULL, 0, 9, '0'),
+(186, 176, 3, NULL, 0, 9, '0'),
+(187, 210, 3, NULL, 0, 9, '0'),
+(188, 190, 3, NULL, 0, 9, '0'),
+(189, 207, 3, NULL, 0, 9, '0'),
+(190, 220, 3, NULL, 0, 9, '0'),
+(191, 147, 1, '3', 0, 10, '0'),
+(192, 121, 3, NULL, 0, 10, '0'),
+(193, 160, 3, NULL, 0, 10, '0'),
+(194, 120, 3, NULL, 0, 10, '0'),
+(195, 124, 3, NULL, 0, 10, '0'),
+(196, 84, 3, NULL, 0, 10, '0'),
+(197, 134, 3, NULL, 0, 10, '0'),
+(198, 101, 3, NULL, 0, 10, '0'),
+(199, 136, 3, NULL, 0, 10, '0'),
+(200, 155, 3, NULL, 0, 10, '0'),
+(201, 88, 3, NULL, 0, 10, '0'),
+(202, 152, 1, '2', 1, 10, '0'),
+(203, 98, 1, '3', 1, 10, '0'),
+(204, 138, 3, NULL, 0, 10, '0'),
+(205, 132, 3, NULL, 0, 10, '0'),
+(206, 126, 3, NULL, 0, 10, '0'),
+(207, 90, 3, NULL, 0, 10, '0'),
+(208, 117, 3, NULL, 0, 10, '0'),
+(209, 100, 3, NULL, 0, 10, '0'),
+(210, 146, 3, NULL, 0, 10, '0'),
+(211, 119, 1, '3', 1, 10, '0'),
+(212, 145, 3, NULL, 0, 10, '0'),
+(213, 104, 1, '3', 0, 10, '0'),
+(214, 143, 1, '3', 0, 10, '0'),
+(215, 154, 3, NULL, 0, 10, '0'),
+(216, 116, 3, NULL, 0, 10, '0'),
+(217, 133, 3, NULL, 0, 10, '0'),
+(218, 153, 3, NULL, 0, 10, '0'),
+(219, 144, 3, NULL, 0, 10, '0'),
+(220, 140, 3, NULL, 0, 10, '0'),
+(221, 115, 3, NULL, 0, 10, '0'),
+(222, 85, 3, NULL, 0, 10, '0'),
+(223, 109, 3, NULL, 0, 10, '0'),
+(224, 91, 3, NULL, 0, 10, '0'),
+(225, 139, 3, NULL, 0, 10, '0');
 
 --
 -- Indexes for dumped tables
@@ -1485,13 +1503,6 @@ ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
   ADD KEY `cart_tsp_id_index` (`tsp_id`),
   ADD KEY `cart_user_id_index` (`user_id`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
 -- Indexes for table `images`
@@ -1519,20 +1530,6 @@ ALTER TABLE `migrations`
 ALTER TABLE `non_verbal_question`
   ADD PRIMARY KEY (`id`),
   ADD KEY `non_verbal_question_tst_id_index` (`tst_id`);
-
---
--- Indexes for table `password_reset_tokens`
---
-ALTER TABLE `password_reset_tokens`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
 -- Indexes for table `question`
@@ -1666,19 +1663,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `images_names`
@@ -1696,12 +1687,6 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `non_verbal_question`
 --
 ALTER TABLE `non_verbal_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -1726,7 +1711,7 @@ ALTER TABLE `reading_question`
 -- AUTO_INCREMENT for table `set_question`
 --
 ALTER TABLE `set_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2921;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2956;
 
 --
 -- AUTO_INCREMENT for table `test_series`
@@ -1774,7 +1759,7 @@ ALTER TABLE `tspc_set`
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
@@ -1792,13 +1777,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_test_series`
 --
 ALTER TABLE `user_test_series`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `user_test_status`
 --
 ALTER TABLE `user_test_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- Constraints for dumped tables
