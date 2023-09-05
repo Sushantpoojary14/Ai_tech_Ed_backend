@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('status_id')->index()->default('3');
             $table->foreign('status_id')->references('id')->on('test_status')->onDelete('cascade');
             $table->string('test_answer')->nullable();
-            $table->tinyInteger('marks')->nullable();
+            $table->tinyInteger('marks')->nullable()->default(0);
             $table->unsignedBigInteger('uts_id')->index();
             $table->foreign('uts_id')->references('id')->on('user_test_series')->onDelete('cascade');
             $table->string('test_time');

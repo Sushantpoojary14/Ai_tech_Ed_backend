@@ -22,6 +22,7 @@ class UserTestSeries extends Model
         'current_timer',
         'q_id',
         'total_marks',
+        'percentage',
         'total_answered'
     ];
 
@@ -34,6 +35,7 @@ class UserTestSeries extends Model
         'total_marks'=> 'integer',
         'complete_status' => 'integer',
         'total_answered'=> 'integer',
+        'percentage'=>'integer'
       ];
     public function userPurchases(): BelongsTo
     {

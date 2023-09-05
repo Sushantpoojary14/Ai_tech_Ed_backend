@@ -221,6 +221,7 @@ class UserController extends Controller
                 'time_taken' => $time_taken,
                 'current_timer' => null,
                 'total_marks' => $total,
+                'percentage'=>($total/35)*100,
                 'total_answered' => count($total_answered)
             ]);
 
@@ -365,16 +366,19 @@ class UserController extends Controller
         })->all();
 
         // return $purchases->category;
-        if(is_array($purchases->category) ){
+        if (is_array($purchases->category)) {
             foreach ($purchases->category as $value2) {
                 foreach ($value2['set'] as $value3) {
                     $value3->valid_from = $purchases->valid_from;
                     $value3->valid_till = $purchases->valid_till;
                     $value3->tsc_type = $value2['tsc_type'];
                     $value3->duration = $value2['duration'];
+                    unset($value3->tspc_id, $value3->set_number, $value3->status);
                     $new_purchases[] = $value3;
                 }
             }
+
+
         }
         unset($purchases->tsProduct);
 
@@ -391,7 +395,13 @@ class UserController extends Controller
             })
             ->with('getTSSet')
             ->get();
-    //  $user_RA
+        //  $user_RA
+        $user_RA = $user_RA->map(function ($item) {
+            $item->set_name = $item->getTSSet->set_name;
+            unset($item->getTSSet);
+            return $item;
+        });
+
         return response()->json([
             'all_results' => $user_RA,
 
@@ -404,15 +414,19 @@ class UserController extends Controller
                 $query->where('user_id', $user_id);
             })
             ->with('getTSSet')
+            ->limit(6)
+            // ->select('id')
             ->get();
 
-        $RA = "";
+        $user_RA = $user_RA->map(function ($item) {
+            $item->set_name = $item->getTSSet->set_name;
+            unset($item->tsps_id, $item->set_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status,$item->getTSSet);
+            return $item;
+        });
 
-        if (count($user_RA) != 0) {
-            $RA = $user_RA[count($user_RA) - 1];
-        }
+
         return response()->json([
-            'result' => $RA,
+            'result' => $user_RA,
         ], 200);
     }
 }
