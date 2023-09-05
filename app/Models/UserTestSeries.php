@@ -21,7 +21,8 @@ class UserTestSeries extends Model
         'time_taken',
         'current_timer',
         'q_id',
-        'total_marks'
+        'total_marks',
+        'total_answered'
     ];
 
     protected $casts = [
@@ -32,6 +33,7 @@ class UserTestSeries extends Model
         'user_id' => 'integer',
         'total_marks'=> 'integer',
         'complete_status' => 'integer',
+        'total_answered'=> 'integer',
       ];
     public function userPurchases(): BelongsTo
     {
@@ -42,6 +44,9 @@ class UserTestSeries extends Model
     {
         return $this->belongsTo(TSPCSet::class, 'set_id', 'id');
     }
-
+    public function getUTStatus()
+    {
+        return $this->hasMany(UserTestStatus::class, 'uts_id', 'id');
+    }
 
 }

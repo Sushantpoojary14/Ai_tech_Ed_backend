@@ -80,7 +80,7 @@ class ProductController extends Controller
 
 
 
-    public function getTSPurchases($ts_id = null)
+    public function getTSPurchases($ts_id)
     {
 
         $purchases = TestSeriesPurchases::query()
@@ -97,11 +97,40 @@ class ProductController extends Controller
                     );
                 }
             ])
+
             ->get();
+        $new_purchases =[] ;
+        foreach ($purchases as $key => $value) {
+            $temp_data = $value->tsProduct->getTsProductCategory;
+            $test_data = array_column($temp_data->toArray(), 'test_series_categories');
+            // return $test_data;
+            $value->category = collect($test_data)->map(function ($item, $key) use ($temp_data) {
+                $item['set'] = $temp_data[$key]->tsPCSet;
+                return $item;
+            })->all();
 
+            foreach ($value->category as $value2) {
+                // return $value2;
+                foreach ($value2['set'] as $value3) {
+                    $value3->valid_from = $value->valid_from;
+                    $value3->valid_till = $value->valid_till;
+                    $value3-> tsc_type =$value2['tsc_type'];
+                    $value3->duration = $value2['duration'];
+                    $new_purchases[]= $value3;
+                }
+            }
+            unset($value->tsProduct);
+            // $new_purchases= [
+                // return $value;
 
+            //     'set'=>$value->test_data
+            // ];
+        }
+        // unset($purchases->tsproduct)
         return response()->json([
-            'tsp' => $purchases
+            // 'tsp' => $purchases,
+            'tsp' => $new_purchases
+            //
         ], 200);
     }
     public function getTSDetails($ps_id)
@@ -240,7 +269,7 @@ class ProductController extends Controller
         // return $current_date;
         $products = TestSeriesProduct::query()
             ->where('status', 1)
-            ->where('release_date',"<",$current_date)
+            ->where('release_date', "<", $current_date)
             ->when($id, function ($query, $id) {
                 return $query->where('ts_id', $id);
             })

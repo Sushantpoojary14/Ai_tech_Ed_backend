@@ -183,23 +183,35 @@ class UserController extends Controller
         $current = Carbon::now();
         $uts = UserTestSeries::query()
             ->where('id', $id)
+            ->with('getTSSet.getTsPC.testSeriesCategories')
             ->first();
 
-        $ps = TestSeriesPurchases::query()
-            ->whereHas('uTestUser', function ($query) use ($uts) {
-                $query->where("tsps_id", $uts->tsps_id);
-            })
-            ->with('tsProduct')
-            ->first();
+        $duration = $uts->getTSSet->getTsPC->testSeriesCategories->duration;
 
-        // UserTestStatus::query()
-        //     ->where('uts_id', $id)
-        //     ->update([
-        //         'status_id' => 1,
+        $total_answered = UserTestStatus::query()
+            ->where('uts_id', $id)
+            ->whereNot('test_answer', null)
+            ->with('questions')
+            ->get();
 
-        //     ]);
 
-        $time_taken = round(((int) $ps->tsproduct->duration - (int) $request->current_timer));
+        $total = 0;
+
+
+        foreach ($total_answered as $item) {
+            // return ([$item->test_answer,$item->questions->correct_option]);
+            // $total[] = $item->test_answer;
+            if ($item->test_answer == $item->questions->correct_option) {
+                UserTestStatus::query()
+                    ->where('uts_id', $id)
+                    ->where('q_id', $item->questions->id)
+                    ->update(['marks' => 1]);
+                $total++;
+
+            }
+        }
+        // return ([$total]);
+        $time_taken = round(((int) $duration - (int) $request->current_timer));
 
         UserTestSeries::query()
             ->where('id', $id)
@@ -207,7 +219,9 @@ class UserController extends Controller
                 'complete_status' => 1,
                 'end_date' => $current->format('d-m-Y'),
                 'time_taken' => $time_taken,
-                'current_timer' => null
+                'current_timer' => null,
+                'total_marks' => $total,
+                'total_answered'=> count($total_answered)
             ]);
 
         $t = UserTestSeries::query()->where('id', $id)->first();
@@ -228,51 +242,162 @@ class UserController extends Controller
                 'message' => 'does not exist'
             ], 401);
         }
-        $ps = TestSeriesPurchases::query()
-            ->whereHas('uTestUser', function ($query) use ($uts) {
-                $query->where("tsps_id", $uts->tsps_id);
-            })
-            ->with('tsProduct')
+        $uts = UserTestSeries::query()
+            ->where('id', $id)
+            ->with('getTSSet.getTsPC.testSeriesCategories')
             ->first();
+
+        $duration = $uts->getTSSet->getTsPC->testSeriesCategories->duration;
 
         $total_answered = UserTestStatus::query()
             ->where('uts_id', $id)
             ->whereNot('test_answer', null)
-            ->with('questions')
             ->get();
 
-        // return $total_answered;
-        $total = 0;
-        // $to = [];
+        // $total = 0;
 
-        foreach ($total_answered as $item) {
-            // $total[] = $item->test_answer;
-            if ($item->test_answer == $item->questions->correct_option) {
-                UserTestStatus::query()
-                    ->where('uts_id', $id)
-                    ->where('q_id', $item->questions->id)
-                    ->update(['marks'=>1]);
-                $total++;
+        // foreach ($total_answered as $item) {
+        //     // $total[] = $item->test_answer;
+        //     if ($item->test_answer == $item->questions->correct_option) {
+        //         UserTestStatus::query()
+        //             ->where('uts_id', $id)
+        //             ->where('q_id', $item->questions->id)
+        //             ->update(['marks' => 1]);
+        //         $total++;
 
-            }
-        }
+        //     }
+        // }
 
-        UserTestSeries::query()
-            ->where('id', $id)
-            ->update(['total_marks' => $total]);
+        // $uts =UserTestSeries::query()
+        //     ->where('id', $id)
+        //     ->first();
         // return $total;
         // return $total;
         return response()->json([
             'total_answered' => count($total_answered),
-            'total_questions' => $ps->tsProduct->total_question,
-            'total_marks' => $ps->tsProduct->total_question,
-            'total_time' => $ps->tsProduct->duration,
+            'total_questions' => 35,
+            'total_marks' => 35,
+            'total_time' => $duration,
             'time_taken' => (int) $uts->time_taken,
-            'right_answer' => $total,
-            'wrong_answer' => $ps->tsProduct->total_question - $total,
-            'marks_obtained' => $total
+            'right_answer' => $uts->total_marks,
+            'wrong_answer' => (int) (35 - $uts->total_marks),
+            'marks_obtained' => (int) $uts->total_marks
         ], 200);
 
     }
+    public function UserSetData($user_id)
+    {
+        $product = TestSeriesPurchases::query()
+            ->where('user_id', $user_id)
+            ->with('tsProduct.getTsProductCategory.tsPCSet')
+            ->get();
+        $total_test = 0;
+        $complete_test = 0;
+        $incomplete_test = 0;
+        $Remaining_test = 0;
+        foreach ($product as $key => $value) {
+            $temp_set = $value->tsProduct->getTsProductCategory;
+            foreach ($temp_set as $key => $value2) {
+                $total_test += count($value2->tsPCSet);
+                // foreach ($value2->tsPCSet as $key => $value3) {
+                // $temp_CStatus = array_column($test_data->toArray(), 'complete_status');
+                // }
+            }
+            $test_data = UserTestSeries::
+                where('tsps_id', $value->id)
+                ->first();
+            if ($test_data) {
+                $complete_test += $test_data->complete_status == 1;
+                $incomplete_test += $test_data->complete_status == 0;
+            }
+        }
+        $Remaining_test += $total_test - ($incomplete_test + $complete_test);
 
+        return response()->json([
+            // 'message' => 'Successfully Submitted',
+            'total_test' => $total_test,
+            'complete_test' => $complete_test,
+            'incomplete_test' => $incomplete_test,
+            'Remaining_test' => $Remaining_test,
+            // $temp_CStatus,
+            // $temp,
+
+            // $test_data,
+        ], 200);
+
+    }
+    public function getRProduct($user_id)
+    {
+        $product = TestSeriesProduct::query()
+            ->whereDoesntHave('tsPurchases', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            // ->with('tsPurchases')
+            ->get();
+
+        return response()->json([
+            // 'message' => 'Successfu',
+            'remaining_product' => $product
+        ], 200);
+    }
+
+    public function getTSPurchasesLimit($user_id)
+    {
+        $purchases = TestSeriesPurchases::query()
+            ->where('user_id', $user_id)
+            // ->with('tsProduct')
+            ->with([
+                'tsProduct' => function ($query) {
+                    $query->with(
+                        'getTsProductCategory.testSeriesCategories',
+                        'getTsProductCategory.tsPCSet'
+                    );
+                }
+            ])
+            ->first();
+        $temp_data = $purchases->tsProduct->getTsProductCategory;
+        $purchases->test_data = array_column($temp_data->toArray(), 'test_series_categories');
+
+        $purchases->test_data = collect($purchases->test_data)->map(function ($item, $key) use ($temp_data) {
+            $item['set'] = $temp_data[$key]->tsPCSet;
+            return $item;
+        })->all();
+
+        unset($purchases->tsProduct);
+
+        return response()->json([
+            'tsp' => $purchases,
+        ], 200);
+    }
+
+    public function get_user_all_result($user_id){
+        $user_RA = UserTestSeries::query()
+        ->whereHas('userPurchases',function($query) use($user_id){
+            $query->where('user_id',$user_id);
+        })
+        ->with('getTSSet')
+        ->get();
+
+        return response()->json([
+            'all_results' => $user_RA,
+
+        ], 200);
+    }
+    public function get_user_result_limit($user_id){
+        $user_RA = UserTestSeries::query()
+        ->whereHas('userPurchases',function($query) use($user_id){
+            $query->where('user_id',$user_id);
+        })
+        ->with('getTSSet')
+        ->get();
+
+        $RA = "";
+
+        if(count($user_RA)!=0){
+            $RA = $user_RA[count($user_RA)-1];
+        }
+        return response()->json([
+            'result' => $RA,
+        ], 200);
+    }
 }

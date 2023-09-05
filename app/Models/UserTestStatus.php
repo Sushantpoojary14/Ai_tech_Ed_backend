@@ -29,6 +29,17 @@ class UserTestStatus extends Model
         'marks'=> 'integer',
         'uts_id' => 'integer',
     ];
+
+    protected function getTestAnswerAttribute($value)
+    {
+        return match ((int)$value) {
+            1 => 'A',
+            2 => 'B',
+            3 => 'C',
+            4 => 'D',
+            default => null
+        };
+    }
     public function questions(): BelongsTo
     {
         return $this->belongsTo(Question::class, 'q_id', 'id');
