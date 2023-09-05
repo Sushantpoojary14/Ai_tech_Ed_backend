@@ -359,18 +359,21 @@ class UserController extends Controller
         $temp_data = $purchases->tsProduct->getTsProductCategory;
         $purchases->test_data = array_column($temp_data->toArray(), 'test_series_categories');
 
-        $purchases->test_data = collect($purchases->test_data)->map(function ($item, $key) use ($temp_data) {
+        $purchases->category = collect($purchases->test_data)->map(function ($item, $key) use ($temp_data) {
             $item['set'] = $temp_data[$key]->tsPCSet;
             return $item;
         })->all();
-        foreach ($purchases->category as $value2) {
-            // return $value2;
-            foreach ($value2['set'] as $value3) {
-                $value3->valid_from = $purchases->valid_from;
-                $value3->valid_till = $purchases->valid_till;
-                $value3->tsc_type = $value2['tsc_type'];
-                $value3->duration = $value2['duration'];
-                $new_purchases[] = $value3;
+
+        // return $purchases->category;
+        if(is_array($purchases->category) ){
+            foreach ($purchases->category as $value2) {
+                foreach ($value2['set'] as $value3) {
+                    $value3->valid_from = $purchases->valid_from;
+                    $value3->valid_till = $purchases->valid_till;
+                    $value3->tsc_type = $value2['tsc_type'];
+                    $value3->duration = $value2['duration'];
+                    $new_purchases[] = $value3;
+                }
             }
         }
         unset($purchases->tsProduct);
@@ -388,7 +391,7 @@ class UserController extends Controller
             })
             ->with('getTSSet')
             ->get();
-
+    //  $user_RA
         return response()->json([
             'all_results' => $user_RA,
 
