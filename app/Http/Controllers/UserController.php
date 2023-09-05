@@ -221,7 +221,7 @@ class UserController extends Controller
                 'time_taken' => $time_taken,
                 'current_timer' => null,
                 'total_marks' => $total,
-                'total_answered'=> count($total_answered)
+                'total_answered' => count($total_answered)
             ]);
 
         $t = UserTestSeries::query()->where('id', $id)->first();
@@ -355,6 +355,7 @@ class UserController extends Controller
                 }
             ])
             ->first();
+        $new_purchases = [];
         $temp_data = $purchases->tsProduct->getTsProductCategory;
         $purchases->test_data = array_column($temp_data->toArray(), 'test_series_categories');
 
@@ -362,39 +363,50 @@ class UserController extends Controller
             $item['set'] = $temp_data[$key]->tsPCSet;
             return $item;
         })->all();
-
+        foreach ($purchases->category as $value2) {
+            // return $value2;
+            foreach ($value2['set'] as $value3) {
+                $value3->valid_from = $purchases->valid_from;
+                $value3->valid_till = $purchases->valid_till;
+                $value3->tsc_type = $value2['tsc_type'];
+                $value3->duration = $value2['duration'];
+                $new_purchases[] = $value3;
+            }
+        }
         unset($purchases->tsProduct);
 
         return response()->json([
-            'tsp' => $purchases,
+            'tsp' => $new_purchases,
         ], 200);
     }
 
-    public function get_user_all_result($user_id){
+    public function get_user_all_result($user_id)
+    {
         $user_RA = UserTestSeries::query()
-        ->whereHas('userPurchases',function($query) use($user_id){
-            $query->where('user_id',$user_id);
-        })
-        ->with('getTSSet')
-        ->get();
+            ->whereHas('userPurchases', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('getTSSet')
+            ->get();
 
         return response()->json([
             'all_results' => $user_RA,
 
         ], 200);
     }
-    public function get_user_result_limit($user_id){
+    public function get_user_result_limit($user_id)
+    {
         $user_RA = UserTestSeries::query()
-        ->whereHas('userPurchases',function($query) use($user_id){
-            $query->where('user_id',$user_id);
-        })
-        ->with('getTSSet')
-        ->get();
+            ->whereHas('userPurchases', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('getTSSet')
+            ->get();
 
         $RA = "";
 
-        if(count($user_RA)!=0){
-            $RA = $user_RA[count($user_RA)-1];
+        if (count($user_RA) != 0) {
+            $RA = $user_RA[count($user_RA) - 1];
         }
         return response()->json([
             'result' => $RA,
