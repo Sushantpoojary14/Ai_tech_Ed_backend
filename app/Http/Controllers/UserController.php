@@ -426,7 +426,7 @@ class UserController extends Controller
 
         $user_RA = $user_RA->map(function ($item) {
             $item->set_name = $item->getTSSet->set_name;
-            unset($item->tsps_id, $item->set_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status, $item->getTSSet);
+            unset($item->tsps_id, $item->set_id,$item->q_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status, $item->getTSSet);
             return $item;
         });
 
