@@ -86,4 +86,8 @@ class Question extends Model
     {
         return $this->HasMany(QuestionImage::class, 'q_id', 'id');
     }
+    public function extraFields()
+    {
+        return $this->HasMany(ExtraQuestionField::class, 'q_id', 'id');
+    }
 }

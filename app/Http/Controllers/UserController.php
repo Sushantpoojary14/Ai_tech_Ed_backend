@@ -113,7 +113,7 @@ class UserController extends Controller
 
 
         $userTestSeries = UserTestSeries::with('userPurchases')->find($id);
-        $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions.questionImage')->get();
+        $userTestStatuses = UserTestStatus::where('uts_id', $id)->with(['questions.questionImage', 'questions.extraFields'])->get();
 
         return response()->json([
             'test_data' => $userTestStatuses,
@@ -151,7 +151,7 @@ class UserController extends Controller
 
         $questions = UserTestStatus::query()
             ->where('uts_id', $uts_id->uts_id)
-            ->with('questions.questionImage')
+            ->with(['questions.questionImage', 'questions.extraFields'])
             ->get();
 
         return response()->json([
@@ -221,7 +221,7 @@ class UserController extends Controller
                 'time_taken' => $time_taken,
                 'current_timer' => null,
                 'total_marks' => $total,
-                'percentage'=>($total/35)*100,
+                'percentage' => ($total / 35) * 100,
                 'total_answered' => count($total_answered)
             ]);
 
@@ -357,7 +357,7 @@ class UserController extends Controller
             ])
             ->first();
         $new_purchases = [];
-        if(count($purchases->toArray())==0){
+        if (!$purchases) {
             return response()->json([
                 'tsp' => $new_purchases,
             ], 200);
@@ -426,7 +426,7 @@ class UserController extends Controller
 
         $user_RA = $user_RA->map(function ($item) {
             $item->set_name = $item->getTSSet->set_name;
-            unset($item->tsps_id, $item->set_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status,$item->getTSSet);
+            unset($item->tsps_id, $item->set_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status, $item->getTSSet);
             return $item;
         });
 

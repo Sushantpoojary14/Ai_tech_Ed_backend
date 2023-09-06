@@ -99,7 +99,12 @@ class ProductController extends Controller
             ])
 
             ->get();
-        $new_purchases =[] ;
+        $new_purchases = [];
+        if (count($purchases->toArray()) == 0) {
+            return response()->json([
+                'tsp' => $new_purchases,
+            ], 200);
+        }
         foreach ($purchases as $key => $value) {
             $temp_data = $value->tsProduct->getTsProductCategory;
             $test_data = array_column($temp_data->toArray(), 'test_series_categories');
@@ -115,14 +120,14 @@ class ProductController extends Controller
                     $value3->purchase_id = $value->id;
                     $value3->valid_from = $value->valid_from;
                     $value3->valid_till = $value->valid_till;
-                    $value3-> tsc_type =$value2['tsc_type'];
+                    $value3->tsc_type = $value2['tsc_type'];
                     $value3->duration = $value2['duration'];
-                    $new_purchases[]= $value3;
+                    $new_purchases[] = $value3;
                 }
             }
             unset($value->tsProduct);
             // $new_purchases= [
-                // return $value;
+            // return $value;
 
             //     'set'=>$value->test_data
             // ];
