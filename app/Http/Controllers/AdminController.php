@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExtraQuestionField;
 use App\Models\Images;
 use App\Models\ImagesNames;
 use App\Models\QuestionImage;
@@ -342,7 +343,8 @@ class AdminController extends Controller
                         'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
                     ]);
-                if (array_key_exists("IMAGES", $item)) {
+                    // RETURN ($item);
+                    if (array_key_exists("IMAGES", $item)) {
                     foreach ($item['IMAGES'] as $key => $image) {
                         QuestionImage::create([
                             'q_id' => $q_data->id,
@@ -351,9 +353,10 @@ class AdminController extends Controller
                     }
                 }
                 if (array_key_exists("PARAGRAPH", $item) || array_key_exists("CONVERSATION", $item)) {
-                    QuestionImage::create([
+                    ExtraQuestionField::create([
                         'q_id' => $q_data->id,
-                        'image_url' => $image
+                        'paragraph' => $item["PARAGRAPH"],
+                        'conversation' => $item["CONVERSATION"]
                     ]);
 
                 }
@@ -363,16 +366,17 @@ class AdminController extends Controller
                 $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
                 $q_data = Question::query()
                     ->create([
-                    'question' => $item['Question'],
-                    'option_1' => $item['Option_A'],
-                    'option_2' => $item['Option_B'],
-                    'option_3' => $item['Option_C'],
-                    'option_4' => $item['Option_D'],
-                    'correct_option' => $ans,
-                    'explanation' => $item['Explanation'],
-                    'tst_id' => $tst->id,
-                ]);
+                        'question' => $item['Question'],
+                        'option_1' => $item['Option_A'],
+                        'option_2' => $item['Option_B'],
+                        'option_3' => $item['Option_C'],
+                        'option_4' => $item['Option_D'],
+                        'correct_option' => $ans,
+                        'explanation' => $item['Explanation'],
+                        'tst_id' => $tst->id,
+                    ]);
                 if (array_key_exists("IMAGES", $item)) {
+                    return $item;
                     foreach ($item['IMAGES'] as $key => $image) {
                         QuestionImage::create([
                             'q_id' => $q_data->id,
@@ -418,15 +422,15 @@ class AdminController extends Controller
                     $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
                     $q_data = Question::query()
                         ->create([
-                        'question' => $item['Question'],
-                        'option_1' => $item['Options']['a'],
-                        'option_2' => $item['Options']['b'],
-                        'option_3' => $item['Options']['c'],
-                        'option_4' => $item['Options']['d'],
-                        'correct_option' => $ans,
-                        'explanation' => $item['Explanation'],
-                        'tst_id' => $tst_id,
-                    ]);
+                            'question' => $item['Question'],
+                            'option_1' => $item['Options']['a'],
+                            'option_2' => $item['Options']['b'],
+                            'option_3' => $item['Options']['c'],
+                            'option_4' => $item['Options']['d'],
+                            'correct_option' => $ans,
+                            'explanation' => $item['Explanation'],
+                            'tst_id' => $tst_id,
+                        ]);
                     if (array_key_exists("IMAGES", $item)) {
                         foreach ($item['IMAGES'] as $key => $image) {
                             QuestionImage::create([
@@ -442,15 +446,15 @@ class AdminController extends Controller
                     $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
                     $q_data = Question::query()
                         ->create([
-                        'question' => $item['Question'],
-                        'option_1' => $item['Option_A'],
-                        'option_2' => $item['Option_B'],
-                        'option_3' => $item['Option_C'],
-                        'option_4' => $item['Option_D'],
-                        'correct_option' => $ans,
-                        'explanation' => $item['Explanation'],
-                        'tst_id' => $tst_id,
-                    ]);
+                            'question' => $item['Question'],
+                            'option_1' => $item['Option_A'],
+                            'option_2' => $item['Option_B'],
+                            'option_3' => $item['Option_C'],
+                            'option_4' => $item['Option_D'],
+                            'correct_option' => $ans,
+                            'explanation' => $item['Explanation'],
+                            'tst_id' => $tst_id,
+                        ]);
                     if (array_key_exists("IMAGES", $item)) {
                         foreach ($item['IMAGES'] as $key => $image) {
                             QuestionImage::create([
@@ -645,9 +649,9 @@ class AdminController extends Controller
         foreach ($tspc->tsPCSet as $key => $value) {
             TSPCSet::where('id', $value->id)
                 ->update([
-                        'set_number' => $key + 1,
-                        'set_name' => $tspc->testSeriesProduct->getTestSeries->test_type . " " . $tspc->testSeriesCategories->tsc_type . ' set - ' . ($key + 1)
-                    ]);
+                    'set_number' => $key + 1,
+                    'set_name' => $tspc->testSeriesProduct->getTestSeries->test_type . " " . $tspc->testSeriesCategories->tsc_type . ' set - ' . ($key + 1)
+                ]);
         }
 
         // Get tspc with updated data

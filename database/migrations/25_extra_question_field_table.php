@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('extra_question_field', function (Blueprint $table) {
             $table->id();
-            $table->text('conversation');
-            $table->text('paragraph');
-            $table->unsignedBigInteger('q_id')->nullable();
+            $table->text('conversation')->nullable();
+            $table->text('paragraph')->nullable();
+            $table->unsignedBigInteger('q_id');
             $table->foreign('q_id')->references('id')->on('question')->onDelete('cascade');
             // $table->timestamps();
         });

@@ -357,6 +357,12 @@ class UserController extends Controller
             ])
             ->first();
         $new_purchases = [];
+        if(count($purchases->toArray())==0){
+            return response()->json([
+                'tsp' => $new_purchases,
+            ], 200);
+        }
+        // $purchases->test_data = [];
         $temp_data = $purchases->tsProduct->getTsProductCategory;
         $purchases->test_data = array_column($temp_data->toArray(), 'test_series_categories');
 
