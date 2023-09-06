@@ -396,6 +396,7 @@ class UserController extends Controller
     public function get_user_all_result($user_id,$ts_id)
     {
         $user_RA = UserTestSeries::query()
+            ->where('complete_status',1)
             ->whereHas('userPurchases', function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);
             })
@@ -419,6 +420,7 @@ class UserController extends Controller
     public function get_user_result_limit($user_id)
     {
         $user_RA = UserTestSeries::query()
+            ->where('complete_status',1)
             ->whereHas('userPurchases', function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);
             })

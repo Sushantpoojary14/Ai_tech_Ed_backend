@@ -58,6 +58,7 @@ class AdminController extends Controller
 
                 foreach ($value2->getSetQuestion as $key3 => $value3) {
                     $questions[] = $value3->getQuestions;
+                    $questions[$key3]->images =$value3->getQuestions->images;
                 }
 
                 $set[$key2]->topics = $topics;
@@ -483,7 +484,7 @@ class AdminController extends Controller
             ->with('getTsProductCategory.tsPCSet.getTsTopic.tsTopic')
             ->with('getTsProductCategory.tsPCSet')
             ->first();
-
+        // return $tst;
         $tst->categories = $this->pCSet($tst->getTsProductCategory);
         unset($tst->getTsProductCategory);
 
