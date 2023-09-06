@@ -393,11 +393,14 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function get_user_all_result($user_id)
+    public function get_user_all_result($user_id,$ts_id)
     {
         $user_RA = UserTestSeries::query()
             ->whereHas('userPurchases', function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);
+            })
+            ->whereHas('userPurchases.tsProduct', function ($query) use ($ts_id) {
+                $query->where('ts_id', $ts_id);
             })
             ->with('getTSSet')
             ->get();
