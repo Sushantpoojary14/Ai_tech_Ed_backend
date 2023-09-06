@@ -49,4 +49,5 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-set-data/{user_id}',[UserController::class,'UserSetData']);
     Route::get('/get-user-all-results/{user_id}/{ts_id}',[UserController::class,'get_user_all_result']);
     Route::get('/get-user-result-limit/{user_id}',[UserController::class,'get_user_result_limit']);
+    Route::get('/get-user-result/{uts_id}',[UserController::class,'get_user_result']);
 });

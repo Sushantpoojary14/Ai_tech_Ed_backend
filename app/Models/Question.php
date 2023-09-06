@@ -53,7 +53,7 @@ class Question extends Model
     }
     protected function getCorrectOptionAttribute($value)
     {
-        return match ((int)$value) {
+        return match ((int) $value) {
             1 => 'A',
             2 => 'B',
             3 => 'C',
@@ -88,6 +88,6 @@ class Question extends Model
     }
     public function extraFields()
     {
-        return $this->HasMany(ExtraQuestionField::class, 'q_id', 'id');
+        return $this->hasOne(ExtraQuestionField::class, 'q_id', 'id');
     }
 }

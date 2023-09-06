@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\QuestionImage;
 use App\Models\SetQuestion;
 use App\Models\TestSeriesPurchases;
 use App\Models\TestSeriesTopics;
@@ -66,20 +67,29 @@ class UserController extends Controller
             with('userPurchases.tsProduct')
             ->find($id);
 
-        $product = $userTestSeries->userPurchases->tsProduct;
+        // $product = $userTestSeries->userPurchases->tsProduct;
 
         if (!$userTestSeries || !$userTestSeries->userPurchases) {
             return response()->json(['message' => 'No purchases'], 200);
         }
 
-        $testSeriesProduct = TestSeriesProduct::find($userTestSeries->userPurchases->tsp_id);
+        // $testSeriesProduct = TestSeriesProduct::find($userTestSeries->userPurchases->tsp_id);
 
 
         $timer = $userTestSeries->current_timer;
 
 
-        $userTestStatuses = UserTestStatus::where('uts_id', $id)->with('questions.questionImage')->get();
-
+        $userTestStatuses = UserTestStatus::where('uts_id', $id)->with(['questions.questionImage', 'questions.extraFields'])->get();
+        DB::enableQueryLog();
+        $temp = Question::where('id', 205)->with(['questionImage', 'extraFields'])->first();
+        // foreach ( $temp as $question) {
+        //     // Access questionImage and extraFields here
+        //     $questionImages = $question->questionImage;
+        //     $extraFields = $question->extraFields;
+        //     // return [$questionImages, $extraFields];
+        // }
+        // dd(DB::getQueryLog());
+        return $temp;
         if (!$userTestStatuses->isEmpty()) {
             return response()->json([
                 'test_data' => $userTestStatuses,
@@ -393,10 +403,10 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function get_user_all_result($user_id,$ts_id)
+    public function get_user_all_result($user_id, $ts_id)
     {
         $user_RA = UserTestSeries::query()
-            ->where('complete_status',1)
+            ->where('complete_status', 1)
             ->whereHas('userPurchases', function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);
             })
@@ -417,10 +427,26 @@ class UserController extends Controller
 
         ], 200);
     }
+    public function get_user_result($uts_id)
+    {
+        $user_RA = UserTestSeries::query()
+            ->where('id', $uts_id)
+            ->with('getTSSet')
+            ->first();
+        //  $user_RA
+
+        $user_RA->set_name = $user_RA->getTSSet->set_name;
+        unset($user_RA->getTSSet);
+
+        return response()->json([
+            'all_results' => $user_RA,
+
+        ], 200);
+    }
     public function get_user_result_limit($user_id)
     {
         $user_RA = UserTestSeries::query()
-            ->where('complete_status',1)
+            ->where('complete_status', 1)
             ->whereHas('userPurchases', function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);
             })
@@ -431,7 +457,7 @@ class UserController extends Controller
 
         $user_RA = $user_RA->map(function ($item) {
             $item->set_name = $item->getTSSet->set_name;
-            unset($item->tsps_id, $item->set_id,$item->q_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status, $item->getTSSet);
+            unset($item->tsps_id, $item->set_id, $item->q_id, $item->total_answered, $item->current_timer, $item->time_taken, $item->end_date, $item->complete_status, $item->getTSSet);
             return $item;
         });
 

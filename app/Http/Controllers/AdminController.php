@@ -58,7 +58,10 @@ class AdminController extends Controller
 
                 foreach ($value2->getSetQuestion as $key3 => $value3) {
                     $questions[] = $value3->getQuestions;
-                    $questions[$key3]->images =$value3->getQuestions->images;
+                    $questions[$key3]->images = $value3->getQuestions->questionImage;
+                    $questions[$key3]->conversation = $value3->getQuestions->extraFields->conversation;
+                    $questions[$key3]->paragraph = $value3->getQuestions->extraFields->paragraph;
+                    unset($value3->getQuestions->questionImage, $value3->getQuestions->extraFields);
                 }
 
                 $set[$key2]->topics = $topics;
@@ -204,7 +207,7 @@ class AdminController extends Controller
             // $q_data = new stdClass();
             $questions = Question::whereIn('tst_id', $item['tst_id'])
                 ->get();
-
+            
 
             $tspc = TSProductCategory::query()
                 ->where('id', $item['tspc_id'])
@@ -344,8 +347,8 @@ class AdminController extends Controller
                         'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
                     ]);
-                    // RETURN ($item);
-                    if (array_key_exists("IMAGES", $item)) {
+                // RETURN ($item);
+                if (array_key_exists("IMAGES", $item)) {
                     foreach ($item['IMAGES'] as $key => $image) {
                         QuestionImage::create([
                             'q_id' => $q_data->id,
