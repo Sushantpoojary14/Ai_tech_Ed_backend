@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2023 at 08:09 AM
+-- Generation Time: Sep 07, 2023 at 12:50 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -89,7 +89,37 @@ INSERT INTO `extra_question_field` (`id`, `conversation`, `paragraph`, `q_id`) V
 (27, 'Oliver: I think it’s important to question everything and consider different perspectives when making a decision.\nElla: I agree. It helps us avoid bias and make more informed choices.', NULL, 211),
 (28, NULL, 'In a science experiment, a researcher collects data from two different groups and observes a significant difference in their results.', 212),
 (29, 'James: I believe that eating a balanced diet and exercising regularly are essential for maintaining good health.\nEvie: I disagree. I think genetics play a bigger role in determining our health.', NULL, 213),
-(30, NULL, 'Critical thinking involves the ability to analyze information objectively and make reasoned judgments.', 214);
+(30, NULL, 'Critical thinking involves the ability to analyze information objectively and make reasoned judgments.', 214),
+(31, 'Ella: \'Critical thinking not only helps us come up with creative solutions to problems, but it also allows us to think deeply and critically evaluate different options.\'\nEvie: \'I disagree. Critical thinking is only focused on making the best decision based on available information and reasoning.\'', 'Two friends, Ella and Evie, are discussing the benefits of critical thinking. Ella believes that critical thinking helps improve problem-solving skills, while Evie argues that it only enhances decision-making abilities.', 215),
+(32, 'Oliver: \'I think it\'s crucial to listen to different perspectives and gather evidence before forming an opinion on a controversial issue.\'\nJack: \'I disagree. Once you have a belief, you should stick to it firmly and not be swayed by others.\'', 'Oliver and Jack are discussing a controversial issue. Oliver states that it is important to consider different perspectives before forming an opinion, while Jack believes that one should stick to their initial beliefs no matter what.', 216),
+(33, 'Sienna: \'In order to solve this puzzle, we need to find the missing piece of information by critically analyzing the given clues.\'\nJames: \'I disagree. Solving the puzzle itself requires critical thinking as we have to make logical deductions based on the available information.\'', 'A group of students, Sienna and James, are discussing a logic puzzle. Sienna claims that finding the missing piece of information required to solve the puzzle is an example of critical thinking, while James believes that solving the puzzle itself is the critical thinking aspect.', 217),
+(34, 'Ella: \'In critical thinking, relying on evidence is crucial as it helps us make informed decisions based on facts and logical reasoning.\'\nEvie: \'I disagree. Personal intuition is often stronger and more reliable than external evidence when it comes to making decisions.\'', 'Ella and Evie are discussing the importance of evidence in critical thinking. Ella argues that evidence is essential for making informed decisions, while Evie disagrees, stating that personal intuition should be the primary guide.', 218),
+(35, 'Oliver: \'Not applying critical thinking can often lead to poor decision-making and falling for logical fallacies that can hinder personal growth.\'\nJack: \'I disagree. Critical thinking is overrated, and common sense is sufficient to navigate through most situations in life.\'', 'Two friends, Oliver and Jack, are discussing the consequences of not applying critical thinking in daily life. Oliver believes that it can lead to poor decision-making and falling for logical fallacies, while Jack argues that critical thinking is unnecessary as common sense is enough to navigate through life.', 219),
+(36, NULL, 'Oliver is considering buying a new car. He has narrowed his choices down to two models: Model A and Model B. Model A has better fuel efficiency, but Model B has more advanced safety features. Oliver thinks that since fuel prices are rising, he should choose Model A because it will save him money in the long run. Is Oliver\'s reasoning valid?', 220),
+(37, NULL, 'Ella is learning about logical fallacies in her critical thinking class. She wants to make sure she avoids them in her own arguments. Which of the following statements describes a logical fallacy?', 221),
+(38, 'Evie: \"I heard that James is always late for class.\"\nSienna: \"That can\'t be true. I\'ve been in two classes with James, and he has always been on time.\"', NULL, 222),
+(39, NULL, 'Jack is evaluating an argument that claims eating organic food is healthier than eating conventionally grown food. He decides to research scientific studies on the topic to gather evidence. Which of the following statements best describes Jack\'s approach to critical thinking?', 223),
+(40, 'Oliver: \"I believe that climate change is caused by human activities.\" \nJames: \"I disagree. The Earth has undergone natural climate change throughout history.\"', NULL, 224),
+(41, NULL, 'To excel in mathematics, you need to be logical and have good problem-solving skills.', 225),
+(42, 'Oliver: I think it’s important to question everything and consider different perspectives when making a decision.\nElla: I agree. It helps us avoid bias and make more informed choices.', NULL, 226),
+(43, NULL, 'In a science experiment, a researcher collects data from two different groups and observes a significant difference in their results.', 227),
+(44, 'James: I believe that eating a balanced diet and exercising regularly are essential for maintaining good health.\nEvie: I disagree. I think genetics play a bigger role in determining our health.', NULL, 228),
+(45, NULL, 'Critical thinking involves the ability to analyze information objectively and make reasoned judgments.', 229),
+(46, 'Ella: \'Critical thinking not only helps us come up with creative solutions to problems, but it also allows us to think deeply and critically evaluate different options.\'\nEvie: \'I disagree. Critical thinking is only focused on making the best decision based on available information and reasoning.\'', 'Two friends, Ella and Evie, are discussing the benefits of critical thinking. Ella believes that critical thinking helps improve problem-solving skills, while Evie argues that it only enhances decision-making abilities.', 230),
+(47, 'Oliver: \'I think it\'s crucial to listen to different perspectives and gather evidence before forming an opinion on a controversial issue.\'\nJack: \'I disagree. Once you have a belief, you should stick to it firmly and not be swayed by others.\'', 'Oliver and Jack are discussing a controversial issue. Oliver states that it is important to consider different perspectives before forming an opinion, while Jack believes that one should stick to their initial beliefs no matter what.', 231),
+(48, 'Sienna: \'In order to solve this puzzle, we need to find the missing piece of information by critically analyzing the given clues.\'\nJames: \'I disagree. Solving the puzzle itself requires critical thinking as we have to make logical deductions based on the available information.\'', 'A group of students, Sienna and James, are discussing a logic puzzle. Sienna claims that finding the missing piece of information required to solve the puzzle is an example of critical thinking, while James believes that solving the puzzle itself is the critical thinking aspect.', 232),
+(49, 'Ella: \'In critical thinking, relying on evidence is crucial as it helps us make informed decisions based on facts and logical reasoning.\'\nEvie: \'I disagree. Personal intuition is often stronger and more reliable than external evidence when it comes to making decisions.\'', 'Ella and Evie are discussing the importance of evidence in critical thinking. Ella argues that evidence is essential for making informed decisions, while Evie disagrees, stating that personal intuition should be the primary guide.', 233),
+(50, 'Oliver: \'Not applying critical thinking can often lead to poor decision-making and falling for logical fallacies that can hinder personal growth.\'\nJack: \'I disagree. Critical thinking is overrated, and common sense is sufficient to navigate through most situations in life.\'', 'Two friends, Oliver and Jack, are discussing the consequences of not applying critical thinking in daily life. Oliver believes that it can lead to poor decision-making and falling for logical fallacies, while Jack argues that critical thinking is unnecessary as common sense is enough to navigate through life.', 234),
+(51, NULL, 'Oliver is considering buying a new car. He has narrowed his choices down to two models: Model A and Model B. Model A has better fuel efficiency, but Model B has more advanced safety features. Oliver thinks that since fuel prices are rising, he should choose Model A because it will save him money in the long run. Is Oliver\'s reasoning valid?', 235),
+(52, NULL, 'Ella is learning about logical fallacies in her critical thinking class. She wants to make sure she avoids them in her own arguments. Which of the following statements describes a logical fallacy?', 236),
+(53, 'Evie: \"I heard that James is always late for class.\"\nSienna: \"That can\'t be true. I\'ve been in two classes with James, and he has always been on time.\"', NULL, 237),
+(54, NULL, 'Jack is evaluating an argument that claims eating organic food is healthier than eating conventionally grown food. He decides to research scientific studies on the topic to gather evidence. Which of the following statements best describes Jack\'s approach to critical thinking?', 238),
+(55, 'Oliver: \"I believe that climate change is caused by human activities.\" \nJames: \"I disagree. The Earth has undergone natural climate change throughout history.\"', NULL, 239),
+(56, NULL, 'To excel in mathematics, you need to be logical and have good problem-solving skills.', 240),
+(57, 'Oliver: I think it’s important to question everything and consider different perspectives when making a decision.\nElla: I agree. It helps us avoid bias and make more informed choices.', NULL, 241),
+(58, NULL, 'In a science experiment, a researcher collects data from two different groups and observes a significant difference in their results.', 242),
+(59, 'James: I believe that eating a balanced diet and exercising regularly are essential for maintaining good health.\nEvie: I disagree. I think genetics play a bigger role in determining our health.', NULL, 243),
+(60, NULL, 'Critical thinking involves the ability to analyze information objectively and make reasoned judgments.', 244);
 
 -- --------------------------------------------------------
 
@@ -458,7 +488,37 @@ INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `o
 (211, 'Based on the conversation, what is a characteristic of critical thinking?', 'Being open-minded and considering various viewpoints', 'Being assertive and persuasive in arguments', 'Being able to memorize facts quickly', 'Being skilled in artistic expression', NULL, '1', 'The conversation highlights the importance of considering different perspectives, which is a characteristic of critical thinking.', 28, NULL, 1),
 (212, 'Which of the following is the most appropriate critical thinking question the researcher should ask next?', 'How can I prove that the results are accurate?', 'What could be the potential flaws in the experiment?', 'Can I ignore the results and continue with the study?', 'Should I only consider the positive outcomes?', NULL, '2', 'Asking about potential flaws in the experiment is a critical thinking question that will help ensure the validity of the results.', 28, NULL, 1),
 (213, 'What can be inferred about James and Evie\'s critical thinking based on the conversation?', 'James values evidence and logic, while Evie relies on personal beliefs.', 'James relies on personal beliefs, while Evie values evidence and logic.', 'Both James and Evie rely on personal beliefs.', 'Neither James nor Evie value evidence and logic.', NULL, '1', 'Based on the conversation, James supports his belief with concepts of a balanced diet and exercise, while Evie\'s argument relies on a vague concept of genetics, indicating that James values evidence and logic more.', 28, NULL, 1),
-(214, 'What is a key component of critical thinking?', 'Making impulsive decisions without considering all the facts', 'Ignoring different perspectives and viewpoints', 'Analyzing information objectively and making reasoned judgments', 'Relying solely on personal beliefs and emotions', NULL, '3', 'Critical thinking requires the analysis of information in an objective manner and making judgments based on reason rather than personal biases or emotions.', 28, NULL, 1);
+(214, 'What is a key component of critical thinking?', 'Making impulsive decisions without considering all the facts', 'Ignoring different perspectives and viewpoints', 'Analyzing information objectively and making reasoned judgments', 'Relying solely on personal beliefs and emotions', NULL, '3', 'Critical thinking requires the analysis of information in an objective manner and making judgments based on reason rather than personal biases or emotions.', 28, NULL, 1),
+(215, 'Which friend has a more accurate understanding of the benefits of critical thinking?', 'Ella', 'Evie', 'Both Ella and Evie', 'Neither Ella nor Evie', NULL, '1', 'Ella has a more accurate understanding of the benefits of critical thinking. While critical thinking does improve decision-making abilities, it also enhances problem-solving skills by encouraging creative thinking and evaluating different options.', 29, NULL, 1),
+(216, 'Whose approach demonstrates critical thinking?', 'Oliver', 'Jack', 'Both Oliver and Jack', 'Neither Oliver nor Jack', NULL, '1', 'Oliver\'s approach demonstrates critical thinking. Critical thinking involves considering different perspectives, gathering evidence, and being open to changing one\'s beliefs based on new information or reasoning.', 29, NULL, 1),
+(217, 'Whose reasoning best aligns with the concept of critical thinking in this context?', 'Sienna', 'James', 'Both Sienna and James', 'Neither Sienna nor James', NULL, '1', 'Sienna\'s reasoning best aligns with the concept of critical thinking in this context. Critical thinking involves analyzing information, making logical deductions, and finding missing pieces of information to solve complex problems or puzzles.', 29, NULL, 1),
+(218, 'Which friend has a better understanding of the role of evidence in critical thinking?', 'Ella', 'Evie', 'Both Ella and Evie', 'Neither Ella nor Evie', NULL, '1', 'Ella has a better understanding of the role of evidence in critical thinking. Critical thinking involves basing decisions on objective evidence and logical reasoning rather than personal intuition, which can be biased or unreliable.', 29, NULL, 1),
+(219, 'Which friend has a more accurate understanding of the consequences of not applying critical thinking?', 'Oliver', 'Jack', 'Both Oliver and Jack', 'Neither Oliver nor Jack', NULL, '1', 'Oliver has a more accurate understanding of the consequences of not applying critical thinking. Without critical thinking, individuals are more prone to making poor decisions, falling for logical fallacies, and hindering personal growth. Common sense alone may not always be sufficient to navigate complex situations or evaluate information critically.', 29, NULL, 1),
+(220, 'Which one of the following statements accurately evaluates Oliver\'s reasoning?', 'Oliver\'s reasoning is valid because choosing a car with better fuel efficiency will always save money.', 'Oliver\'s reasoning is valid because fuel prices are rising, and it is important to save money in the long run.', 'Oliver\'s reasoning is not valid because he has not considered the additional cost of Model A compared to Model B.', 'Oliver\'s reasoning is not valid because fuel efficiency is not the only factor to consider when choosing a car.', NULL, '3', 'Oliver\'s reasoning is not valid because he has not considered the additional cost of Model A compared to Model B. While it is true that Model A has better fuel efficiency, the higher upfront cost of the car needs to be taken into account before determining if it will save money in the long run.', 29, NULL, 1),
+(221, 'Which one of the following statements describes a logical fallacy?', 'Presenting evidence from reputable sources to support an argument.', 'Using personal attacks or insults instead of addressing the argument itself.', 'Analyzing the pros and cons of a decision before making a final choice.', 'Considering alternative explanations and perspectives in order to make an informed decision.', NULL, '2', 'Using personal attacks or insults instead of addressing the argument itself is a type of logical fallacy called ad hominem. Logical fallacies are errors in reasoning that can weaken an argument.', 29, NULL, 1),
+(222, 'What can be inferred from Sienna\'s response?', 'James is always late for class.', 'Sienna has never seen James in class.', 'Sienna has only seen James in two classes and cannot speak for his punctuality in other classes.', 'James is always on time for class.', NULL, '3', 'Sienna\'s response implies that she can only speak for James\' punctuality in the two classes they have had together. She cannot make a general statement about James always being on time for class.', 29, NULL, 1),
+(223, 'Which of the following statements best describes Jack\'s approach to critical thinking?', 'Jack is relying solely on personal experiences to form his opinion.', 'Jack is using scientific evidence to evaluate the argument.', 'Jack is blindly accepting the argument without questioning its validity.', 'Jack is avoiding any research or evidence and simply forming his own opinion.', NULL, '2', 'Jack is using scientific evidence to evaluate the argument. By researching scientific studies on the topic, he is gathering objective information to support or refute the claim that eating organic food is healthier.', 29, NULL, 1),
+(224, 'What is the main point of disagreement between Oliver and James?', 'Whether climate change is caused by human activities or not.', 'Whether natural climate change has occurred in the past or not.', 'Whether climate change is a serious issue or not.', 'Whether human activities can contribute to natural climate change or not.', NULL, '1', 'The main point of disagreement between Oliver and James is whether climate change is caused by human activities or not. Oliver believes it is, while James disagrees and attributes it to natural climate change throughout history.', 29, NULL, 1),
+(225, 'Based on the given information, which person is more likely to excel in mathematics?', 'Ella, who enjoys puzzles and always thinks critically', 'Oliver, who likes to paint and listen to music', 'Jack, who loves outdoor activities and sports', 'Sienna, who is skilled at playing musical instruments', NULL, '1', 'Critical thinking, logic, and problem-solving skills are important in mathematics, which Ella possesses.', 29, NULL, 1),
+(226, 'Based on the conversation, what is a characteristic of critical thinking?', 'Being open-minded and considering various viewpoints', 'Being assertive and persuasive in arguments', 'Being able to memorize facts quickly', 'Being skilled in artistic expression', NULL, '1', 'The conversation highlights the importance of considering different perspectives, which is a characteristic of critical thinking.', 29, NULL, 1),
+(227, 'Which of the following is the most appropriate critical thinking question the researcher should ask next?', 'How can I prove that the results are accurate?', 'What could be the potential flaws in the experiment?', 'Can I ignore the results and continue with the study?', 'Should I only consider the positive outcomes?', NULL, '2', 'Asking about potential flaws in the experiment is a critical thinking question that will help ensure the validity of the results.', 29, NULL, 1),
+(228, 'What can be inferred about James and Evie\'s critical thinking based on the conversation?', 'James values evidence and logic, while Evie relies on personal beliefs.', 'James relies on personal beliefs, while Evie values evidence and logic.', 'Both James and Evie rely on personal beliefs.', 'Neither James nor Evie value evidence and logic.', NULL, '1', 'Based on the conversation, James supports his belief with concepts of a balanced diet and exercise, while Evie\'s argument relies on a vague concept of genetics, indicating that James values evidence and logic more.', 29, NULL, 1),
+(229, 'What is a key component of critical thinking?', 'Making impulsive decisions without considering all the facts', 'Ignoring different perspectives and viewpoints', 'Analyzing information objectively and making reasoned judgments', 'Relying solely on personal beliefs and emotions', NULL, '3', 'Critical thinking requires the analysis of information in an objective manner and making judgments based on reason rather than personal biases or emotions.', 29, NULL, 1),
+(230, 'Which friend has a more accurate understanding of the benefits of critical thinking?', 'Ella', 'Evie', 'Both Ella and Evie', 'Neither Ella nor Evie', NULL, '1', 'Ella has a more accurate understanding of the benefits of critical thinking. While critical thinking does improve decision-making abilities, it also enhances problem-solving skills by encouraging creative thinking and evaluating different options.', 30, NULL, 1),
+(231, 'Whose approach demonstrates critical thinking?', 'Oliver', 'Jack', 'Both Oliver and Jack', 'Neither Oliver nor Jack', NULL, '1', 'Oliver\'s approach demonstrates critical thinking. Critical thinking involves considering different perspectives, gathering evidence, and being open to changing one\'s beliefs based on new information or reasoning.', 30, NULL, 1),
+(232, 'Whose reasoning best aligns with the concept of critical thinking in this context?', 'Sienna', 'James', 'Both Sienna and James', 'Neither Sienna nor James', NULL, '1', 'Sienna\'s reasoning best aligns with the concept of critical thinking in this context. Critical thinking involves analyzing information, making logical deductions, and finding missing pieces of information to solve complex problems or puzzles.', 30, NULL, 1),
+(233, 'Which friend has a better understanding of the role of evidence in critical thinking?', 'Ella', 'Evie', 'Both Ella and Evie', 'Neither Ella nor Evie', NULL, '1', 'Ella has a better understanding of the role of evidence in critical thinking. Critical thinking involves basing decisions on objective evidence and logical reasoning rather than personal intuition, which can be biased or unreliable.', 30, NULL, 1),
+(234, 'Which friend has a more accurate understanding of the consequences of not applying critical thinking?', 'Oliver', 'Jack', 'Both Oliver and Jack', 'Neither Oliver nor Jack', NULL, '1', 'Oliver has a more accurate understanding of the consequences of not applying critical thinking. Without critical thinking, individuals are more prone to making poor decisions, falling for logical fallacies, and hindering personal growth. Common sense alone may not always be sufficient to navigate complex situations or evaluate information critically.', 30, NULL, 1),
+(235, 'Which one of the following statements accurately evaluates Oliver\'s reasoning?', 'Oliver\'s reasoning is valid because choosing a car with better fuel efficiency will always save money.', 'Oliver\'s reasoning is valid because fuel prices are rising, and it is important to save money in the long run.', 'Oliver\'s reasoning is not valid because he has not considered the additional cost of Model A compared to Model B.', 'Oliver\'s reasoning is not valid because fuel efficiency is not the only factor to consider when choosing a car.', NULL, '3', 'Oliver\'s reasoning is not valid because he has not considered the additional cost of Model A compared to Model B. While it is true that Model A has better fuel efficiency, the higher upfront cost of the car needs to be taken into account before determining if it will save money in the long run.', 30, NULL, 1),
+(236, 'Which one of the following statements describes a logical fallacy?', 'Presenting evidence from reputable sources to support an argument.', 'Using personal attacks or insults instead of addressing the argument itself.', 'Analyzing the pros and cons of a decision before making a final choice.', 'Considering alternative explanations and perspectives in order to make an informed decision.', NULL, '2', 'Using personal attacks or insults instead of addressing the argument itself is a type of logical fallacy called ad hominem. Logical fallacies are errors in reasoning that can weaken an argument.', 30, NULL, 1),
+(237, 'What can be inferred from Sienna\'s response?', 'James is always late for class.', 'Sienna has never seen James in class.', 'Sienna has only seen James in two classes and cannot speak for his punctuality in other classes.', 'James is always on time for class.', NULL, '3', 'Sienna\'s response implies that she can only speak for James\' punctuality in the two classes they have had together. She cannot make a general statement about James always being on time for class.', 30, NULL, 1),
+(238, 'Which of the following statements best describes Jack\'s approach to critical thinking?', 'Jack is relying solely on personal experiences to form his opinion.', 'Jack is using scientific evidence to evaluate the argument.', 'Jack is blindly accepting the argument without questioning its validity.', 'Jack is avoiding any research or evidence and simply forming his own opinion.', NULL, '2', 'Jack is using scientific evidence to evaluate the argument. By researching scientific studies on the topic, he is gathering objective information to support or refute the claim that eating organic food is healthier.', 30, NULL, 1),
+(239, 'What is the main point of disagreement between Oliver and James?', 'Whether climate change is caused by human activities or not.', 'Whether natural climate change has occurred in the past or not.', 'Whether climate change is a serious issue or not.', 'Whether human activities can contribute to natural climate change or not.', NULL, '1', 'The main point of disagreement between Oliver and James is whether climate change is caused by human activities or not. Oliver believes it is, while James disagrees and attributes it to natural climate change throughout history.', 30, NULL, 1),
+(240, 'Based on the given information, which person is more likely to excel in mathematics?', 'Ella, who enjoys puzzles and always thinks critically', 'Oliver, who likes to paint and listen to music', 'Jack, who loves outdoor activities and sports', 'Sienna, who is skilled at playing musical instruments', NULL, '1', 'Critical thinking, logic, and problem-solving skills are important in mathematics, which Ella possesses.', 30, NULL, 1),
+(241, 'Based on the conversation, what is a characteristic of critical thinking?', 'Being open-minded and considering various viewpoints', 'Being assertive and persuasive in arguments', 'Being able to memorize facts quickly', 'Being skilled in artistic expression', NULL, '1', 'The conversation highlights the importance of considering different perspectives, which is a characteristic of critical thinking.', 30, NULL, 1),
+(242, 'Which of the following is the most appropriate critical thinking question the researcher should ask next?', 'How can I prove that the results are accurate?', 'What could be the potential flaws in the experiment?', 'Can I ignore the results and continue with the study?', 'Should I only consider the positive outcomes?', NULL, '2', 'Asking about potential flaws in the experiment is a critical thinking question that will help ensure the validity of the results.', 30, NULL, 1),
+(243, 'What can be inferred about James and Evie\'s critical thinking based on the conversation?', 'James values evidence and logic, while Evie relies on personal beliefs.', 'James relies on personal beliefs, while Evie values evidence and logic.', 'Both James and Evie rely on personal beliefs.', 'Neither James nor Evie value evidence and logic.', NULL, '1', 'Based on the conversation, James supports his belief with concepts of a balanced diet and exercise, while Evie\'s argument relies on a vague concept of genetics, indicating that James values evidence and logic more.', 30, NULL, 1),
+(244, 'What is a key component of critical thinking?', 'Making impulsive decisions without considering all the facts', 'Ignoring different perspectives and viewpoints', 'Analyzing information objectively and making reasoned judgments', 'Relying solely on personal beliefs and emotions', NULL, '3', 'Critical thinking requires the analysis of information in an objective manner and making judgments based on reason rather than personal biases or emotions.', 30, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -477,7 +537,7 @@ CREATE TABLE `question_image` (
 --
 
 INSERT INTO `question_image` (`id`, `image_url`, `q_id`) VALUES
-(1, '/images/boy.jpg', 2),
+(1, '/images/boy.jpg', 205),
 (2, '/images/left_boy.jpg', 2),
 (3, '/images/car.jpg', 82),
 (4, '/images/bag.jpg', 82);
@@ -625,21 +685,76 @@ INSERT INTO `set_question` (`id`, `q_id`, `set_id`) VALUES
 (103, 19, 3),
 (104, 29, 3),
 (105, 15, 3),
-(108, 205, 6),
-(109, 204, 6),
-(110, 207, 6),
-(111, 208, 6),
-(112, 209, 6),
-(113, 200, 6),
-(114, 212, 6),
-(115, 211, 6),
-(116, 206, 6),
-(117, 201, 6),
-(118, 210, 6),
-(119, 214, 6),
-(120, 203, 6),
-(121, 202, 6),
-(122, 213, 6);
+(123, 220, 7),
+(124, 215, 7),
+(125, 200, 7),
+(126, 224, 7),
+(127, 209, 7),
+(128, 244, 7),
+(129, 241, 7),
+(130, 234, 7),
+(131, 227, 7),
+(132, 226, 7),
+(133, 221, 7),
+(134, 231, 7),
+(135, 202, 7),
+(136, 240, 7),
+(137, 228, 7),
+(138, 208, 7),
+(139, 201, 7),
+(140, 243, 7),
+(141, 235, 7),
+(142, 213, 7),
+(143, 233, 7),
+(144, 211, 7),
+(145, 218, 7),
+(146, 219, 7),
+(147, 242, 7),
+(148, 225, 7),
+(149, 210, 7),
+(150, 207, 7),
+(151, 238, 7),
+(152, 237, 7),
+(153, 203, 7),
+(154, 232, 7),
+(155, 212, 7),
+(156, 214, 7),
+(157, 206, 7),
+(158, 233, 8),
+(159, 241, 8),
+(160, 204, 8),
+(161, 243, 8),
+(162, 232, 8),
+(163, 238, 8),
+(164, 218, 8),
+(165, 231, 8),
+(166, 206, 8),
+(167, 217, 8),
+(168, 228, 8),
+(169, 225, 8),
+(170, 210, 8),
+(171, 227, 8),
+(172, 221, 8),
+(173, 237, 8),
+(174, 200, 8),
+(175, 226, 8),
+(176, 205, 8),
+(177, 211, 8),
+(178, 216, 8),
+(179, 222, 8),
+(180, 201, 8),
+(181, 229, 8),
+(182, 242, 8),
+(183, 235, 8),
+(184, 212, 8),
+(185, 208, 8),
+(186, 230, 8),
+(187, 240, 8),
+(188, 236, 8),
+(189, 203, 8),
+(190, 214, 8),
+(191, 209, 8),
+(192, 234, 8);
 
 -- --------------------------------------------------------
 
@@ -706,7 +821,7 @@ CREATE TABLE `test_series_product` (
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
 (1, 'OC Test Package - 1', 'it is a test product', '89', '/images/product-1693910995.jpg', 1, 3, 35, '2023-09-10', 1),
-(2, 'OC Test Package - 2', 'It is product', '89', '/images/product-1693979128.jpg', 1, 6, 35, '2023-09-08', 1);
+(3, 'OC Test Package - 2', 'adada', '89', '/images/product-1694066622.jpg', 1, 6, 35, '2023-09-07', 1);
 
 -- --------------------------------------------------------
 
@@ -719,8 +834,16 @@ CREATE TABLE `test_series_purchases` (
   `tsp_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `valid_from` varchar(50) NOT NULL,
-  `valid_till` varchar(50) NOT NULL
+  `valid_till` varchar(50) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `test_series_purchases`
+--
+
+INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `valid_till`, `status`) VALUES
+(2, 3, 2, '2023-09-07', '2023-09-09', 1);
 
 -- --------------------------------------------------------
 
@@ -744,7 +867,9 @@ CREATE TABLE `test_series_topics` (
 INSERT INTO `test_series_topics` (`id`, `t_name`, `topic`, `tsc_id`, `status`, `ts_id`) VALUES
 (1, 'OC - Ratio - Easy', 'Ratio', 1, 1, 1),
 (2, 'OC - Ratio - Medium', 'Ratio', 1, 1, 1),
-(28, 'OC - Thinking - Medium', 'Thinking', 3, 1, 1);
+(28, 'OC - Thinking - Medium', 'Thinking', 3, 1, 1),
+(29, 'OC - Thinking - Easy', 'Thinking', 3, 1, 1),
+(30, 'OC - Thinking - Easy2', 'Thinking', 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -790,7 +915,8 @@ INSERT INTO `tspc_set` (`id`, `tspc_id`, `set_number`, `set_name`, `status`) VAL
 (1, 1, 1, 'OC Maths set - 1', 1),
 (2, 1, 2, 'OC Maths set - 2', 1),
 (3, 1, 3, 'OC Maths set - 3', 1),
-(6, 2, 1, 'OC Thinking set - 1', 1);
+(7, 3, 1, 'OC Thinking set - 1', 1),
+(8, 3, 2, 'OC Thinking set - 2', 1);
 
 -- --------------------------------------------------------
 
@@ -813,7 +939,12 @@ INSERT INTO `ts_pc_topics` (`id`, `tspcs_id`, `tst_id`) VALUES
 (2, 2, 2),
 (3, 3, 1),
 (4, 3, 2),
-(7, 6, 28);
+(8, 7, 28),
+(9, 7, 30),
+(10, 7, 29),
+(11, 8, 28),
+(12, 8, 29),
+(13, 8, 30);
 
 -- --------------------------------------------------------
 
@@ -834,7 +965,7 @@ CREATE TABLE `ts_product_category` (
 
 INSERT INTO `ts_product_category` (`id`, `tsp_id`, `tsc_id`, `total_set`) VALUES
 (1, 1, 1, 3),
-(2, 2, 3, 1);
+(3, 3, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -884,6 +1015,13 @@ CREATE TABLE `user_test_series` (
   `q_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `user_test_series`
+--
+
+INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `percentage`, `total_marks`, `total_answered`, `q_id`) VALUES
+(3, 2, 8, 1, '07-09-2023', '07-09-2023', '2', NULL, 23, 8, 17, 62);
+
 -- --------------------------------------------------------
 
 --
@@ -899,6 +1037,47 @@ CREATE TABLE `user_test_status` (
   `uts_id` bigint(20) UNSIGNED NOT NULL,
   `test_time` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_test_status`
+--
+
+INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `marks`, `uts_id`, `test_time`) VALUES
+(31, 233, 1, '1', 1, 3, '0'),
+(32, 241, 2, NULL, 0, 3, '0'),
+(33, 204, 1, '3', 0, 3, '0'),
+(34, 243, 1, '1', 1, 3, '0'),
+(35, 232, 3, NULL, 0, 3, '0'),
+(36, 238, 3, NULL, 0, 3, '0'),
+(37, 218, 1, '1', 1, 3, '0'),
+(38, 231, 3, NULL, 0, 3, '0'),
+(39, 206, 1, '2', 1, 3, '0'),
+(40, 217, 3, NULL, 0, 3, '0'),
+(41, 228, 1, '2', 0, 3, '0'),
+(42, 225, 1, '3', 0, 3, '0'),
+(43, 210, 1, '3', 0, 3, '0'),
+(44, 227, 1, '2', 1, 3, '0'),
+(45, 221, 1, '2', 1, 3, '0'),
+(46, 237, 3, NULL, 0, 3, '0'),
+(47, 200, 3, NULL, 0, 3, '0'),
+(48, 226, 3, NULL, 0, 3, '0'),
+(49, 205, 1, '1', 0, 3, '0'),
+(50, 211, 3, NULL, 0, 3, '0'),
+(51, 216, 1, '1', 1, 3, '0'),
+(52, 222, 2, NULL, 0, 3, '0'),
+(53, 201, 1, '3', 0, 3, '0'),
+(54, 229, 1, '3', 1, 3, '0'),
+(55, 242, 1, '3', 0, 3, '0'),
+(56, 235, 3, NULL, 0, 3, '0'),
+(57, 212, 3, NULL, 0, 3, '0'),
+(58, 208, 3, NULL, 0, 3, '0'),
+(59, 230, 3, NULL, 0, 3, '0'),
+(60, 240, 3, NULL, 0, 3, '0'),
+(61, 236, 1, '3', 0, 3, '0'),
+(62, 203, 1, '3', 0, 3, '0'),
+(63, 214, 3, NULL, 0, 3, '0'),
+(64, 209, 3, NULL, 0, 3, '0'),
+(65, 234, 3, NULL, 0, 3, '0');
 
 --
 -- Indexes for dumped tables
@@ -1106,13 +1285,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `extra_question_field`
 --
 ALTER TABLE `extra_question_field`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1154,7 +1333,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
 
 --
 -- AUTO_INCREMENT for table `question_image`
@@ -1172,7 +1351,7 @@ ALTER TABLE `reading_question`
 -- AUTO_INCREMENT for table `set_question`
 --
 ALTER TABLE `set_question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=193;
 
 --
 -- AUTO_INCREMENT for table `test_series`
@@ -1190,19 +1369,19 @@ ALTER TABLE `test_series_categories`
 -- AUTO_INCREMENT for table `test_series_product`
 --
 ALTER TABLE `test_series_product`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `test_series_purchases`
 --
 ALTER TABLE `test_series_purchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -1214,19 +1393,19 @@ ALTER TABLE `test_status`
 -- AUTO_INCREMENT for table `tspc_set`
 --
 ALTER TABLE `tspc_set`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `ts_pc_topics`
 --
 ALTER TABLE `ts_pc_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `ts_product_category`
 --
 ALTER TABLE `ts_product_category`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1238,13 +1417,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_test_series`
 --
 ALTER TABLE `user_test_series`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_test_status`
 --
 ALTER TABLE `user_test_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- Constraints for dumped tables
