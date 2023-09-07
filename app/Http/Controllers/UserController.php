@@ -385,6 +385,7 @@ class UserController extends Controller
     {
         $purchases = TestSeriesPurchases::query()
             ->where('user_id', $user_id)
+            ->where('status', 1)
             // ->with('tsProduct')
             ->with([
                 'tsProduct' => function ($query) {

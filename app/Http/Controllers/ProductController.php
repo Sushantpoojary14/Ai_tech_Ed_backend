@@ -106,6 +106,7 @@ class ProductController extends Controller
             // return $interval;
             if ($interval->days < 15) {
                 $value->p_name = $value->tsProduct->p_name;
+                $value->remaining_days = $interval->days;
                 unset($value->tsProduct);
                 $pre_exp_purchase[] = $value;
             }
@@ -129,6 +130,7 @@ class ProductController extends Controller
 
         $purchases = TestSeriesPurchases::query()
             ->where('user_id', Auth()->id())
+            ->where('status', 1)
             ->whereHas('tsProduct', function ($query) use ($ts_id) {
                 $query->where('ts_id', $ts_id);
             })
