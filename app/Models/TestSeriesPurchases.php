@@ -15,6 +15,7 @@ class TestSeriesPurchases extends Model
 
     protected $fillable=[
         'user_id',
+        'status',
         'tsp_id',
         'valid_from',
         'valid_till',
@@ -24,6 +25,7 @@ class TestSeriesPurchases extends Model
         'id'=>'integer',
         'tsp_id' => 'integer',
         'user_id' => 'integer',
+        'status'=>'integer'
       ];
     public function tsProduct(): BelongsTo
     {

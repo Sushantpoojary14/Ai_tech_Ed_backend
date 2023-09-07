@@ -13,6 +13,7 @@ use App\Models\TSPCSet;
 use App\Models\TSProductCategory;
 use App\Models\UserTestSeries;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -78,30 +79,49 @@ class ProductController extends Controller
         ], 200);
     }
 
-    public function checkUserPurchaseExpire($user_id){
+    public function checkUserPurchaseExpire($user_id)
+    {
         $current_date = date('Y-m-d');
         $purchases = TestSeriesPurchases::query()
-        ->where('user_id', $user_id)
-        // ->whereHas('tsProduct', function ($query) use ($ts_id) {
-        //     $query->where('ts_id', $ts_id);
-        // })
-        ->with('tsProduct')
-        ->get();
-        $expired_purchase =[];
+            ->where('user_id', $user_id)
+            ->where('status', 1)
+            // ->whereHas('tsProduct', function ($query) use ($ts_id) {
+            //     $query->where('ts_id', $ts_id);
+            // })
+            ->with('tsProduct')
+            ->get();
+        $date = new DateTime($current_date);
+        // $current_date = $date->format('Y-m-d');
+        // return   $purchases;
+        $pre_exp_purchase = [];
         foreach ($purchases as $value) {
-            if($current_date > $value->valid_till){
+            if ($current_date > $value->valid_till) {
                 TestSeriesPurchases::query()
-                ->where('id', $value->id)
-                ->update(['status'=>0]);
+                    ->where('id', $value->id)
+                    ->update(['status' => 0]);
             }
+            $valid_till = new DateTime($value->valid_till);
+
+            $interval = $date->diff($valid_till);
+            // return $interval;
+            if ($interval->days < 15) {
+                $value->p_name = $value->tsProduct->p_name;
+                unset($value->tsProduct);
+                $pre_exp_purchase[] = $value;
+            }
+
         }
-        return response()->json([
-            'tsp' => $purchases,
-        ], 403);
+        ;
+
+        if (count($pre_exp_purchase) == 0) {
+            return response()->json([
+                'message' => 'no purchase is being expired',
+            ], 200);
+        }
 
         return response()->json([
-            'message' => 'no purchase is expired',
-        ], 200);
+            'tsp' => $pre_exp_purchase,
+        ], 403);
     }
 
     public function getTSPurchases($ts_id)
