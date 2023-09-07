@@ -495,4 +495,32 @@ class UserController extends Controller
             'result' => $user_RA,
         ], 200);
     }
+
+    public function get_user_set_result($uts_id)
+    {
+        $set_RA = UserTestStatus::query()
+            ->where('uts_id', $uts_id)
+            ->with('questions.qTopic')
+            // ->whereHas('userPurchases', function ($query) use ($user_id) {
+            //     $query->where('user_id', $user_id);
+            // })
+            // ->select('id')
+            ->get();
+
+        $set_RA = $set_RA->map(function ($item) {
+            $item->topic = $item->questions->qTopic->topic;
+            $item->correct_option = $item->questions->correct_option;
+            unset($item->questions);
+            return $item;
+        });
+
+
+        return response()->json([
+            'result' => $set_RA,
+        ], 200);
+    }
+
+    
+
+
 }

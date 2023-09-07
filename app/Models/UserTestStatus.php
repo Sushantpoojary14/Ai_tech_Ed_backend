@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,6 +40,19 @@ class UserTestStatus extends Model
             4 => 'D',
             default => null
         };
+    }
+
+    protected function testAnswer(): Attribute
+    {
+        return Attribute::make(
+            set: fn(string $value) => match (strtolower($value)) {
+                'a' => 1,
+                'b' => 2,
+                'c' => 3,
+                'd' => 4,
+                default => $value
+            }
+        );
     }
     public function questions(): BelongsTo
     {

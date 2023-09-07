@@ -78,7 +78,22 @@ class ProductController extends Controller
         ], 200);
     }
 
+    public function checkUserPurchaseExpire($user_id){
+        $current_date = date('Y-m-d');
+        $purchases = TestSeriesPurchases::query()
+        ->where('user_id', $user_id)
+        // ->whereHas('tsProduct', function ($query) use ($ts_id) {
+        //     $query->where('ts_id', $ts_id);
+        // })
+        ->with('tsProduct')
+        ->get();
+        if($current_date <= $purchases->valid_till){
 
+        }
+        return response()->json([
+            'tsp' => $purchases,
+        ], 200);
+    }
 
     public function getTSPurchases($ts_id)
     {

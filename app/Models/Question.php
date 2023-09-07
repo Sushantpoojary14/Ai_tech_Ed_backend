@@ -90,4 +90,9 @@ class Question extends Model
     {
         return $this->hasOne(ExtraQuestionField::class, 'q_id', 'id');
     }
+
+    public function qTopic()
+    {
+        return $this->belongsTo(TestSeriesTopics::class, 'tst_id', 'id');
+    }
 }
