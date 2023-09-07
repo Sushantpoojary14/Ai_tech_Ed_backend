@@ -95,4 +95,9 @@ class Question extends Model
     {
         return $this->belongsTo(TestSeriesTopics::class, 'tst_id', 'id');
     }
+
+    public function sets()
+    {
+        return $this->belongsTo(TSPCSet::class, 'set_id', 'id');
+    }
 }

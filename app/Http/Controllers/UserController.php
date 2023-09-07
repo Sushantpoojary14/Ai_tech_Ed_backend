@@ -500,17 +500,16 @@ class UserController extends Controller
     {
         $set_RA = UserTestStatus::query()
             ->where('uts_id', $uts_id)
-            ->with('questions.qTopic')
-            // ->whereHas('userPurchases', function ($query) use ($user_id) {
-            //     $query->where('user_id', $user_id);
-            // })
+            ->with(['questions.qTopic','UserTestSeries.getTSSet'])
+
             // ->select('id')
             ->get();
 
         $set_RA = $set_RA->map(function ($item) {
             $item->topic = $item->questions->qTopic->topic;
             $item->correct_option = $item->questions->correct_option;
-            unset($item->questions);
+            $item->set_name = $item->UserTestSeries->getTSSet->set_name;
+            unset($item->questions,$item->UserTestSeries);
             return $item;
         });
 
@@ -520,7 +519,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    
+
 
 
 }

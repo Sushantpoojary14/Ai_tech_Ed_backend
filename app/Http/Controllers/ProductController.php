@@ -87,11 +87,20 @@ class ProductController extends Controller
         // })
         ->with('tsProduct')
         ->get();
-        if($current_date <= $purchases->valid_till){
-
+        $expired_purchase =[];
+        foreach ($purchases as $value) {
+            if($current_date > $value->valid_till){
+                TestSeriesPurchases::query()
+                ->where('id', $value->id)
+                ->update(['status'=>0]);
+            }
         }
         return response()->json([
             'tsp' => $purchases,
+        ], 403);
+
+        return response()->json([
+            'message' => 'no purchase is expired',
         ], 200);
     }
 
