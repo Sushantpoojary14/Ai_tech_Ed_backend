@@ -80,8 +80,8 @@ class UserController extends Controller
 
 
         $userTestStatuses = UserTestStatus::where('uts_id', $id)->with(['questions.questionImage', 'questions.extraFields'])->get();
-        DB::enableQueryLog();
-        $temp = Question::where('id', 205)->with(['questionImage', 'extraFields'])->first();
+        // DB::enableQueryLog();
+        // $temp = Question::where('id', 205)->with(['questionImage', 'extraFields'])->first();
         // foreach ( $temp as $question) {
         //     // Access questionImage and extraFields here
         //     $questionImages = $question->questionImage;
@@ -89,8 +89,18 @@ class UserController extends Controller
         //     // return [$questionImages, $extraFields];
         // }
         // dd(DB::getQueryLog());
-        return $temp;
+        // return $temp;
+
+
         if (!$userTestStatuses->isEmpty()) {
+            $userTestStatuses = $userTestStatuses->map(function ($item) {
+                if ($item->questions->extraFields) {
+                    $item->questions->conversation = $item->questions->extraFields->conversation;
+                    $item->questions->paragraph = $item->questions->extraFields->paragraph;
+                }
+                unset($item->questions->extraFields);
+                return $item;
+            });
             return response()->json([
                 'test_data' => $userTestStatuses,
                 'current_qid' => $userTestSeries->q_id,
@@ -124,7 +134,15 @@ class UserController extends Controller
 
         $userTestSeries = UserTestSeries::with('userPurchases')->find($id);
         $userTestStatuses = UserTestStatus::where('uts_id', $id)->with(['questions.questionImage', 'questions.extraFields'])->get();
+        $userTestStatuses = $userTestStatuses->map(function ($item) {
 
+            if ($item->questions->extraFields) {
+                $item->questions->conversation = $item->questions->extraFields->conversation;
+                $item->questions->paragraph = $item->questions->extraFields->paragraph;
+            }
+            unset($item->questions->extraFields);
+            return $item;
+        });
         return response()->json([
             'test_data' => $userTestStatuses,
             'current_qid' => $userTestSeries->q_id,
@@ -163,7 +181,15 @@ class UserController extends Controller
             ->where('uts_id', $uts_id->uts_id)
             ->with(['questions.questionImage', 'questions.extraFields'])
             ->get();
+        $questions = $questions->map(function ($item) {
 
+            if ($item->questions->extraFields) {
+                $item->questions->conversation = $item->questions->extraFields->conversation;
+                $item->questions->paragraph = $item->questions->extraFields->paragraph;
+            }
+            unset($item->questions->extraFields);
+            return $item;
+        });
         return response()->json([
             'message' => 'Successfully Updated',
             'test_data' => $questions,
