@@ -365,10 +365,13 @@ class UserController extends Controller
     }
     public function getRProduct($user_id)
     {
+        $current_date = date('Y-m-d');
         $product = TestSeriesProduct::query()
             ->whereDoesntHave('tsPurchases', function ($query) use ($user_id) {
                 $query->where('user_id', $user_id);
             })
+            ->where('status', 1)
+            ->where('release_date', "<=", $current_date)
             // ->with('tsPurchases')
             ->get();
 

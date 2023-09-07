@@ -275,7 +275,7 @@ class ProductController extends Controller
         // return $current_date;
         $products = TestSeriesProduct::query()
             ->where('status', 1)
-            ->where('release_date', "<", $current_date)
+            ->where('release_date', "<=", $current_date)
             ->when($id, function ($query, $id) {
                 return $query->where('ts_id', $id);
             })
