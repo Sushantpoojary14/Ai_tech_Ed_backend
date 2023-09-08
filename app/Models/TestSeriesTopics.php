@@ -31,7 +31,7 @@ class TestSeriesTopics extends Model
       }
       public function getQuestion()
       {
-          return $this->HasMany(Question::class, 'tst_id', 'id');
+          return $this->HasMany(Question::class, 'tst_id', 'id')->with(['questionImage','extraFields']);
       }
 
 }

@@ -575,13 +575,23 @@ class UserController extends Controller
     {
         $tstIds = $request->tst_id;
         $question = array_map(function ($item) {
-
-            return TestSeriesTopics::where('id', $item)
+            $temp = TestSeriesTopics::where('id', $item)
                 ->with('getQuestion', function ($query) {
                     $query->limit(2);
                 })
                 ->first();
-        },$tstIds);
+            foreach ($temp->getQuestion as $key => $value) {
+                // dd($value);
+                if ($value->extraFields) {
+                    $temp->getQuestion[$key]->conversation = $value->extraFields->conversation;
+                    $temp->getQuestion[$key]->paragraph = $value->extraFields->paragraph;
+                }
+                unset($temp->getQuestion[$key]->extraFields);
+            }
+            return $temp;
+        }, $tstIds);
+
+
         return response()->json([
             'message' => 'Success',
             'topic_questions' => $question
