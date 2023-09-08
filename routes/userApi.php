@@ -35,6 +35,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-test-details/{ps_id}',[ProductController::class,'getTSDetails']);
     Route::get('/check-user-purchase-expire/{user_id}',[ProductController::class,'checkUserPurchaseExpire']);
 
+
     //user test schedule
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
     Route::get('/generate-question/{id}',[UserController::class,'generateRandomQuestion']);
@@ -51,4 +52,5 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-result-limit/{user_id}',[UserController::class,'get_user_result_limit']);
     Route::get('/get-user-result/{uts_id}',[UserController::class,'get_user_result']);
     Route::get('/get-user-set-result/{uts_id}',[UserController::class,'get_user_set_result']);
+    Route::get('/get-topic-question/{tst_id}',[UserController::class,'getTopicQuestion']);
 });

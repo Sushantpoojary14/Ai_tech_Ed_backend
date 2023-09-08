@@ -207,7 +207,7 @@ class AdminController extends Controller
             // $q_data = new stdClass();
             $questions = Question::whereIn('tst_id', $item['tst_id'])
                 ->get();
-            
+
 
             $tspc = TSProductCategory::query()
                 ->where('id', $item['tspc_id'])
@@ -406,6 +406,7 @@ class AdminController extends Controller
             'topic_questions' => $question
         ], 200);
     }
+    
     public function updateTSTopic(Request $request, $tst_id)
     {
 

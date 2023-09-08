@@ -325,6 +325,7 @@ class UserController extends Controller
     public function UserSetData($user_id)
     {
         $product = TestSeriesPurchases::query()
+            ->where('status', 1)
             ->where('user_id', $user_id)
             ->with('tsProduct.getTsProductCategory.tsPCSet')
             ->get();
@@ -461,16 +462,51 @@ class UserController extends Controller
     {
         $user_RA = UserTestSeries::query()
             ->where('id', $uts_id)
-            ->with('getTSSet')
+            ->with(['getTSSet', 'getUTStatus.questions.qTopic'])
             ->first();
-        //  $user_RA
 
         $user_RA->set_name = $user_RA->getTSSet->set_name;
-        unset($user_RA->getTSSet);
 
+        // return $user_RA->getUTStatus;
+        // $user_RA = $user_RA->getUTStatus->filter(function ($item) {
+        //     // if ($item->test_answer) {
+        //         if ($item->test_answer != $item->questions->correct_option) {
+        //             $item->weak_topics = $item->questions->qTopic;
+        //             return 1;
+        //         }
+        //     // }
+        //     // unset($item);
+
+        // })->values();
+        $topics_id = [];
+        $topics = [];
+
+        foreach ($user_RA->getUTStatus as $key => $item) {
+            if ($item->test_answer != $item->questions->correct_option) {
+                $topics_id[] = $item->questions->qTopic->id;
+                $topics[] = $item->questions->qTopic;
+            }
+        }
+
+        $topic_count = array_count_values($topics_id);
+        $weak_topics = [];
+
+        foreach ($topic_count as $key => $value) {
+            if ($value > 3) {
+                $weak_topics[] = $key;
+            }
+        }
+
+        $uniqueTopics = array_unique($topics, SORT_REGULAR);
+        $filteredTopics = array_filter($uniqueTopics, function ($topic) use ($weak_topics) {
+            return in_array($topic->id, $weak_topics);
+        });
+
+        unset($user_RA->getTSSet, $user_RA->getUTStatus);
         return response()->json([
             'all_results' => $user_RA,
-
+            'weak_topics' => $filteredTopics,
+            // 'weak_topics' => array_keys($results)
         ], 200);
     }
     public function get_user_result_limit($user_id)
@@ -501,7 +537,7 @@ class UserController extends Controller
     {
         $set_RA = UserTestStatus::query()
             ->where('uts_id', $uts_id)
-            ->with(['questions.qTopic','UserTestSeries.getTSSet'])
+            ->with(['questions.qTopic', 'UserTestSeries.getTSSet'])
 
             // ->select('id')
             ->get();
@@ -510,7 +546,7 @@ class UserController extends Controller
             $item->topic = $item->questions->qTopic->topic;
             $item->correct_option = $item->questions->correct_option;
             $item->set_name = $item->UserTestSeries->getTSSet->set_name;
-            unset($item->questions,$item->UserTestSeries);
+            unset($item->questions, $item->UserTestSeries);
             return $item;
         });
 
@@ -520,7 +556,17 @@ class UserController extends Controller
         ], 200);
     }
 
-
+    public function getTopicQuestion($tst_id)
+    {
+        $question = TestSeriesTopics::where('id', $tst_id)
+            ->with('getQuestion')
+            ->first();
+        return response()->json([
+            'message' => 'Success',
+            'topic_questions' => $question
+        ], 200);
+    }
+    
 
 
 }
