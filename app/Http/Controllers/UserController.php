@@ -11,6 +11,7 @@ use App\Models\TSPCSet;
 use App\Models\UserTestSeries;
 use App\Models\UserTestStatus;
 use App\Models\Question;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Models\TestSeriesProduct;
 use Carbon\Carbon;
@@ -154,26 +155,27 @@ class UserController extends Controller
     }
 
 
-    public function updateTestStatus(Request $request, $id)
+    public function updateTestStatus(Request $request, $status_id)
     {
         $timer = $request->current_timer;
 
         $requestDataWithoutTimer = $request->except('current_timer');
-
+        // $requestDataWithoutTimer=  [ 'test_time' => $request->current_timer];
+        // return $requestDataWithoutTimer;
         UserTestStatus::query()
-            ->where('id', $id)
+            ->where('id', $status_id)
             ->update(
                 $requestDataWithoutTimer
             );
 
-        $uts_id = UserTestStatus::where('id', $id)
-            ->with('questions')
+        $uts_id = UserTestStatus::where('id', $status_id)
+            // ->with('questions')
             ->first();
 
         UserTestSeries::query()
             ->where('id', $uts_id->uts_id)
             ->update([
-                'q_id' => $id,
+                'q_id' => $status_id,
                 'current_timer' => $timer
             ]);
 
@@ -501,11 +503,12 @@ class UserController extends Controller
         $filteredTopics = array_filter($uniqueTopics, function ($topic) use ($weak_topics) {
             return in_array($topic->id, $weak_topics);
         });
-
+        $filteredTopicsCollection = new Collection($filteredTopics);
+        $user_RA ->weak_topics = $filteredTopicsCollection->values();;
         unset($user_RA->getTSSet, $user_RA->getUTStatus);
         return response()->json([
             'all_results' => $user_RA,
-            'weak_topics' => $filteredTopics,
+            // 'weak_topics' => (array)$filteredTopics,
             // 'weak_topics' => array_keys($results)
         ], 200);
     }

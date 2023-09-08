@@ -39,7 +39,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     //user test schedule
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
     Route::get('/generate-question/{id}',[UserController::class,'generateRandomQuestion']);
-    Route::post('/update-test-status/{id}',[UserController::class,'updateTestStatus']);
+    Route::post('/update-test-status/{status_id}',[UserController::class,'updateTestStatus']);
     Route::post('/update-test-timer/{id}',[UserController::class,'updateTimer']);
     Route::post('/submit-test/{id}',[UserController::class,'submitTest']);
     Route::get('/get-test-result/{id}',[UserController::class,'getTestResult']);

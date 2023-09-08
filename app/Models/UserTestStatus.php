@@ -38,11 +38,11 @@ class UserTestStatus extends Model
             2 => 'B',
             3 => 'C',
             4 => 'D',
-            default => null
+            default => $value
         };
     }
 
-    protected function setTestAnswer(): Attribute
+    protected function setTestAnswer()
     {
         return Attribute::make(
             set: fn(string $value) => match (strtolower($value)) {
