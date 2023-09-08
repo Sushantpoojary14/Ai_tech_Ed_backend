@@ -160,7 +160,18 @@ class UserController extends Controller
         $timer = $request->current_timer;
 
         $requestDataWithoutTimer = $request->except('current_timer');
-        // $requestDataWithoutTimer=  [ 'test_time' => $request->current_timer];
+        // $requestDataWithoutTimer =  [$requestDataWithoutTimer, 'test_time' => $request->current_timer];
+        // return $requestDataWithoutTimer;
+        if ($request->test_answer) {
+            $uts = UserTestSeries::query()
+                ->whereHas('getUTStatus', function ($query) use ($status_id) {
+                    $query->where('id', $status_id);
+                })
+                ->with('getTSSet.getTsPC.testSeriesCategories')
+                ->first();
+            $timer = $uts->getTSSet->getTsPC->testSeriesCategories->duration;
+            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' => round($timer - $request->current_timer), 'status_id' => $request->status_id];
+        }
         // return $requestDataWithoutTimer;
         UserTestStatus::query()
             ->where('id', $status_id)
@@ -504,7 +515,8 @@ class UserController extends Controller
             return in_array($topic->id, $weak_topics);
         });
         $filteredTopicsCollection = new Collection($filteredTopics);
-        $user_RA ->weak_topics = $filteredTopicsCollection->values();;
+        $user_RA->weak_topics = $filteredTopicsCollection->values();
+        ;
         unset($user_RA->getTSSet, $user_RA->getUTStatus);
         return response()->json([
             'all_results' => $user_RA,
@@ -559,11 +571,17 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function getTopicQuestion($tst_id)
+    public function getTopicQuestion(Request $request)
     {
-        $question = TestSeriesTopics::where('id', $tst_id)
-            ->with('getQuestion')
-            ->first();
+        $tstIds = $request->tst_id;
+        $question = array_map(function ($item) {
+
+            return TestSeriesTopics::where('id', $item)
+                ->with('getQuestion', function ($query) {
+                    $query->limit(2);
+                })
+                ->first();
+        },$tstIds);
         return response()->json([
             'message' => 'Success',
             'topic_questions' => $question

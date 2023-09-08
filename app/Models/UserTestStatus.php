@@ -24,16 +24,16 @@ class UserTestStatus extends Model
     ];
 
     protected $casts = [
-        'id'=>'integer',
+        'id' => 'integer',
         'q_id' => 'integer',
         'status_id' => 'integer',
-        'marks'=> 'integer',
+        'marks' => 'integer',
         'uts_id' => 'integer',
     ];
 
     protected function getTestAnswerAttribute($value)
     {
-        return match ((int)$value) {
+        return match ((int) $value) {
             1 => 'A',
             2 => 'B',
             3 => 'C',
@@ -42,17 +42,22 @@ class UserTestStatus extends Model
         };
     }
 
-    protected function setTestAnswer()
+    protected function setTestAnswerAttribute($value)
     {
-        return Attribute::make(
-            set: fn(string $value) => match (strtolower($value)) {
-                'a' => 1,
-                'b' => 2,
-                'c' => 3,
-                'd' => 4,
-            }
-        );
+        dd($value);
+        $this->attributes['test_answer'] = match (strtolower($value)) {
+            'a' => 1,
+            'b' => 2,
+            'c' => 3,
+            'd' => 4,
+            default => $value,
+        };
     }
+    // public function save(array $options = [])
+    // {
+    //     dd('Save method called'); // Add this line for debugging
+    //     parent::save($options);
+    // }
     public function questions(): BelongsTo
     {
         return $this->belongsTo(Question::class, 'q_id', 'id');

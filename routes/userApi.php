@@ -52,5 +52,5 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-result-limit/{user_id}',[UserController::class,'get_user_result_limit']);
     Route::get('/get-user-result/{uts_id}',[UserController::class,'get_user_result']);
     Route::get('/get-user-set-result/{uts_id}',[UserController::class,'get_user_set_result']);
-    Route::get('/get-topic-question/{tst_id}',[UserController::class,'getTopicQuestion']);
+    Route::post('/get-topic-question',[UserController::class,'getTopicQuestion']);
 });
