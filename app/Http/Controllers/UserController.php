@@ -277,7 +277,7 @@ class UserController extends Controller
         if (!$uts) {
             return response()->json([
                 'message' => 'does not exist'
-            ], 401);
+            ], 403);
         }
         $uts = UserTestSeries::query()
             ->where('id', $id)
@@ -566,7 +566,7 @@ class UserController extends Controller
             'topic_questions' => $question
         ], 200);
     }
-    
+
 
 
 }

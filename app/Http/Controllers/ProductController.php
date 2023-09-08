@@ -122,7 +122,7 @@ class ProductController extends Controller
 
         return response()->json([
             'tsp' => $pre_exp_purchase,
-        ], 401);
+        ], 403);
     }
 
     public function getTSPurchases($ts_id)
