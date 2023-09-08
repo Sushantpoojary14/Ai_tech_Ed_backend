@@ -423,7 +423,17 @@ class ProductController extends Controller
             'message' => 'Added Successfully'
         ], 200);
     }
+    public function getLatestProduct()
+    { $current_date = date('Y-m-d');
+        $product = TestSeriesProduct::query()
+            ->where('release_date','<=', $current_date )
+            ->orderBy('release_date','desc')
+            ->first();
 
+        return response()->json([
+            'latest_product_id' => $product->id
+        ], 200);
+    }
 
 
 

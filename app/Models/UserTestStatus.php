@@ -42,7 +42,7 @@ class UserTestStatus extends Model
         };
     }
 
-    protected function testAnswer(): Attribute
+    protected function setTestAnswer(): Attribute
     {
         return Attribute::make(
             set: fn(string $value) => match (strtolower($value)) {
@@ -50,7 +50,6 @@ class UserTestStatus extends Model
                 'b' => 2,
                 'c' => 3,
                 'd' => 4,
-                default => $value
             }
         );
     }
