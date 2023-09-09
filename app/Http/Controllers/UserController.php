@@ -168,10 +168,12 @@ class UserController extends Controller
                 ->whereHas('getUTStatus', function ($query) use ($status_id) {
                     $query->where('id', $status_id);
                 })
-                ->with('getTSSet.getTsPC.testSeriesCategories')
+                // ->with('getTSSet.getTsPC.testSeriesCategories')
                 ->first();
-            $timer = $uts->getTSSet->getTsPC->testSeriesCategories->duration;
-            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' => round($timer - $request->current_timer), 'status_id' => $request->status_id];
+            $question_timer =( $uts->current_timer ?? $timer) - $timer;
+            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' =>  round($question_timer, 3), 'status_id' => $request->status_id];
+            // return $question_timer;
+
         }
         // return $requestDataWithoutTimer;
         UserTestStatus::query()
@@ -207,7 +209,8 @@ class UserController extends Controller
         return response()->json([
             'message' => 'Successfully Updated',
             'test_data' => $questions,
-            'current_qid' => $uts_id->id
+            'current_qid' => $uts_id->id,
+            // $question_timer
         ], 200);
     }
 
@@ -612,7 +615,7 @@ class UserController extends Controller
 
         $question_marks = new stdClass();
         $question_marks->right_question = $set_RA->total_marks;
-        $question_marks->negative_question =  35 - $set_RA->total_marks;
+        $question_marks->negative_question =  $set_RA->total_answered - $set_RA->total_marks;
         $question_marks->left_question =   35 - $set_RA->total_answered;
         return response()->json([
             'marks_distribution' =>  $marks,
@@ -620,20 +623,24 @@ class UserController extends Controller
         ], 200);
     }
 
-    // public function get_question_Distribution($uts_id)
-    // {
-    //     $set_RA = UserTestSeries::query()
-    //         ->where('id', $uts_id)
-    //         // ->select('id')
-    //         ->first();
+    public function get_question_time($uts_id)
+    {
+        $q_time = UserTestStatus::query()
+            ->where('uts_id', $uts_id)
+            // ->select('id')
+            // ->orderBy('percentage')
+            ->get('test_time');
 
-    //     $marks= new stdClass();
-    //     $marks->right_answer = $set_RA->total_marks;
-    //     $marks->negative_answer =  $set_RA->total_answered - $set_RA->total_marks ;
-    //     $marks->left_answer =   35 - $set_RA->total_answered ;
+        // $marks= new stdClass();
+        // $marks->right_answer = $set_RA->total_marks;
+        // $marks->negative_answer =  $set_RA->total_answered - $set_RA->total_marks ;
+        // $marks->left_answer =   35 - $set_RA->total_answered ;
+        $q_time = $q_time->map(function($item){
+            return $item->test_time;
+        });
 
-    //     return response()->json([
-    //         'marks_distribution' =>  $marks,
-    //     ], 200);
-    // }
+        return response()->json([
+            'question_time' => $q_time,
+        ], 200);
+    }
 }
