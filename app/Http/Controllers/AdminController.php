@@ -401,12 +401,21 @@ class AdminController extends Controller
         $question = TestSeriesTopics::where('id', $tst_id)
             ->with('getQuestion')
             ->first();
+        $question->getQuestion = $question->getQuestion->map(function ($value) {
+            if( $value->extraFields){
+
+                $value->conversation = $value->extraFields->conversation;
+                $value->paragraph = $value->extraFields->paragraph;
+            }
+            unset($value->extraFields);
+            return $value;
+        });
         return response()->json([
             'message' => 'Success',
             'topic_questions' => $question
         ], 200);
     }
-    
+
     public function updateTSTopic(Request $request, $tst_id)
     {
 

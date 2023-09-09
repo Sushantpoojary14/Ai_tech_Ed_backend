@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\TestSeriesProduct;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 
 class UserController extends Controller
 {
@@ -597,7 +598,42 @@ class UserController extends Controller
             'topic_questions' => $question
         ], 200);
     }
+    public function get_marks_Distribution($uts_id)
+    {
+        $set_RA = UserTestSeries::query()
+            ->where('id', $uts_id)
+            // ->select('id')
+            ->first();
 
+        $marks= new stdClass();
+        $marks->right_marks = $set_RA->total_marks;
+        $marks->negative_marks =  $set_RA->total_answered - $set_RA->total_marks;
+        $marks->left_marks =   35 - $set_RA->total_answered ;
 
+        $question_marks = new stdClass();
+        $question_marks->right_question = $set_RA->total_marks;
+        $question_marks->negative_question =  35 - $set_RA->total_marks;
+        $question_marks->left_question =   35 - $set_RA->total_answered;
+        return response()->json([
+            'marks_distribution' =>  $marks,
+            'question_distribution'=>$question_marks
+        ], 200);
+    }
 
+    // public function get_question_Distribution($uts_id)
+    // {
+    //     $set_RA = UserTestSeries::query()
+    //         ->where('id', $uts_id)
+    //         // ->select('id')
+    //         ->first();
+
+    //     $marks= new stdClass();
+    //     $marks->right_answer = $set_RA->total_marks;
+    //     $marks->negative_answer =  $set_RA->total_answered - $set_RA->total_marks ;
+    //     $marks->left_answer =   35 - $set_RA->total_answered ;
+
+    //     return response()->json([
+    //         'marks_distribution' =>  $marks,
+    //     ], 200);
+    // }
 }
