@@ -631,16 +631,36 @@ class UserController extends Controller
             // ->orderBy('percentage')
             ->get('test_time');
 
-        // $marks= new stdClass();
-        // $marks->right_answer = $set_RA->total_marks;
-        // $marks->negative_answer =  $set_RA->total_answered - $set_RA->total_marks ;
-        // $marks->left_answer =   35 - $set_RA->total_answered ;
         $q_time = $q_time->map(function($item){
             return $item->test_time;
         });
 
         return response()->json([
             'question_time' => $q_time,
+        ], 200);
+    }
+
+    public function get_user_rank($set_id,$uts_id)
+    {
+        $q_time = UserTestSeries::query()
+            ->where(['set_id'=> $set_id,'complete_status'=>1])
+            // ->select('id')
+            ->distinct('tsps_id')
+            ->orderBy('percentage','desc')
+            ->get();
+
+        // $q_time = $q_time->map(function($item){
+        //     return $item->test_time;
+        // });
+
+        // foreach ($q_time as $key => $value) {
+        //    if(){
+
+        //    }
+        // }
+
+        return response()->json([
+            'rank' => $q_time,
         ], 200);
     }
 }
