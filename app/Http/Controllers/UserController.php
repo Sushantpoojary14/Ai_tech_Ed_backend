@@ -24,14 +24,12 @@ class UserController extends Controller
     {
         $all_percentage = UserTestSeries::query()
             ->where(['set_id' => $set_id, 'complete_status' => 1])
-            // ->select('id')
             ->whereHas('userPurchases', function ($query) use ($user_id) {
                 $query->whereNot('user_id', $user_id);
             })
-            ->select(DB::raw('MAX(percentage) as highest_percentage'))
-            // ->distinct('tsps_id')
+            ->select('tsps_id', DB::raw('MAX(percentage) as highest_percentage'))
             ->groupBy('tsps_id')
-            ->orderBy('percentage', 'desc')
+            ->orderBy('highest_percentage', 'desc') // Order by the alias, not the original column
             ->get();
 
         $user_percentage = UserTestSeries::query()
@@ -39,8 +37,6 @@ class UserController extends Controller
                 $query->where('user_id', $user_id);
             })
             ->select(DB::raw('MAX(percentage) as highest_percentage'))
-            // ->select('id')
-            // ->orderBy('percentage')
             ->first();
 
         $rank = 1;

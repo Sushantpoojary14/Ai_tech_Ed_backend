@@ -20,3 +20,5 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'\adminApi.php';
 require __DIR__.'\userApi.php';
+// require __DIR__ . DIRECTORY_SEPARATOR . 'adminApi.php';
+// require __DIR__ . DIRECTORY_SEPARATOR . 'userApi.php';

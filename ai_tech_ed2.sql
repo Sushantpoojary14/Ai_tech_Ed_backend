@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 07, 2023 at 12:50 PM
+-- Generation Time: Sep 11, 2023 at 11:25 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -56,6 +56,13 @@ CREATE TABLE `cart` (
   `tsp_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`id`, `tsp_id`, `user_id`) VALUES
+(7, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -119,22 +126,17 @@ INSERT INTO `extra_question_field` (`id`, `conversation`, `paragraph`, `q_id`) V
 (57, 'Oliver: I think it’s important to question everything and consider different perspectives when making a decision.\nElla: I agree. It helps us avoid bias and make more informed choices.', NULL, 241),
 (58, NULL, 'In a science experiment, a researcher collects data from two different groups and observes a significant difference in their results.', 242),
 (59, 'James: I believe that eating a balanced diet and exercising regularly are essential for maintaining good health.\nEvie: I disagree. I think genetics play a bigger role in determining our health.', NULL, 243),
-(60, NULL, 'Critical thinking involves the ability to analyze information objectively and make reasoned judgments.', 244);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+(60, NULL, 'Critical thinking involves the ability to analyze information objectively and make reasoned judgments.', 244),
+(61, 'Oliver: If our scores in math were different from each other, then our scores in science must have been different too.\nElla: And if our scores in science were the same, then our scores in math must have been the same too.', 'At the end of each test, Mr. Wilson gives scores in math and science to each student in his class. The two scores are then added together to give an overall score for the test. Last week, Oliver and Ella got the same overall score.', 245),
+(62, 'Jack: Our starting point was the same, so we must have ended up at the same location.\nSienna: If we ended up at the same location, then our paths must have crossed each other.', 'Situated at the edge of a dense forest, Jack and Sienna decided to hike in different directions. Jack went North for 2 miles and then East for 3 miles, while Sienna went East for 3 miles and then North for 2 miles.', 246),
+(63, 'Evie: If I had won one more game, then we would have been tied.\nJames: And if we were tied, then you would have won more games than me.', 'During a board game tournament, Evie and James competed against each other. Evie won 2 games and James won 3 games. The tournament was best out of 5 games.', 247),
+(64, 'Emily: If I took the picture from a higher elevation, then my picture will have a wider perspective.\nLiam: And if your picture has a wider perspective, then mine will have a narrower perspective.', 'Emily and Liam, two photographers, took pictures of the same landscape at different angles. Emily took the picture from a higher elevation, while Liam took it from a lower elevation.', 248),
+(65, 'Oliver: If our solutions are different from each other, then our approaches must have been different too.\nSienna: And if our approaches were the same, then our solutions must have been the same too.', 'During a group project, Oliver and Sienna worked together to solve a complex problem. They each came up with a different solution.', 249),
+(66, NULL, 'Oliver is starting a new job and is nervous about making a good impression. He decides to arrive early and dress professionally to make a good first impression.', 250),
+(67, 'Ella and James are discussing a recent news article. Ella: I can\'t believe everything this article claims. James: That\'s why it\'s important to evaluate the credibility of the sources before believing everything we read.', NULL, 251),
+(68, NULL, 'Sienna is comparing two different models of laptops before making a purchase. She researches their specifications, reads customer reviews, and considers her budget before making a decision.', 252),
+(69, 'Evie: I think we should invest in stocks because they have the potential for high returns. Jack: But they also come with a higher level of risk compared to other investment options.', NULL, 253),
+(70, NULL, 'Oliver is reading an article that presents an argument about the benefits of recycling. He carefully examines the evidence provided, considers counterarguments, and evaluates the logical coherence of the author\'s points before forming his own opinion.', 254);
 
 -- --------------------------------------------------------
 
@@ -254,37 +256,6 @@ CREATE TABLE `non_verbal_question` (
   `tst_id` bigint(20) UNSIGNED NOT NULL,
   `marks` varchar(255) DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 1
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `password_reset_tokens`
---
-
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -518,7 +489,27 @@ INSERT INTO `question` (`id`, `question`, `option_1`, `option_2`, `option_3`, `o
 (241, 'Based on the conversation, what is a characteristic of critical thinking?', 'Being open-minded and considering various viewpoints', 'Being assertive and persuasive in arguments', 'Being able to memorize facts quickly', 'Being skilled in artistic expression', NULL, '1', 'The conversation highlights the importance of considering different perspectives, which is a characteristic of critical thinking.', 30, NULL, 1),
 (242, 'Which of the following is the most appropriate critical thinking question the researcher should ask next?', 'How can I prove that the results are accurate?', 'What could be the potential flaws in the experiment?', 'Can I ignore the results and continue with the study?', 'Should I only consider the positive outcomes?', NULL, '2', 'Asking about potential flaws in the experiment is a critical thinking question that will help ensure the validity of the results.', 30, NULL, 1),
 (243, 'What can be inferred about James and Evie\'s critical thinking based on the conversation?', 'James values evidence and logic, while Evie relies on personal beliefs.', 'James relies on personal beliefs, while Evie values evidence and logic.', 'Both James and Evie rely on personal beliefs.', 'Neither James nor Evie value evidence and logic.', NULL, '1', 'Based on the conversation, James supports his belief with concepts of a balanced diet and exercise, while Evie\'s argument relies on a vague concept of genetics, indicating that James values evidence and logic more.', 30, NULL, 1),
-(244, 'What is a key component of critical thinking?', 'Making impulsive decisions without considering all the facts', 'Ignoring different perspectives and viewpoints', 'Analyzing information objectively and making reasoned judgments', 'Relying solely on personal beliefs and emotions', NULL, '3', 'Critical thinking requires the analysis of information in an objective manner and making judgments based on reason rather than personal biases or emotions.', 30, NULL, 1);
+(244, 'What is a key component of critical thinking?', 'Making impulsive decisions without considering all the facts', 'Ignoring different perspectives and viewpoints', 'Analyzing information objectively and making reasoned judgments', 'Relying solely on personal beliefs and emotions', NULL, '3', 'Critical thinking requires the analysis of information in an objective manner and making judgments based on reason rather than personal biases or emotions.', 30, NULL, 1),
+(245, 'If the information in the box is true, whose reasoning is correct?', 'Oliver only', 'Ella only', 'Both Oliver and Ella', 'Neither Oliver nor Ella', NULL, '3', 'If Oliver and Ella got the same overall score, it means their math scores and science scores were the same. Therefore, both Oliver and Ella\'s reasoning is correct.', 31, NULL, 1),
+(246, 'If the information in the box is true, whose reasoning is correct?', 'Jack only', 'Sienna only', 'Both Jack and Sienna', 'Neither Jack nor Sienna', NULL, '2', 'If Jack and Sienna started at the same point and ended up at the same location, it means their paths must have crossed. Therefore, Sienna\'s reasoning is correct.', 31, NULL, 1),
+(247, 'If the information in the box is true, whose reasoning is correct?', 'Evie only', 'James only', 'Both Evie and James', 'Neither Evie nor James', NULL, '1', 'If Evie won 2 games and James won 3 games, it means if Evie had won one more game, they would have been tied at 3 games each. Therefore, Evie\'s reasoning is correct.', 31, NULL, 1),
+(248, 'If the information in the box is true, whose reasoning is correct?', 'Emily only', 'Liam only', 'Both Emily and Liam', 'Neither Emily nor Liam', NULL, '1', 'If Emily took the picture from a higher elevation, it means her picture will have a wider perspective. Therefore, Emily\'s reasoning is correct.', 31, NULL, 1),
+(249, 'If the information in the box is true, whose reasoning is correct?', 'Oliver only', 'Sienna only', 'Both Oliver and Sienna', 'Neither Oliver nor Sienna', NULL, '2', 'If Oliver and Sienna came up with different solutions, it means their approaches must have been different. Therefore, Sienna\'s reasoning is correct.', 31, NULL, 1),
+(250, 'What critical thinking skill does Oliver demonstrate in this situation?', 'Problem solving', 'Decision making', 'Analytical thinking', 'Creative thinking', NULL, '2', 'Oliver demonstrates the critical thinking skill of decision making by carefully considering the best course of action to make a good impression at his new job.', 31, NULL, 1),
+(251, 'What critical thinking concept does James highlight in his response?', 'Logical reasoning', 'Skepticism', 'Inference', 'Accuracy', NULL, '2', 'James highlights the critical thinking concept of skepticism by encouraging Ella to question the credibility of the sources and not believe everything she reads.', 31, NULL, 1),
+(252, 'What critical thinking skill does Sienna demonstrate in her decision-making process?', 'Analysis', 'Synthesis', 'Evaluation', 'Inference', NULL, '3', 'Sienna demonstrates the critical thinking skill of evaluation by carefully considering the specifications, customer reviews, and budget before making a decision between the two laptop models.', 31, NULL, 1),
+(253, 'What critical thinking skill does Jack display in his response to Evie?', 'Perspective taking', 'Problem solving', 'Decision making', 'Analytical thinking', NULL, '1', 'Jack displays the critical thinking skill of perspective taking by considering both the potential returns and the higher level of risk associated with investing in stocks.', 31, NULL, 1),
+(254, 'What critical thinking skill does Oliver demonstrate while reading the article?', 'Evaluation', 'Analysis', 'Logical reasoning', 'Inference', NULL, '3', 'Oliver demonstrates the critical thinking skill of logical reasoning by carefully examining the evidence, considering counterarguments, and evaluating the logical coherence of the author\'s points before forming his own opinion on the benefits of recycling.', 31, NULL, 1),
+(255, 'Oliver has 20 red marbles and 30 blue marbles. What is the ratio of red marbles to blue marbles?', '1:2', '2:1', '3:2', '2:3', NULL, '2', 'The ratio of red marbles to blue marbles is 2:1.', 32, NULL, 1),
+(256, 'Ella and Evie are sharing a box of cookies. Ella ate 1/4 of the cookies and Evie ate 3/4 of the cookies. What is the ratio of Ella\'s share to Evie\'s share?', '1:3', '3:1', '1:4', '4:1', NULL, '1', 'The ratio of Ella\'s share to Evie\'s share is 1:3.', 32, NULL, 1),
+(257, 'James drove 80 miles in 2 hours. Jack drove 120 miles in 3 hours. What is the ratio of James\'s speed to Jack\'s speed?', '2:3', '3:2', '4:5', '5:4', NULL, '2', 'The ratio of James\'s speed to Jack\'s speed is 3:2.', 32, NULL, 1),
+(258, 'Sienna has 4 red balloons and 6 green balloons. What is the ratio of red balloons to total balloons?', '2:5', '1:2', '2:3', '3:4', NULL, '3', 'The ratio of red balloons to total balloons is 2:3.', 32, NULL, 1),
+(259, 'Oliver spent $40 on books and $60 on stationery. What is the ratio of his spending on books to his spending on stationery?', '4:6', '2:3', '3:2', '6:4', NULL, '2', 'The ratio of Oliver\'s spending on books to his spending on stationery is 2:3.', 32, NULL, 1),
+(260, 'Oliver has 20 pens. His friend James has 3 times as many pens as Oliver. How many pens does James have?', '50', '40', '60', '30', NULL, '3', 'James has 3 times as many pens as Oliver, so he has 3 x 20 = 60 pens.', 32, NULL, 1),
+(261, 'Sienna buys a dress for $80. Ella buys a dress for 5 times the price of Sienna\'s dress. How much did Ella\'s dress cost?', '$400', '$320', '$240', '$160', NULL, '1', 'Ella\'s dress costs 5 times Sienna\'s dress, so it costs 5 x $80 = $400.', 32, NULL, 1),
+(262, 'Jack runs at a speed of 15 meters per second. Evie runs at 3/5 of Jack\'s speed. What is Evie\'s running speed?', '9 meters per second', '7 meters per second', '12 meters per second', '10 meters per second', NULL, '4', 'Evie runs at 3/5 of Jack\'s speed, so her speed is (3/5) x 15 = 9 meters per second.', 32, NULL, 1),
+(263, 'Oliver scores 75% on a test. James scores 15% higher than Oliver. What is James\' score?', '86.25%', '81.25%', '90.75%', '78.75%', NULL, '1', 'James scores 15% higher than Oliver, so his score is 75% + 15% = 90%. In percentage form, this is 90% x 1 = 90%.', 32, NULL, 1),
+(264, 'Ella has an orange to apple ratio of 3:2. If she has 15 oranges, how many apples does she have?', '10', '7', '8', '12', NULL, '3', 'The ratio of oranges to apples is 3:2. If Ella has 15 oranges, then the number of apples is (15 / 3) x 2 = 30 / 3 = 10. Therefore, Ella has 10 apples.', 32, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -540,7 +531,23 @@ INSERT INTO `question_image` (`id`, `image_url`, `q_id`) VALUES
 (1, '/images/boy.jpg', 205),
 (2, '/images/left_boy.jpg', 2),
 (3, '/images/car.jpg', 82),
-(4, '/images/bag.jpg', 82);
+(4, '/images/bag.jpg', 82),
+(5, '/images/boy.jpg', 255),
+(6, '/images/right_girl.jpg', 256),
+(7, '/images/girl.jpg', 256),
+(8, '/images/boy.jpg', 257),
+(9, '/images/left_boy.jpg', 257),
+(10, '/images/right_girl.jpg', 258),
+(11, '/images/boy.jpg', 259),
+(12, '/images/boy.jpg', 260),
+(13, '/images/left_boy.jpg', 260),
+(14, '/images/right_girl.jpg', 261),
+(15, '/images/girl.jpg', 261),
+(16, '/images/boy.jpg', 262),
+(17, '/images/girl.jpg', 262),
+(18, '/images/boy.jpg', 263),
+(19, '/images/left_boy.jpg', 263),
+(20, '/images/right_girl.jpg', 264);
 
 -- --------------------------------------------------------
 
@@ -820,8 +827,8 @@ CREATE TABLE `test_series_product` (
 --
 
 INSERT INTO `test_series_product` (`id`, `p_name`, `p_description`, `p_price`, `p_image`, `ts_id`, `test_month_limit`, `total_question`, `release_date`, `status`) VALUES
-(1, 'OC Test Package - 1', 'it is a test product', '89', '/images/product-1693910995.jpg', 1, 3, 35, '2023-09-10', 1),
-(3, 'OC Test Package - 2', 'adada', '89', '/images/product-1694066622.jpg', 1, 6, 35, '2023-09-07', 1);
+(1, 'OC Test Package - 1', 'it is a test product', '89', '/images/product-1693910995.jpg', 1, 3, 35, '2023-09-07', 1),
+(3, 'OC Test Package - 2', 'adada', '89', '/images/product-1694066622.jpg', 1, 6, 35, '2023-09-03', 1);
 
 -- --------------------------------------------------------
 
@@ -843,7 +850,10 @@ CREATE TABLE `test_series_purchases` (
 --
 
 INSERT INTO `test_series_purchases` (`id`, `tsp_id`, `user_id`, `valid_from`, `valid_till`, `status`) VALUES
-(2, 3, 2, '2023-09-07', '2023-09-09', 1);
+(2, 3, 2, '2023-09-07', '2023-09-09', 1),
+(3, 1, 1, '2023-09-09', '2023-12-09', 1),
+(4, 3, 1, '2023-09-09', '2024-03-09', 1),
+(5, 3, 4, '2023-09-11', '2024-03-11', 1);
 
 -- --------------------------------------------------------
 
@@ -869,7 +879,9 @@ INSERT INTO `test_series_topics` (`id`, `t_name`, `topic`, `tsc_id`, `status`, `
 (2, 'OC - Ratio - Medium', 'Ratio', 1, 1, 1),
 (28, 'OC - Thinking - Medium', 'Thinking', 3, 1, 1),
 (29, 'OC - Thinking - Easy', 'Thinking', 3, 1, 1),
-(30, 'OC - Thinking - Easy2', 'Thinking', 3, 1, 1);
+(30, 'OC - Thinking - Easy2', 'Thinking', 3, 1, 1),
+(31, 'Critical Thinking', 'Critical Thinking', 3, 1, 1),
+(32, 'Ratio', 'ratio', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -992,7 +1004,8 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `phone`, `DOB`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Deshawn Orn I', 'abc67@g', '1-478-336-0387', NULL, '2023-09-05 05:01:51', '$2y$10$6gzgBz1ZaAY.iHxt2vPebeVqd3.cZFS4uuIa9CWjfZ8IcQJ9IShPi', '0es5NE5FMs', NULL, NULL),
-(2, 'Hthth Sushant', 'spoojari694@gmail.com', '8805778742', NULL, NULL, '$2y$10$4FKyeyScLJgopL7JJU.tt.CQxzToGOYllKvKK28Jvc2GSFamWsJf.', NULL, NULL, NULL);
+(2, 'Hthth Sushant', 'spoojari694@gmail.com', '8805778742', NULL, NULL, '$2y$10$4FKyeyScLJgopL7JJU.tt.CQxzToGOYllKvKK28Jvc2GSFamWsJf.', NULL, NULL, NULL),
+(4, 'Susahnt Sushant', 'spoojari69@gmail.com', '8805778743', NULL, NULL, '$2y$10$RQoxA5JhPJaLnG2DIXCPnO1x/h.tY9fsEIyGi4xtz95eQEgA7FNYy', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1033,10 @@ CREATE TABLE `user_test_series` (
 --
 
 INSERT INTO `user_test_series` (`id`, `tsps_id`, `set_id`, `complete_status`, `start_date`, `end_date`, `time_taken`, `current_timer`, `percentage`, `total_marks`, `total_answered`, `q_id`) VALUES
-(3, 2, 8, 1, '07-09-2023', '07-09-2023', '2', NULL, 23, 8, 17, 62);
+(8, 2, 7, 1, '09-09-2023', '09-09-2023', '18', NULL, 11, 4, 11, 223),
+(9, 4, 7, 1, '09-09-2023', '09-09-2023', '1', '34.59', 17, 6, 13, 270),
+(10, 4, 7, 1, '09-09-2023', '09-09-2023', '2', NULL, 26, 9, 22, 308),
+(11, 5, 7, 1, '11-09-2023', '11-09-2023', '1', NULL, 3, 1, 15, 327);
 
 -- --------------------------------------------------------
 
@@ -1043,41 +1059,146 @@ CREATE TABLE `user_test_status` (
 --
 
 INSERT INTO `user_test_status` (`id`, `q_id`, `status_id`, `test_answer`, `marks`, `uts_id`, `test_time`) VALUES
-(31, 233, 1, '1', 1, 3, '0'),
-(32, 241, 2, NULL, 0, 3, '0'),
-(33, 204, 1, '3', 0, 3, '0'),
-(34, 243, 1, '1', 1, 3, '0'),
-(35, 232, 3, NULL, 0, 3, '0'),
-(36, 238, 3, NULL, 0, 3, '0'),
-(37, 218, 1, '1', 1, 3, '0'),
-(38, 231, 3, NULL, 0, 3, '0'),
-(39, 206, 1, '2', 1, 3, '0'),
-(40, 217, 3, NULL, 0, 3, '0'),
-(41, 228, 1, '2', 0, 3, '0'),
-(42, 225, 1, '3', 0, 3, '0'),
-(43, 210, 1, '3', 0, 3, '0'),
-(44, 227, 1, '2', 1, 3, '0'),
-(45, 221, 1, '2', 1, 3, '0'),
-(46, 237, 3, NULL, 0, 3, '0'),
-(47, 200, 3, NULL, 0, 3, '0'),
-(48, 226, 3, NULL, 0, 3, '0'),
-(49, 205, 1, '1', 0, 3, '0'),
-(50, 211, 3, NULL, 0, 3, '0'),
-(51, 216, 1, '1', 1, 3, '0'),
-(52, 222, 2, NULL, 0, 3, '0'),
-(53, 201, 1, '3', 0, 3, '0'),
-(54, 229, 1, '3', 1, 3, '0'),
-(55, 242, 1, '3', 0, 3, '0'),
-(56, 235, 3, NULL, 0, 3, '0'),
-(57, 212, 3, NULL, 0, 3, '0'),
-(58, 208, 3, NULL, 0, 3, '0'),
-(59, 230, 3, NULL, 0, 3, '0'),
-(60, 240, 3, NULL, 0, 3, '0'),
-(61, 236, 1, '3', 0, 3, '0'),
-(62, 203, 1, '3', 0, 3, '0'),
-(63, 214, 3, NULL, 0, 3, '0'),
-(64, 209, 3, NULL, 0, 3, '0'),
-(65, 234, 3, NULL, 0, 3, '0');
+(206, 220, 1, 'B', 0, 8, '0.04'),
+(207, 215, 1, 'B', 0, 8, '30.51'),
+(208, 200, 1, 'A', 1, 8, '0'),
+(209, 224, 1, 'B', 0, 8, '0.02'),
+(210, 209, 1, 'A', 1, 8, '0.05'),
+(211, 244, 1, 'A', 0, 8, '0.01'),
+(212, 241, 1, 'A', 1, 8, '0.01'),
+(213, 234, 1, 'A', 1, 8, '0.03'),
+(214, 227, 1, 'C', 0, 8, '0.01'),
+(215, 226, 3, NULL, 0, 8, '0'),
+(216, 221, 3, NULL, 0, 8, '0'),
+(217, 231, 3, NULL, 0, 8, '0'),
+(218, 202, 3, NULL, 0, 8, '0'),
+(219, 240, 3, NULL, 0, 8, '0'),
+(220, 228, 1, 'C', 0, 8, '0.02'),
+(221, 208, 3, NULL, 0, 8, '0'),
+(222, 201, 3, NULL, 0, 8, '0'),
+(223, 243, 1, 'C', 0, 8, '0.01'),
+(224, 235, 3, NULL, 0, 8, '0'),
+(225, 213, 3, NULL, 0, 8, '0'),
+(226, 233, 3, NULL, 0, 8, '0'),
+(227, 211, 3, NULL, 0, 8, '0'),
+(228, 218, 3, NULL, 0, 8, '0'),
+(229, 219, 3, NULL, 0, 8, '0'),
+(230, 242, 3, NULL, 0, 8, '0'),
+(231, 225, 3, NULL, 0, 8, '0'),
+(232, 210, 3, NULL, 0, 8, '0'),
+(233, 207, 3, NULL, 0, 8, '0'),
+(234, 238, 3, NULL, 0, 8, '0'),
+(235, 237, 3, NULL, 0, 8, '0'),
+(236, 203, 3, NULL, 0, 8, '0'),
+(237, 232, 3, NULL, 0, 8, '0'),
+(238, 212, 3, NULL, 0, 8, '0'),
+(239, 214, 3, NULL, 0, 8, '0'),
+(240, 206, 3, NULL, 0, 8, '0'),
+(241, 220, 2, NULL, 0, 9, '0'),
+(242, 215, 1, 'A', 1, 9, '0.01'),
+(243, 200, 1, 'A', 1, 9, '0.01'),
+(244, 224, 2, NULL, 0, 9, '0'),
+(245, 209, 3, NULL, 0, 9, '0'),
+(246, 244, 3, NULL, 0, 9, '0'),
+(247, 241, 3, NULL, 0, 9, '0'),
+(248, 234, 1, 'A', 1, 9, '0.01'),
+(249, 227, 3, NULL, 0, 9, '0'),
+(250, 226, 3, NULL, 0, 9, '0'),
+(251, 221, 3, NULL, 0, 9, '0'),
+(252, 231, 1, 'A', 1, 9, '0.01'),
+(253, 202, 3, NULL, 0, 9, '0'),
+(254, 240, 1, 'A', 1, 9, '0.01'),
+(255, 228, 3, NULL, 0, 9, '0'),
+(256, 208, 1, 'A', 0, 9, '0.01'),
+(257, 201, 3, NULL, 0, 9, '0'),
+(258, 243, 1, 'B', 0, 9, '0.01'),
+(259, 235, 1, 'D', 0, 9, '0.01'),
+(260, 213, 3, NULL, 0, 9, '0'),
+(261, 233, 1, 'B', 0, 9, '0.02'),
+(262, 211, 1, 'C', 0, 9, '0.01'),
+(263, 218, 3, NULL, 0, 9, '0'),
+(264, 219, 1, 'A', 1, 9, '0.01'),
+(265, 242, 1, 'D', 0, 9, '0.01'),
+(266, 225, 3, NULL, 0, 9, '0'),
+(267, 210, 3, NULL, 0, 9, '0'),
+(268, 207, 3, NULL, 0, 9, '0'),
+(269, 238, 3, NULL, 0, 9, '0'),
+(270, 237, 1, 'A', 0, 9, '0'),
+(271, 203, 3, NULL, 0, 9, '0'),
+(272, 232, 3, NULL, 0, 9, '0'),
+(273, 212, 3, NULL, 0, 9, '0'),
+(274, 214, 3, NULL, 0, 9, '0'),
+(275, 206, 3, NULL, 0, 9, '0'),
+(276, 220, 2, NULL, 0, 10, '0'),
+(277, 215, 1, 'A', 1, 10, '0.02'),
+(278, 200, 1, 'A', 1, 10, '0.01'),
+(279, 224, 1, 'C', 0, 10, '0.01'),
+(280, 209, 1, 'C', 0, 10, '0.02'),
+(281, 244, 1, 'C', 1, 10, '0'),
+(282, 241, 1, 'A', 1, 10, '0.01'),
+(283, 234, 1, 'A', 1, 10, '0.01'),
+(284, 227, 3, NULL, 0, 10, '0'),
+(285, 226, 3, NULL, 0, 10, '0'),
+(286, 221, 3, NULL, 0, 10, '0'),
+(287, 231, 1, 'B', 0, 10, '0.01'),
+(288, 202, 3, NULL, 0, 10, '0'),
+(289, 240, 3, NULL, 0, 10, '0'),
+(290, 228, 3, NULL, 0, 10, '0'),
+(291, 208, 1, 'C', 0, 10, '0'),
+(292, 201, 1, 'A', 1, 10, '0.01'),
+(293, 243, 1, 'D', 0, 10, '0.01'),
+(294, 235, 1, 'C', 1, 10, '0.01'),
+(295, 213, 1, 'B', 0, 10, '0.01'),
+(296, 233, 1, 'A', 1, 10, '0'),
+(297, 211, 1, 'C', 0, 10, '0.8'),
+(298, 218, 1, 'C', 0, 10, '0.1'),
+(299, 219, 1, 'C', 0, 10, '0.1'),
+(300, 242, 1, 'C', 0, 10, '0.1'),
+(301, 225, 1, 'C', 0, 10, '0'),
+(302, 210, 1, 'C', 0, 10, '0'),
+(303, 207, 1, 'C', 1, 10, '0.01'),
+(304, 238, 3, NULL, 0, 10, '0'),
+(305, 237, 3, NULL, 0, 10, '0'),
+(306, 203, 3, NULL, 0, 10, '0'),
+(307, 232, 3, NULL, 0, 10, '0'),
+(308, 212, 1, 'C', 0, 10, '0'),
+(309, 214, 3, NULL, 0, 10, '0'),
+(310, 206, 3, NULL, 0, 10, '0'),
+(311, 220, 1, 'A', 0, 11, '0.01'),
+(312, 215, 1, 'B', 0, 11, '0.01'),
+(313, 200, 1, 'C', 0, 11, '0'),
+(314, 224, 1, 'C', 0, 11, '0'),
+(315, 209, 1, 'C', 0, 11, '0.01'),
+(316, 244, 1, 'C', 1, 11, '0.01'),
+(317, 241, 1, 'C', 0, 11, '0.01'),
+(318, 234, 1, 'C', 0, 11, '0.04'),
+(319, 227, 1, 'C', 0, 11, '0.01'),
+(320, 226, 3, NULL, 0, 11, '0'),
+(321, 221, 1, 'C', 0, 11, '0.01'),
+(322, 231, 1, 'C', 0, 11, '0.01'),
+(323, 202, 1, 'C', 0, 11, '0.01'),
+(324, 240, 1, 'C', 0, 11, '0.01'),
+(325, 228, 1, 'C', 0, 11, '0.8'),
+(326, 208, 3, NULL, 0, 11, '0'),
+(327, 201, 1, 'C', 0, 11, '0.1'),
+(328, 243, 3, NULL, 0, 11, '0'),
+(329, 235, 3, NULL, 0, 11, '0'),
+(330, 213, 3, NULL, 0, 11, '0'),
+(331, 233, 3, NULL, 0, 11, '0'),
+(332, 211, 3, NULL, 0, 11, '0'),
+(333, 218, 3, NULL, 0, 11, '0'),
+(334, 219, 3, NULL, 0, 11, '0'),
+(335, 242, 3, NULL, 0, 11, '0'),
+(336, 225, 3, NULL, 0, 11, '0'),
+(337, 210, 3, NULL, 0, 11, '0'),
+(338, 207, 3, NULL, 0, 11, '0'),
+(339, 238, 3, NULL, 0, 11, '0'),
+(340, 237, 3, NULL, 0, 11, '0'),
+(341, 203, 3, NULL, 0, 11, '0'),
+(342, 232, 3, NULL, 0, 11, '0'),
+(343, 212, 3, NULL, 0, 11, '0'),
+(344, 214, 3, NULL, 0, 11, '0'),
+(345, 206, 3, NULL, 0, 11, '0');
 
 --
 -- Indexes for dumped tables
@@ -1106,13 +1227,6 @@ ALTER TABLE `extra_question_field`
   ADD KEY `extra_question_field_q_id_foreign` (`q_id`);
 
 --
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
 -- Indexes for table `images`
 --
 ALTER TABLE `images`
@@ -1138,20 +1252,6 @@ ALTER TABLE `migrations`
 ALTER TABLE `non_verbal_question`
   ADD PRIMARY KEY (`id`),
   ADD KEY `non_verbal_question_tst_id_index` (`tst_id`);
-
---
--- Indexes for table `password_reset_tokens`
---
-ALTER TABLE `password_reset_tokens`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
 -- Indexes for table `question`
@@ -1285,19 +1385,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `extra_question_field`
 --
 ALTER TABLE `extra_question_field`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `images`
@@ -1324,22 +1418,16 @@ ALTER TABLE `non_verbal_question`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=245;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=265;
 
 --
 -- AUTO_INCREMENT for table `question_image`
 --
 ALTER TABLE `question_image`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `reading_question`
@@ -1375,13 +1463,13 @@ ALTER TABLE `test_series_product`
 -- AUTO_INCREMENT for table `test_series_purchases`
 --
 ALTER TABLE `test_series_purchases`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `test_series_topics`
 --
 ALTER TABLE `test_series_topics`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `test_status`
@@ -1411,19 +1499,19 @@ ALTER TABLE `ts_product_category`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_test_series`
 --
 ALTER TABLE `user_test_series`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user_test_status`
 --
 ALTER TABLE `user_test_status`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=346;
 
 --
 -- Constraints for dumped tables
