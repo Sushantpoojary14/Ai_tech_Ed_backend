@@ -54,7 +54,7 @@ class UserController extends Controller
         return [
             'rank' => $rank,
             'user_percentage' => $user_percentage->highest_percentage,
-            'total_user' => count($all_percentage)+1,
+            'total_user' => count($all_percentage) + 1,
             'all_percentage' => $all_percentage
         ];
     }
@@ -696,37 +696,34 @@ class UserController extends Controller
             // 'question_time' => $q_time,
             'rank' => $rank['rank'],
             'percentage' => $rank['user_percentage'],
-            'total_user'=>$rank['total_user'],
-            'total_percentage'=>$rank['all_percentage'],
+            'total_user' => $rank['total_user'],
+            'total_percentage' => $rank['all_percentage'],
         ], 200);
     }
 
-    public function get_overAll_percentage_limit( $user_id)
+    public function get_overAll_percentage_limit($user_id)
     {
         $user_RA = UserTestSeries::query()
-        ->where('complete_status', 1)
-        ->whereHas('userPurchases', function ($query) use ($user_id) {
-            $query->where('user_id', $user_id);
-        })
-        ->with('getTSSet')
-        ->limit(6)
-        // ->select('id')
-        ->get();
-
-        $user_RA = $user_RA->map(function($item){
-            $temp = new stdClass();
-            $temp->total_marks = $item->total_marks;
-            $temp->percentage = $item->percentage;
-            $temp->total_marks = $item->total_marks;
-            $temp->set_name = $item->getTSSet->set_name;
-            return $temp;
-
-        });
+            ->where('complete_status', 1)
+            ->whereHas('userPurchases', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('getTSSet')
+            ->limit(6)
+            // ->select('id')
+            ->get();
+        $temp = new stdClass();
+        foreach ($user_RA as $item) {
+            $temp->percentage[] = $item->percentage;
+            $temp->total_marks[] = $item->total_marks;
+            $temp->set_name[] = $item->getTSSet->set_name;
+        }
+        ;
         // $rank = $this->get_user_rank($set_id, $user_id);
 
         return response()->json([
             // 'question_time' => $q_time,
-            'performance' =>$user_RA
+            'performance' => $temp
         ], 200);
     }
 }
