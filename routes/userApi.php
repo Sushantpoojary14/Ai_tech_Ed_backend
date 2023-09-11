@@ -55,5 +55,6 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::post('/get-topic-question',[UserController::class,'getTopicQuestion']);
     Route::get('/get-marks-Distribution/{uts_id}',[UserController::class,'get_marks_Distribution']);
     Route::get('/get-question-time/{uts_id}',[UserController::class,'get_question_time']);
-    Route::get('/get-user-rank/{uts_id}',[UserController::class,'get_user_rank']);
+    Route::get('/get-user-rank/{set_id}/{user_id}',[UserController::class,'get_user_rank']);
+    Route::get('/get-percentage-rank/{set_id}/{user_id}',[UserController::class,'get_percentage_rank']);
 });

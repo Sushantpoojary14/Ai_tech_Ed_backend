@@ -20,6 +20,44 @@ use stdClass;
 
 class UserController extends Controller
 {
+    private function get_user_rank($set_id, $user_id)
+    {
+        $all_percentage = UserTestSeries::query()
+            ->where(['set_id' => $set_id, 'complete_status' => 1])
+            // ->select('id')
+            ->whereHas('userPurchases', function ($query) use ($user_id) {
+                $query->whereNot('user_id', $user_id);
+            })
+            ->select(DB::raw('MAX(percentage) as highest_percentage'))
+            // ->distinct('tsps_id')
+            ->groupBy('tsps_id')
+            ->orderBy('percentage', 'desc')
+            ->get();
+
+        $user_percentage = UserTestSeries::query()
+            ->whereHas('userPurchases', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->select(DB::raw('MAX(percentage) as highest_percentage'))
+            // ->select('id')
+            // ->orderBy('percentage')
+            ->first();
+
+        $rank = 1;
+        foreach ($all_percentage as $key => $value) {
+            if ($value->highest_percentage <= $user_percentage->highest_percentage) {
+                break;
+            }
+            $rank++;
+        }
+        ;
+        return [
+            'rank' => $rank,
+            'user_percentage' => $user_percentage->highest_percentage,
+            'total_user' => count($all_percentage)+1
+
+        ];
+    }
 
     public function userTestStatus(request $request)
     {
@@ -170,8 +208,8 @@ class UserController extends Controller
                 })
                 // ->with('getTSSet.getTsPC.testSeriesCategories')
                 ->first();
-            $question_timer =( $uts->current_timer ?? $timer) - $timer;
-            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' =>  round($question_timer, 3), 'status_id' => $request->status_id];
+            $question_timer = (float) ($uts->current_timer ?? $timer) - $timer;
+            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' => round($question_timer, 3), 'status_id' => $request->status_id];
             // return $question_timer;
 
         }
@@ -497,7 +535,8 @@ class UserController extends Controller
         // })->values();
         $topics_id = [];
         $topics = [];
-
+        $ra = $this->get_user_rank($user_RA->set_id, Auth()->id());
+        $user_RA->rank = $ra['rank'];
         foreach ($user_RA->getUTStatus as $key => $item) {
             if ($item->test_answer != $item->questions->correct_option) {
                 $topics_id[] = $item->questions->qTopic->id;
@@ -584,6 +623,11 @@ class UserController extends Controller
                     $query->limit(2);
                 })
                 ->first();
+            $total_question = TestSeriesTopics::where('id', $item)
+                ->with('getQuestion')
+                ->first();
+            // return   $total_question->getQuestion;
+            $temp->total_questions = $total_question->getQuestion;
             foreach ($temp->getQuestion as $key => $value) {
                 // dd($value);
                 if ($value->extraFields) {
@@ -594,11 +638,14 @@ class UserController extends Controller
             }
             return $temp;
         }, $tstIds);
-
+        // $total_question = TestSeriesTopics::whereIn('id', $tstIds)
+        //     ->with('getQuestion')
+        //     ->get();
 
         return response()->json([
             'message' => 'Success',
-            'topic_questions' => $question
+            'topic_questions' => $question,
+            // 'total_questions' => $total_question
         ], 200);
     }
     public function get_marks_Distribution($uts_id)
@@ -608,18 +655,18 @@ class UserController extends Controller
             // ->select('id')
             ->first();
 
-        $marks= new stdClass();
+        $marks = new stdClass();
         $marks->right_marks = $set_RA->total_marks;
-        $marks->negative_marks =  $set_RA->total_answered - $set_RA->total_marks;
-        $marks->left_marks =   35 - $set_RA->total_answered ;
+        $marks->negative_marks = $set_RA->total_answered - $set_RA->total_marks;
+        $marks->left_marks = 35 - $set_RA->total_answered;
 
         $question_marks = new stdClass();
         $question_marks->right_question = $set_RA->total_marks;
-        $question_marks->negative_question =  $set_RA->total_answered - $set_RA->total_marks;
-        $question_marks->left_question =   35 - $set_RA->total_answered;
+        $question_marks->negative_question = $set_RA->total_answered - $set_RA->total_marks;
+        $question_marks->left_question = 35 - $set_RA->total_answered;
         return response()->json([
-            'marks_distribution' =>  $marks,
-            'question_distribution'=>$question_marks
+            'marks_distribution' => $marks,
+            'question_distribution' => $question_marks
         ], 200);
     }
 
@@ -631,7 +678,7 @@ class UserController extends Controller
             // ->orderBy('percentage')
             ->get('test_time');
 
-        $q_time = $q_time->map(function($item){
+        $q_time = $q_time->map(function ($item) {
             return $item->test_time;
         });
 
@@ -640,27 +687,18 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function get_user_rank($set_id,$uts_id)
+    public function get_percentage_rank($set_id, $user_id)
     {
-        $q_time = UserTestSeries::query()
-            ->where(['set_id'=> $set_id,'complete_status'=>1])
-            // ->select('id')
-            ->distinct('tsps_id')
-            ->orderBy('percentage','desc')
-            ->get();
 
-        // $q_time = $q_time->map(function($item){
-        //     return $item->test_time;
-        // });
-
-        // foreach ($q_time as $key => $value) {
-        //    if(){
-
-        //    }
-        // }
+        $rank = $this->get_user_rank($set_id, $user_id);
 
         return response()->json([
-            'rank' => $q_time,
+            // 'question_time' => $q_time,
+            'rank' => $rank['rank'],
+            'percentage' => $rank['user_percentage'],
+            'total_user'=>$rank['total_user']
         ], 200);
     }
+
+
 }
