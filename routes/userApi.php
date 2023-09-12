@@ -58,4 +58,5 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-rank/{set_id}/{user_id}',[UserController::class,'get_user_rank']);
     Route::get('/get-percentage-rank/{set_id}/{user_id}',[UserController::class,'get_percentage_rank']);
     Route::get('/get_overAll_percentage_limit/{user_id}',[UserController::class,'get_overAll_percentage_limit']);
+    Route::get('/get-user-set-question/{status_id}',[UserController::class,'get_user_set_question']);
 });

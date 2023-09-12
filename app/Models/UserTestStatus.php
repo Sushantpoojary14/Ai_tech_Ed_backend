@@ -60,7 +60,7 @@ class UserTestStatus extends Model
     // }
     public function questions(): BelongsTo
     {
-        return $this->belongsTo(Question::class, 'q_id', 'id');
+        return $this->belongsTo(Question::class, 'q_id', 'id')->with(['questionImage','extraFields']);
     }
     public function UserTestSeries(): BelongsTo
     {

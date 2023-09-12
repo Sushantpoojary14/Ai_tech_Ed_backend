@@ -59,8 +59,10 @@ class AdminController extends Controller
                 foreach ($value2->getSetQuestion as $key3 => $value3) {
                     $questions[] = $value3->getQuestions;
                     $questions[$key3]->images = $value3->getQuestions->questionImage;
-                    $questions[$key3]->conversation = $value3->getQuestions->extraFields->conversation;
-                    $questions[$key3]->paragraph = $value3->getQuestions->extraFields->paragraph;
+                    if ($value3->getQuestions->extraFields) {
+                        $questions[$key3]->conversation = $value3->getQuestions->extraFields->conversation;
+                        $questions[$key3]->paragraph = $value3->getQuestions->extraFields->paragraph;
+                    }
                     unset($value3->getQuestions->questionImage, $value3->getQuestions->extraFields);
                 }
 
@@ -402,7 +404,7 @@ class AdminController extends Controller
             ->with('getQuestion')
             ->first();
         $question->getQuestion = $question->getQuestion->map(function ($value) {
-            if( $value->extraFields){
+            if ($value->extraFields) {
 
                 $value->conversation = $value->extraFields->conversation;
                 $value->paragraph = $value->extraFields->paragraph;

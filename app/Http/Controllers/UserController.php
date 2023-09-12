@@ -722,4 +722,20 @@ class UserController extends Controller
             'performance' => $temp
         ], 200);
     }
+
+    public function get_user_set_question($status_id)
+    {
+        $questions = UserTestStatus::where('id', $status_id)
+            ->with('questions')
+            ->first();
+        if ($questions->questions->extraFields) {
+            $questions->questions->conversation = $questions->questions->extraFields->conversation;
+            $questions->questions->paragraph = $questions->questions->extraFields->paragraph;
+        }
+        unset($questions->questions->extraFields);
+        return response()->json([
+            // 'question_time' => $q_time,
+            'questions' => $questions
+        ], 200);
+    }
 }
