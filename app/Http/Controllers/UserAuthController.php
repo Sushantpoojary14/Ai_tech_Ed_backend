@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use Resend\Laravel\Facades\Resend;
 
 class UserAuthController extends Controller
 {
@@ -126,7 +127,7 @@ class UserAuthController extends Controller
 
         return response()->json([
             'message' => 'Successfully Changed',
-            'data'=>[
+            'data' => [
                 'id' => auth()->user()->id,
                 'name' => auth()->user()->name,
                 'email' => auth()->user()->email,
@@ -197,5 +198,21 @@ class UserAuthController extends Controller
                 'DOB' => auth()->user()->DOB,
             ]
         ]);
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $otp = rand(1111, 9999);
+        Resend::emails()->send([
+            'from' => 'Acme <onboarding@resend.dev>',
+            'to' => [$request->email],
+            'subject' => 'Confirmation',
+            'html' => "<h2>Your OTP <h1>" . $otp . "</h1></h2>",
+        ]);
+
+        return response()->json([
+            'message' => 'success',
+            'otp' => $otp
+        ], 200);
     }
 }

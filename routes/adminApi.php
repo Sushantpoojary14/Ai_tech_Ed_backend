@@ -44,5 +44,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::get('/get-set-topic/{set_id}', [AdminController::class, 'getSetTopic']);
     //product
     Route::post('/image-upload', [AdminController::class, 'imageUpload']);
+    Route::post('/test-image-upload', [AdminController::class, 'saveImage']);
     Route::get('/get-image/{tsc_id}', [AdminController::class, 'getImage']);
 });

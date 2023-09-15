@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use stdClass;
 
+
 class UserController extends Controller
 {
     private function get_user_rank($set_id, $user_id)
@@ -738,4 +739,6 @@ class UserController extends Controller
             'questions' => $questions
         ], 200);
     }
+
+
 }

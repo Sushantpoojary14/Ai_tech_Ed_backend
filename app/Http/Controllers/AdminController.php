@@ -22,6 +22,7 @@ use App\Models\Question;
 use App\Models\UserTestSeries;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use stdClass;
 
@@ -520,12 +521,17 @@ class AdminController extends Controller
         $set = TSPCSet::where('id', $set_id)
             ->with('getSetQuestion.getQuestions')
             ->first();
-        $questions = [];
-        foreach ($set->getSetQuestion as $value) {
-            $questions[] = $value->getQuestions;
-        }
-        unset($set->getSetQuestion);
-        $set->questions = $questions;
+            // return   $set;
+            $set->question = $set->getSetQuestion->map(function ($value) {
+                if ($value->getQuestions->extraFields) {
+                    $value->getQuestions->conversation = $value->getQuestions->extraFields->conversation;
+                    $value->getQuestions->paragraph = $value->getQuestions->extraFields->paragraph;
+                }
+                $value->getQuestions->images =  $value->getQuestions->questionImage;
+                unset($value->getQuestions->extraFields,$value->getQuestions->questionImage);
+                return $value->getQuestions;
+            });
+            unset($set->getSetQuestion);
         return response()->json([
             'set_questions' => $set
         ], 200);
@@ -775,6 +781,7 @@ class AdminController extends Controller
 
     public function imageUpload(Request $request)
     {
+        // return  $request->images;
         $values = $request->file('images');
         if (is_array($values) || is_object($values)) {
             foreach ($values as $file) {
@@ -798,10 +805,15 @@ class AdminController extends Controller
                     }
                 }
             }
+            return response()->json([
+                'message' => 'SuccessFully',
+                // "data"=>$request->images
+            ], 200);
         }
         return response()->json([
-            'message' => 'SuccessFully'
-        ], 200);
+            'message' => 'not proper',
+
+        ], 403);
     }
 
     public function getImage($tsc_id)
@@ -816,5 +828,33 @@ class AdminController extends Controller
         return response()->json([
             'images' => $images
         ], 200);
+    }
+
+    public function saveImage(Request $request)
+    {
+        $base64Image = $request->input('images');
+
+        // Remove the data URL prefix (e.g., "data:image/png;base64,")
+        $base64Image = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $base64Image);
+
+        // Decode the Base64 string into binary image data
+        $imageData = base64_decode($base64Image);
+
+        if ($imageData !== false) {
+            // Generate a unique filename for the image (e.g., using timestamp)
+            $filename = 'image_' . time() . '.png';
+
+            // Define the directory where you want to save the image
+            $uploadPath = public_path('images'); // Change this to your desired directory
+
+            // Save the image to the specified directory
+            file_put_contents($uploadPath . '/' . $filename, $imageData);
+
+            // You can also store the filename in your database for future reference
+
+            return response()->json(['message' => 'Image saved successfully', 'filename' => $filename]);
+        } else {
+            return response()->json(['error' => 'Invalid image data'], 400);
+        }
     }
 }
