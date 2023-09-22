@@ -14,11 +14,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::get('/images/{filename}', function($filename) {
+    $path = public_path('images/' . $filename);
 
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});
+
+Route::get('/', function () {
+
+    return response([
+        "message"=>"working"
+    ]);
+});
 require __DIR__.'\adminApi.php';
 require __DIR__.'\userApi.php';
+
 // require __DIR__ . DIRECTORY_SEPARATOR . 'adminApi.php';
 // require __DIR__ . DIRECTORY_SEPARATOR . 'userApi.php';
