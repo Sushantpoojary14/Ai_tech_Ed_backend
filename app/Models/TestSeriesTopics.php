@@ -16,7 +16,6 @@ class TestSeriesTopics extends Model
         'tsc_id',
         'ts_id',
         'status'
-
     ];
 
     protected $casts = [

@@ -24,7 +24,8 @@ class Question extends Model
         'explanation',
         'tst_id',
         'marks',
-        'status'
+        'status',
+        'nvq'
     ];
     protected $casts = [
         'id' => 'integer',
@@ -36,11 +37,13 @@ class Question extends Model
     protected function correctOption(): Attribute
     {
         return Attribute::make(
-            set: fn(string $value) => match (strtolower($value)) {
+            set: fn($value) => match (strtolower($value)) {
+                // dd($value),
                 'a' => 1,
                 'b' => 2,
                 'c' => 3,
                 'd' => 4,
+                default => $value
             }
         );
     }

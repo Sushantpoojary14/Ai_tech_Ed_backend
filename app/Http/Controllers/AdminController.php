@@ -218,8 +218,17 @@ class AdminController extends Controller
                 ->with('testSeriesProduct.getTestSeries')
                 ->first();
 
-            // return  $categories;
-            $selectedQuestions = $this->questionGenerator($questions);
+            $cate = TestSeriesCategories::whereHas('topics', function ($query) use ($item) {
+                $query->where('id', $item['tst_id']);
+            })
+                ->first();
+            // return  $cate;
+            if ($cate->id == 2) {
+                $selectedQuestions = $questions;
+            } else {
+
+                $selectedQuestions = $this->questionGenerator($questions);
+            }
 
             $q_data[] = [
                 $tspc->testSeriesCategories->tsc_type => $selectedQuestions
@@ -370,16 +379,17 @@ class AdminController extends Controller
             }
         } elseif ($request->tsc_id == 2) {
             foreach ($questions as $key => $item) {
-                $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
+                $item = array_change_key_case($item, CASE_UPPER);
+                $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
                 $q_data = Question::query()
                     ->create([
-                        'question' => $item['Question'],
-                        'option_1' => $item['Option_A'],
-                        'option_2' => $item['Option_B'],
-                        'option_3' => $item['Option_C'],
-                        'option_4' => $item['Option_D'],
+                        'question' => $item['QUESTION'],
+                        'option_1' => $item['OPTION_A'],
+                        'option_2' => $item['OPTION_B'],
+                        'option_3' => $item['OPTION_C'],
+                        'option_4' => $item['OPTION_D'],
                         'correct_option' => $ans,
-                        'explanation' => $item['Explanation'],
+                        'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
                     ]);
                 if (array_key_exists("IMAGES", $item)) {
@@ -390,6 +400,13 @@ class AdminController extends Controller
                             'image_url' => $image
                         ]);
                     }
+                }
+                if (array_key_exists("PARAGRAPH", $item)) {
+                    ExtraQuestionField::create([
+                        'q_id' => $q_data->id,
+                        'paragraph' => $item["PARAGRAPH"],
+                    ]);
+
                 }
 
             }
@@ -521,17 +538,17 @@ class AdminController extends Controller
         $set = TSPCSet::where('id', $set_id)
             ->with('getSetQuestion.getQuestions')
             ->first();
-            // return   $set;
-            $set->question = $set->getSetQuestion->map(function ($value) {
-                if ($value->getQuestions->extraFields) {
-                    $value->getQuestions->conversation = $value->getQuestions->extraFields->conversation;
-                    $value->getQuestions->paragraph = $value->getQuestions->extraFields->paragraph;
-                }
-                $value->getQuestions->images =  $value->getQuestions->questionImage;
-                unset($value->getQuestions->extraFields,$value->getQuestions->questionImage);
-                return $value->getQuestions;
-            });
-            unset($set->getSetQuestion);
+        // return   $set;
+        $set->question = $set->getSetQuestion->map(function ($value) {
+            if ($value->getQuestions->extraFields) {
+                $value->getQuestions->conversation = $value->getQuestions->extraFields->conversation;
+                $value->getQuestions->paragraph = $value->getQuestions->extraFields->paragraph;
+            }
+            $value->getQuestions->images = $value->getQuestions->questionImage;
+            unset($value->getQuestions->extraFields, $value->getQuestions->questionImage);
+            return $value->getQuestions;
+        });
+        unset($set->getSetQuestion);
         return response()->json([
             'set_questions' => $set
         ], 200);
@@ -830,9 +847,9 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function saveImage(Request $request)
+    public function saveImage($image)
     {
-        $base64Image = $request->input('images');
+        $base64Image = $image;
 
         // Remove the data URL prefix (e.g., "data:image/png;base64,")
         $base64Image = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $base64Image);
@@ -845,16 +862,66 @@ class AdminController extends Controller
             $filename = 'image_' . time() . '.png';
 
             // Define the directory where you want to save the image
-            $uploadPath = public_path('images'); // Change this to your desired directory
+            $uploadPath = public_path('NVImages'); // Change this to your desired directory
 
             // Save the image to the specified directory
             file_put_contents($uploadPath . '/' . $filename, $imageData);
 
             // You can also store the filename in your database for future reference
-
+            return 'NVImages'. '/' . $filename;
             return response()->json(['message' => 'Image saved successfully', 'filename' => $filename]);
         } else {
             return response()->json(['error' => 'Invalid image data'], 400);
         }
+    }
+
+    public function addNVTSTopic(Request $request)
+    {
+
+        $data = $request->except(['question']);
+        // return $request->input();
+        if ($data) {
+            $tst = TestSeriesTopics::query()
+                ->create(
+                    $data
+                );
+        }
+
+
+        $questions = $request->question;
+
+        foreach ($questions as $key => $item) {
+            $item = array_change_key_case($item, CASE_UPPER);
+
+            $ans = preg_replace('/\s+/', ' ', trim($item['CORRECT_ANS']));
+            // return  $item;
+            // return  $this->saveImage($item['QUESTION_IMAGE']);
+            $q_data = Question::query()
+                ->create([
+                    'question' => $item['QUESTION'],
+                    'option_1' => (explode(":", $item['OPTIONS']['a'])[0] == "data") ? $this->saveImage($item['OPTIONS']['a']) : $item['OPTIONS']['a'],
+                    'option_2' => (explode(":", $item['OPTIONS']['b'])[0] == "data") ? $this->saveImage($item['OPTIONS']['b']) : $item['OPTIONS']['b'],
+                    'option_3' => (explode(":", $item['OPTIONS']['c'])[0] == "data") ? $this->saveImage($item['OPTIONS']['c']) : $item['OPTIONS']['c'],
+                    'option_4' => (explode(":", $item['OPTIONS']['d'])[0] == "data") ? $this->saveImage($item['OPTIONS']['d']) : $item['OPTIONS']['d'],
+                    'correct_option' => $ans,
+                    'explanation' => null,
+                    'tst_id' => $tst->id,
+                    'nvq' => 1
+                ]);
+            // RETURN ($item);
+            if (array_key_exists("QUESTION_IMAGE", $item)) {
+
+                QuestionImage::create([
+                    'q_id' => $q_data->id,
+                    'image_url' => $this->saveImage($item['QUESTION_IMAGE'])
+                ]);
+
+            }
+
+        }
+
+        return response()->json([
+            'message' => 'Successfully Topic added'
+        ], 200);
     }
 }

@@ -101,9 +101,10 @@ class UserController extends Controller
     {
 
         $userTestSeries = UserTestSeries::
-            with('userPurchases.tsProduct')
+            // with('userPurchases.tsProduct')
+            with('getTSSet.getTsPC.testSeriesCategories')
             ->find($id);
-
+        $cate_id = $userTestSeries->getTSSet->getTsPC->testSeriesCategories->id;
         // $product = $userTestSeries->userPurchases->tsProduct;
 
         if (!$userTestSeries || !$userTestSeries->userPurchases) {
@@ -128,21 +129,52 @@ class UserController extends Controller
         // dd(DB::getQueryLog());
         // return $temp;
 
+        $count = 1;
+        $index = [];
 
         if (!$userTestStatuses->isEmpty()) {
-            $userTestStatuses = $userTestStatuses->map(function ($item) {
+            $userTestStatuses = $userTestStatuses->map(function ($item, $key) use ( $index ) {
                 if ($item->questions->extraFields) {
                     $item->questions->conversation = $item->questions->extraFields->conversation;
                     $item->questions->paragraph = $item->questions->extraFields->paragraph;
+                    // if ($cate_id == 3) {
+
+
+                        // print_r($index);
+                    // }
                 }
+
                 unset($item->questions->extraFields);
                 return $item;
             });
+            foreach ($userTestStatuses as $key => $value) {
+                $index[] = $value->questions->extraFields->paragraph;
+            }
+
+            $counts = [];
+            $c =[];
+            foreach ($index as $number) {
+
+                if (array_key_exists($number, $counts)) {
+                    $counts[$number]++;
+                } else {
+                    $counts[$number] = 1;
+                    //  $c ++;
+                }
+
+            }
+
+            foreach ($counts as $key => $value) {
+                $c[] =   $value;
+            }
+
             return response()->json([
                 'test_data' => $userTestStatuses,
+                // ""
                 'current_qid' => $userTestSeries->q_id,
                 'uts_id' => $userTestSeries->id,
-                'timer' => $timer
+                'timer' => $timer,
+                "index" => $c
             ], 200);
         }
 
