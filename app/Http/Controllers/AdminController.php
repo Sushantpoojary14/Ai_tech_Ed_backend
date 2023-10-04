@@ -856,25 +856,51 @@ class AdminController extends Controller
 
         // Decode the Base64 string into binary image data
         $imageData = base64_decode($base64Image);
-
+        $count = QuestionImage::count();
         if ($imageData !== false) {
             // Generate a unique filename for the image (e.g., using timestamp)
-            $filename = 'image_' . time() . '.png';
+            $filename = 'q_image_' . $count + 1 . '.png';
 
             // Define the directory where you want to save the image
-            $uploadPath = public_path('NVImages'); // Change this to your desired directory
+            $uploadPath = public_path('NVImages/qImage'); // Change this to your desired directory
 
             // Save the image to the specified directory
             file_put_contents($uploadPath . '/' . $filename, $imageData);
 
             // You can also store the filename in your database for future reference
-            return 'NVImages'. '/' . $filename;
+            return '/NVImages/qImage' . '/' . $filename;
             return response()->json(['message' => 'Image saved successfully', 'filename' => $filename]);
         } else {
             return response()->json(['error' => 'Invalid image data'], 400);
         }
     }
+    public function saveOptionImage($image, $option)
+    {
+        $base64Image = $image;
 
+        // Remove the data URL prefix (e.g., "data:image/png;base64,")
+        $base64Image = preg_replace('/^data:image\/(png|jpeg|jpg);base64,/', '', $base64Image);
+
+        // Decode the Base64 string into binary image data
+        $imageData = base64_decode($base64Image);
+        $count = Question::where("nvq",1)->count();
+        if ($imageData !== false) {
+            // Generate a unique filename for the image (e.g., using timestamp)
+            $filename = 'option_' . $option . '_' . ($count + 1) . '.png';
+
+            // Define the directory where you want to save the image
+            $uploadPath = public_path('NVImages/oImage'); // Change this to your desired directory
+
+            // Save the image to the specified directory
+            file_put_contents($uploadPath . '/' . $filename, $imageData);
+
+            // You can also store the filename in your database for future reference
+            return '/NVImages/oImage' . '/' . $filename;
+            return response()->json(['message' => 'Image saved successfully', 'filename' => $filename]);
+        } else {
+            return response()->json(['error' => 'Invalid image data'], 400);
+        }
+    }
     public function addNVTSTopic(Request $request)
     {
 
@@ -899,10 +925,10 @@ class AdminController extends Controller
             $q_data = Question::query()
                 ->create([
                     'question' => $item['QUESTION'],
-                    'option_1' => (explode(":", $item['OPTIONS']['a'])[0] == "data") ? $this->saveImage($item['OPTIONS']['a']) : $item['OPTIONS']['a'],
-                    'option_2' => (explode(":", $item['OPTIONS']['b'])[0] == "data") ? $this->saveImage($item['OPTIONS']['b']) : $item['OPTIONS']['b'],
-                    'option_3' => (explode(":", $item['OPTIONS']['c'])[0] == "data") ? $this->saveImage($item['OPTIONS']['c']) : $item['OPTIONS']['c'],
-                    'option_4' => (explode(":", $item['OPTIONS']['d'])[0] == "data") ? $this->saveImage($item['OPTIONS']['d']) : $item['OPTIONS']['d'],
+                    'option_1' => (explode(":", $item['OPTIONS']['a'])[0] == "data") ? $this->saveOptionImage($item['OPTIONS']['a'], "A") : $item['OPTIONS']['a'],
+                    'option_2' => (explode(":", $item['OPTIONS']['b'])[0] == "data") ? $this->saveOptionImage($item['OPTIONS']['b'], "B") : $item['OPTIONS']['b'],
+                    'option_3' => (explode(":", $item['OPTIONS']['c'])[0] == "data") ? $this->saveOptionImage($item['OPTIONS']['c'], "C") : $item['OPTIONS']['c'],
+                    'option_4' => (explode(":", $item['OPTIONS']['d'])[0] == "data") ? $this->saveOptionImage($item['OPTIONS']['d'], "D") : $item['OPTIONS']['d'],
                     'correct_option' => $ans,
                     'explanation' => null,
                     'tst_id' => $tst->id,
