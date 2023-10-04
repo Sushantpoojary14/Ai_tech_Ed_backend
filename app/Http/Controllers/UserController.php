@@ -148,7 +148,10 @@ class UserController extends Controller
                 return $item;
             });
             foreach ($userTestStatuses as $key => $value) {
-                $index[] = $value->questions->extraFields->paragraph;
+                if($value->questions->extraFields){
+                    $index[] = $value->questions->extraFields->paragraph;
+                }
+
             }
 
             $counts = [];
