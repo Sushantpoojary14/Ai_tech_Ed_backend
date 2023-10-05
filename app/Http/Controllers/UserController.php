@@ -484,10 +484,11 @@ class UserController extends Controller
                 }
             ])
             ->first();
+        //  return $purchases;
         $new_purchases = [];
         if (!$purchases) {
             return response()->json([
-                'tsp' => $new_purchases,
+                'tsp' => $purchases,
             ], 200);
         }
         // $purchases->test_data = [];
@@ -518,6 +519,7 @@ class UserController extends Controller
 
         return response()->json([
             'tsp' => $new_purchases,
+            'ps_id'=>$purchases->id
         ], 200);
     }
 
