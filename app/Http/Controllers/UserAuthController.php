@@ -105,7 +105,7 @@ class UserAuthController extends Controller
     }
 
 
-    public function profileChange(Request $request)
+    public function profileChange(Request $request, $user_id)
     {
         // $validator = Validator::make($request->all(), [
         //     // 'email' => 'required|string|email|max:100',
@@ -115,24 +115,26 @@ class UserAuthController extends Controller
         // if ($validator->fails()) {
         //     return response()->json($validator->errors(), 400);
         // }
-        $user_email = auth()->user()->email;
+        // $user_email = auth()->user()->email;
         // if (!auth()->attempt(['email'=>$user_email ,'password'=>$request->prev_password])) {
         //     return response()->json(['status' => 'failed',
         //     'message' =>  'UnAuthorized'], 404);
         // }
 
         User::query()
-            ->where('email', $user_email)
+            ->where('id', $user_id)
             ->update($request->input());
-
+        $user = User::query()
+            ->where('id', $user_id)
+            ->first();
         return response()->json([
             'message' => 'Successfully Changed',
             'data' => [
-                'id' => auth()->user()->id,
-                'name' => auth()->user()->name,
-                'email' => auth()->user()->email,
-                'phone' => auth()->user()->phone,
-                'DOB' => auth()->user()->DOB,
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'DOB' => $user->DOB,
             ]
         ], 200);
     }

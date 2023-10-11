@@ -59,7 +59,7 @@ class AdminController extends Controller
 
                 foreach ($value2->getSetQuestion as $key3 => $value3) {
                     $questions[] = $value3->getQuestions;
-                    $questions[$key3]->images = $value3->getQuestions->questionImage;
+                    $questions[$key3]->question_image = $value3->getQuestions->questionImage;
                     if ($value3->getQuestions->extraFields) {
                         $questions[$key3]->conversation = $value3->getQuestions->extraFields->conversation;
                         $questions[$key3]->paragraph = $value3->getQuestions->extraFields->paragraph;
@@ -934,7 +934,7 @@ class AdminController extends Controller
                     'tst_id' => $tst->id,
                     'nvq' => 1
                 ]);
-            // RETURN ($item);
+            // RETURN ($item);$imagePath = Storage::disk('public')->put('images', $imageBlob);
             if (array_key_exists("QUESTION_IMAGE", $item)) {
 
                 QuestionImage::create([

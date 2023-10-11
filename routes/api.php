@@ -14,16 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/images/{filename}', function($filename) {
-    $path = public_path('images/' . $filename);
+Route::get('/questionImages/{filename}', function($filename) {
 
+    $path = public_path('NVImages/qImage/' . $filename);
+    // echo $path;
     if (!file_exists($path)) {
         abort(404);
     }
 
     return response()->file($path);
 });
+Route::get('/optionImages/{filename}', function($filename) {
 
+    $path = public_path('NVImages/oImage/' . $filename);
+    // echo $path;
+    if (!file_exists($path)) {
+        abort(404);
+    }
+
+    return response()->file($path);
+});
 Route::get('/', function () {
 
     return response([
