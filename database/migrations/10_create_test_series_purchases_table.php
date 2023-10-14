@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('valid_from',50);
             $table->string('valid_till',50);
+            $table->string('order_id',200);
             $table->tinyInteger('status')->default('1');
             // $table->timestamps();
         });

@@ -402,6 +402,7 @@ class ProductController extends Controller
                         'tsp_id' => $value,
                         'valid_from' => $current_date,
                         'valid_till' => $last_date,
+                        'order_id'=>$request->order_id
                     ]);
             }
         } else {

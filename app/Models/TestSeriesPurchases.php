@@ -19,6 +19,7 @@ class TestSeriesPurchases extends Model
         'tsp_id',
         'valid_from',
         'valid_till',
+        'order_id'
     ];
 
     protected $casts = [
