@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/questionImages/{filename}', function($filename) {
+Route::post('/imageApi', function(request $request) {
 
-    $path = public_path('NVImages/qImage/' . $filename);
+    $path = public_path($request->path);
     // echo $path;
     if (!file_exists($path)) {
         abort(404);

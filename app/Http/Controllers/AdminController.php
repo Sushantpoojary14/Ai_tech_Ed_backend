@@ -77,7 +77,74 @@ class AdminController extends Controller
         return $categories;
     }
 
+    public function showDetails($ts_id)
+    {
 
+        $users = User::count();
+        $product = TestSeriesProduct::where('ts_id', $ts_id)->count();
+        $purchase = TestSeriesPurchases::whereHas('tsProduct', function ($query) use ($ts_id) {
+            $query->where('ts_id', $ts_id);
+        })->count();
+        // $purchase = TestSeriesPurchases::count();
+        return response()->json([
+            'user_count' => $users,
+            'product_count' => $product,
+            'purchase_count' => $purchase
+        ], 200);
+
+
+    }
+    public function showAllStudentDetails(Request $request)
+    {
+
+        $users = User::get(['name', 'email', 'id', 'phone', 'DOB']);
+        return response()->json([
+            'user' => $users,
+        ], 200);
+
+
+    }
+    public function showStudentDetails($user_id)
+    {
+        $product = TestSeriesPurchases::query()
+            ->where('status', 1)
+            ->where('user_id', $user_id)
+            ->with('tsProduct.getTsProductCategory.tsPCSet')
+            ->get();
+        $total_test = 0;
+        $complete_test = 0;
+        $incomplete_test = 0;
+        $Remaining_test = 0;
+        foreach ($product as $key => $value) {
+            $temp_set = $value->tsProduct->getTsProductCategory;
+            foreach ($temp_set as $key => $value2) {
+                $total_test += count($value2->tsPCSet);
+                // foreach ($value2->tsPCSet as $key => $value3) {
+                // $temp_CStatus = array_column($test_data->toArray(), 'complete_status');
+                // }
+            }
+            $test_data = UserTestSeries::
+                where('tsps_id', $value->id)
+                ->first();
+            if ($test_data) {
+                $complete_test += $test_data->complete_status == 1;
+                $incomplete_test += $test_data->complete_status == 0;
+            }
+        }
+        $Remaining_test += $total_test - ($incomplete_test + $complete_test);
+
+        $users = User::where('id', $user_id)->first();
+
+        return response()->json([
+            'user' => $users,
+            'total_test' => $total_test,
+            'complete_test' => $complete_test,
+            'incomplete_test' => $incomplete_test,
+            'Remaining_test' => $Remaining_test,
+        ], 200);
+
+
+    }
     public function addProduct(Request $request)
     {
 
@@ -180,7 +247,10 @@ class AdminController extends Controller
         $data = $request->input();
         if ($request->hasFile('p_image')) {
             $file = $request->file('p_image');
-
+            $tsp = TestSeriesProduct::where('id', $p_id)->first();
+            if (File::exists(public_path($tsp->p_image))) {
+                File::delete(public_path($tsp->p_image));
+            }
             // Validate the uploaded file
             if ($file->isValid()) {
                 $filename = "product-" . $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -421,7 +491,7 @@ class AdminController extends Controller
         $question = TestSeriesTopics::where('id', $tst_id)
             ->with('getQuestion')
             ->first();
-        $question->getQuestion = $question->getQuestion->map(function ($value) {
+        $question->get_question = $question->getQuestion->map(function ($value) {
             if ($value->extraFields) {
 
                 $value->conversation = $value->extraFields->conversation;
@@ -506,8 +576,6 @@ class AdminController extends Controller
     }
 
 
-
-
     public function showProductDetails($p_id)
     {
         // return $request->input();
@@ -554,13 +622,7 @@ class AdminController extends Controller
         ], 200);
     }
 
-    public function totalUser()
-    {
-        $users = User::count();
-        return response()->json([
-            '$user' => $users
-        ], 200);
-    }
+
 
     public function showTopics($tsc_id, $ts_id)
     {
@@ -744,12 +806,17 @@ class AdminController extends Controller
                 'Message' => 'Already Product Released (topic)',
             ], 403);
         }
-
+        $tst = TestSeriesTopics::where('id', $tst_id)->first();
         TestSeriesTopics::where('id', $tst_id)
             ->delete();
 
+        $topics = TestSeriesTopics::where('tsc_id', $tst->tsc_id)
+            ->where('ts_id', $tst->ts_id)
+            ->get();
         return response()->json([
             'Message' => 'Successfully Deleted Topic',
+            'topics' => $topics
+
         ], 200);
     }
 
@@ -883,7 +950,7 @@ class AdminController extends Controller
 
         // Decode the Base64 string into binary image data
         $imageData = base64_decode($base64Image);
-        $count = Question::where("nvq",1)->count();
+        $count = Question::where("nvq", 1)->count();
         if ($imageData !== false) {
             // Generate a unique filename for the image (e.g., using timestamp)
             $filename = 'option_' . $option . '_' . ($count + 1) . '.png';
@@ -905,11 +972,16 @@ class AdminController extends Controller
     {
 
         $data = $request->except(['question']);
+        // $data = ['status'=>1, ...$t_data];
+        // return response()->json([
+        //     'message' =>$data
+        // ], 500);
+
         // return $request->input();
         if ($data) {
             $tst = TestSeriesTopics::query()
                 ->create(
-                    $data
+                    ['nv_topic' => 1, ...$data]
                 );
         }
 

@@ -96,7 +96,50 @@ class UserController extends Controller
         ], 200);
     }
 
+    private function get_question_index($userTestStatuses)
+    {
 
+        $index = [];
+        $userTestStatuses = $userTestStatuses->map(function ($item, $key) {
+            if ($item->questions->extraFields) {
+                $item->questions->conversation = $item->questions->extraFields->conversation;
+                $item->questions->paragraph = $item->questions->extraFields->paragraph;
+            }
+
+            unset($item->questions->extraFields);
+            return $item;
+        });
+        foreach ($userTestStatuses as $key => $value) {
+            if ($value->questions->extraFields) {
+                $index[] = $value->questions->extraFields->paragraph;
+            }
+
+        }
+
+        $counts = [];
+        $c = [];
+
+        foreach ($index as $number) {
+            if (array_key_exists($number, $counts)) {
+                $counts[$number]++;
+            } else {
+                $counts[$number] = 1;
+                //  $c ++;
+            }
+
+        }
+
+        foreach ($counts as $key => $value) {
+            $c[] = $value;
+        }
+
+        return [
+            "index" => $c,
+            "test_data" => $userTestStatuses
+        ];
+
+
+    }
     public function generateRandomQuestion($id)
     {
 
@@ -129,55 +172,49 @@ class UserController extends Controller
         // dd(DB::getQueryLog());
         // return $temp;
 
-        $count = 1;
-        $index = [];
 
         if (!$userTestStatuses->isEmpty()) {
-            $userTestStatuses = $userTestStatuses->map(function ($item, $key) use ( $index ) {
-                if ($item->questions->extraFields) {
-                    $item->questions->conversation = $item->questions->extraFields->conversation;
-                    $item->questions->paragraph = $item->questions->extraFields->paragraph;
-                    // if ($cate_id == 3) {
+            // $userTestStatuses = $userTestStatuses->map(function ($item, $key) {
+            //     if ($item->questions->extraFields) {
+            //         $item->questions->conversation = $item->questions->extraFields->conversation;
+            //         $item->questions->paragraph = $item->questions->extraFields->paragraph;
+            //     }
 
+            //     unset($item->questions->extraFields);
+            //     return $item;
+            // });
+            // foreach ($userTestStatuses as $key => $value) {
+            //     if($value->questions->extraFields){
+            //         $index[] = $value->questions->extraFields->paragraph;
+            //     }
 
-                        // print_r($index);
-                    // }
-                }
+            // }
 
-                unset($item->questions->extraFields);
-                return $item;
-            });
-            foreach ($userTestStatuses as $key => $value) {
-                if($value->questions->extraFields){
-                    $index[] = $value->questions->extraFields->paragraph;
-                }
+            // $counts = [];
+            // $c =[];
+            // foreach ($index as $number) {
 
-            }
+            //     if (array_key_exists($number, $counts)) {
+            //         $counts[$number]++;
+            //     } else {
+            //         $counts[$number] = 1;
+            //         //  $c ++;
+            //     }
 
-            $counts = [];
-            $c =[];
-            foreach ($index as $number) {
+            // }
 
-                if (array_key_exists($number, $counts)) {
-                    $counts[$number]++;
-                } else {
-                    $counts[$number] = 1;
-                    //  $c ++;
-                }
-
-            }
-
-            foreach ($counts as $key => $value) {
-                $c[] =   $value;
-            }
-
+            // foreach ($counts as $key => $value) {
+            //     $c[] =   $value;
+            // }
+            $c = $this->get_question_index($userTestStatuses);
+            // return ;
             return response()->json([
-                'test_data' => $userTestStatuses,
+                'test_data' => $c['test_data'],
                 // ""
                 'current_qid' => $userTestSeries->q_id,
                 'uts_id' => $userTestSeries->id,
                 'timer' => $timer,
-                "index" => $c
+                "index" => $c['index']
             ], 200);
         }
 
@@ -206,19 +243,21 @@ class UserController extends Controller
 
         $userTestSeries = UserTestSeries::with('userPurchases')->find($id);
         $userTestStatuses = UserTestStatus::where('uts_id', $id)->with(['questions.questionImage', 'questions.extraFields'])->get();
-        $userTestStatuses = $userTestStatuses->map(function ($item) {
+        // $userTestStatuses = $userTestStatuses->map(function ($item) {
 
-            if ($item->questions->extraFields) {
-                $item->questions->conversation = $item->questions->extraFields->conversation;
-                $item->questions->paragraph = $item->questions->extraFields->paragraph;
-            }
-            unset($item->questions->extraFields);
-            return $item;
-        });
+        //     if ($item->questions->extraFields) {
+        //         $item->questions->conversation = $item->questions->extraFields->conversation;
+        //         $item->questions->paragraph = $item->questions->extraFields->paragraph;
+        //     }
+        //     unset($item->questions->extraFields);
+        //     return $item;
+        // });
+        $c = $this->get_question_index($userTestStatuses);
         return response()->json([
-            'test_data' => $userTestStatuses,
+            'test_data' => $c['test_data'],
             'current_qid' => $userTestSeries->q_id,
             'uts_id' => $userTestSeries->id,
+            "index" => $c['index'],
             'timer' => $timer
         ], 200);
 
@@ -267,19 +306,21 @@ class UserController extends Controller
             ->where('uts_id', $uts_id->uts_id)
             ->with(['questions.questionImage', 'questions.extraFields'])
             ->get();
-        $questions = $questions->map(function ($item) {
+        $c = $this->get_question_index($questions);
+        // $questions = $questions->map(function ($item) {
 
-            if ($item->questions->extraFields) {
-                $item->questions->conversation = $item->questions->extraFields->conversation;
-                $item->questions->paragraph = $item->questions->extraFields->paragraph;
-            }
-            unset($item->questions->extraFields);
-            return $item;
-        });
+        //     if ($item->questions->extraFields) {
+        //         $item->questions->conversation = $item->questions->extraFields->conversation;
+        //         $item->questions->paragraph = $item->questions->extraFields->paragraph;
+        //     }
+        //     unset($item->questions->extraFields);
+        //     return $item;
+        // });
         return response()->json([
             'message' => 'Successfully Updated',
-            'test_data' => $questions,
+            'test_data' => $c['test_data'],
             'current_qid' => $uts_id->id,
+            "index" => $c['index'],
             // $question_timer
         ], 200);
     }
@@ -377,7 +418,9 @@ class UserController extends Controller
             ->where('uts_id', $id)
             ->whereNot('test_answer', null)
             ->get();
-
+        $q_count = UserTestStatus::query()
+            ->where('uts_id', $id)
+            ->count();
         // $total = 0;
 
         // foreach ($total_answered as $item) {
@@ -399,12 +442,12 @@ class UserController extends Controller
         // return $total;
         return response()->json([
             'total_answered' => count($total_answered),
-            'total_questions' => 35,
-            'total_marks' => 35,
+            'total_questions' => $q_count,
+            'total_marks' => $q_count,
             'total_time' => $duration,
             'time_taken' => (int) $uts->time_taken,
             'right_answer' => $uts->total_marks,
-            'wrong_answer' => (int) (35 - $uts->total_marks),
+            'wrong_answer' => (int) ($q_count - $uts->total_marks),
             'marks_obtained' => (int) $uts->total_marks
         ], 200);
 
@@ -519,7 +562,7 @@ class UserController extends Controller
 
         return response()->json([
             'tsp' => $new_purchases,
-            'ps_id'=>$purchases->id
+            'ps_id' => $purchases->id
         ], 200);
     }
 
@@ -533,12 +576,14 @@ class UserController extends Controller
             ->whereHas('userPurchases.tsProduct', function ($query) use ($ts_id) {
                 $query->where('ts_id', $ts_id);
             })
+            ->with('userPurchases.tsProduct')
             ->with('getTSSet')
             ->get();
-        //  $user_RA
+        // return $user_RA;
         $user_RA = $user_RA->map(function ($item) {
             $item->set_name = $item->getTSSet->set_name;
-            unset($item->getTSSet);
+            $item->package_name = $item->userPurchases->tsProduct->p_name;
+            unset($item->getTSSet,$item->userPurchases);
             return $item;
         });
 
@@ -633,7 +678,8 @@ class UserController extends Controller
 
             // ->select('id')
             ->get();
-
+        $userTestStatuses = UserTestStatus::where('uts_id', $uts_id)->with(['questions.questionImage', 'questions.extraFields'])->get();
+        $c = $this->get_question_index($userTestStatuses);
         $set_RA = $set_RA->map(function ($item) {
             $item->topic = $item->questions->qTopic->topic;
             $item->correct_option = $item->questions->correct_option;
@@ -645,6 +691,7 @@ class UserController extends Controller
 
         return response()->json([
             'result' => $set_RA,
+            'index'=>$c['index']
         ], 200);
     }
 

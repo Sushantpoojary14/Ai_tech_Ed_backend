@@ -169,6 +169,7 @@ class ProductController extends Controller
                     $value3->tsc_type = $value2['tsc_type'];
                     $value3->duration = $value2['duration'];
                     $new_purchases[] = $value3;
+                    $value3->package_name = $value->tsProduct->p_name;
                 }
             }
             unset($value->tsProduct);
@@ -217,6 +218,7 @@ class ProductController extends Controller
         foreach ($tsp as $key => $value) {
             $pc[] = $value->tsp_id;
         }
+
         return response()->json([
             'tsp' => $pc
         ], 200);

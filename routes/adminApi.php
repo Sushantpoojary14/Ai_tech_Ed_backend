@@ -42,8 +42,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::get('/get-set-question/{set_id}', [AdminController::class, 'getSetQuestion']);
     Route::put('/update-test-series-product-topics', [AdminController::class, 'updateTSProductTopic']);
     Route::get('/get-set-topic/{set_id}', [AdminController::class, 'getSetTopic']);
+
     //product
     Route::post('/image-upload', [AdminController::class, 'imageUpload']);
     Route::post('/add-nv-question', [AdminController::class, 'addNVTSTopic']);
     Route::get('/get-image/{tsc_id}', [AdminController::class, 'getImage']);
+
+    //student
+    Route::get('/show-details/{ts_id}', [AdminController::class, 'showDetails']);
+    Route::get('/show-all-student-details', [AdminController::class, 'showAllStudentDetails']);
+    Route::get('/show-student-details/{user_id}', [AdminController::class, 'showStudentDetails']);
+
 });

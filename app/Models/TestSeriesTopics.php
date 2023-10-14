@@ -15,6 +15,7 @@ class TestSeriesTopics extends Model
         'topic',
         'tsc_id',
         'ts_id',
+        'nv_topic',
         'status'
     ];
 
@@ -23,6 +24,7 @@ class TestSeriesTopics extends Model
         'tsc_id' => 'integer',
         'ts_id' => 'integer',
         'status' => 'integer',
+        'nv_topic' => 'integer',
       ];
       public function tsProduct()
       {
