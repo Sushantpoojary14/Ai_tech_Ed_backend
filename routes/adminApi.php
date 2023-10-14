@@ -52,5 +52,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::get('/show-details/{ts_id}', [AdminController::class, 'showDetails']);
     Route::get('/show-all-student-details', [AdminController::class, 'showAllStudentDetails']);
     Route::get('/show-student-details/{user_id}', [AdminController::class, 'showStudentDetails']);
+    Route::get('/get-user-all-result/{user_id}', [AdminController::class, 'get_user_all_result']);
 
 });
