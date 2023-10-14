@@ -305,9 +305,10 @@ class AdminController extends Controller
 
         foreach ($request->data as $item) {
             // $q_data = new stdClass();
+
             $questions = Question::whereIn('tst_id', $item['tst_id'])
                 ->get();
-
+            $tst = TestSeriesTopics::whereIn('id',$item['tst_id'])->get();
 
             $tspc = TSProductCategory::query()
                 ->where('id', $item['tspc_id'])
@@ -319,10 +320,11 @@ class AdminController extends Controller
                 $query->where('id', $item['tst_id']);
             })
                 ->first();
-            // return  $cate;
+
+            // return $cate;
             if ($cate->id == 2) {
                 $selectedQuestions = $questions;
-            } else {
+            } else if($cate->id ){
 
                 $selectedQuestions = $this->questionGenerator($questions);
             }
