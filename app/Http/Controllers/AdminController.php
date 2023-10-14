@@ -85,11 +85,13 @@ class AdminController extends Controller
         $purchase = TestSeriesPurchases::whereHas('tsProduct', function ($query) use ($ts_id) {
             $query->where('ts_id', $ts_id);
         })->count();
+        $topic= TestSeriesTopics::where('ts_id', $ts_id)->count();
         // $purchase = TestSeriesPurchases::count();
         return response()->json([
             'user_count' => $users,
             'product_count' => $product,
-            'purchase_count' => $purchase
+            'purchase_count' => $purchase,
+            'topic_count' => $topic
         ], 200);
 
 
@@ -145,6 +147,31 @@ class AdminController extends Controller
 
 
     }
+
+    public function get_user_all_result($user_id)
+    {
+        $user_RA = UserTestSeries::query()
+            ->where('complete_status', 1)
+            ->whereHas('userPurchases', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })
+            ->with('userPurchases.tsProduct')
+            ->with('getTSSet')
+            ->get();
+        // return $user_RA;
+        $user_RA = $user_RA->map(function ($item) {
+            $item->set_name = $item->getTSSet->set_name;
+            $item->package_name = $item->userPurchases->tsProduct->p_name;
+            unset($item->getTSSet,$item->userPurchases);
+            return $item;
+        });
+
+        return response()->json([
+            'all_results' => $user_RA,
+
+        ], 200);
+    }
+
     public function addProduct(Request $request)
     {
 
