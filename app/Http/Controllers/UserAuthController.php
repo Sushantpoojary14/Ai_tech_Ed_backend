@@ -103,7 +103,20 @@ class UserAuthController extends Controller
 
         return response()->json(['message' => 'Successfully Changed'], 200);
     }
+    public function passwordChange2(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|string',
+        ]);
 
+        // $user_email = $request->email;
+
+        User::query()
+            ->where('email', $request->email)
+            ->update(array_merge(['password' => Hash::make($request->new_password)]));
+
+        return response()->json(['message' => 'Successfully Changed'], 200);
+    }
 
     public function profileChange(Request $request, $user_id)
     {
@@ -204,6 +217,14 @@ class UserAuthController extends Controller
 
     public function sendEmail(Request $request)
     {
+        $user = User::query()
+        ->where('email', $request->email)
+        ->first();
+        if(!$user){
+            return response()->json([
+                'message' => 'Not found',
+            ], 404);
+        }
         $otp = rand(1111, 9999);
         Resend::emails()->send([
             'from' => 'Acme <onboarding@resend.dev>',
