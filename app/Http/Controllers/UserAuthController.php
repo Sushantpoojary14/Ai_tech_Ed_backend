@@ -235,6 +235,7 @@ class UserAuthController extends Controller
 
         return response()->json([
             'message' => 'success',
+            'email'=>$request->email,
             'otp' => $otp
         ], 200);
     }
