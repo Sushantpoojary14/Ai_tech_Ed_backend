@@ -174,38 +174,7 @@ class UserController extends Controller
 
 
         if (!$userTestStatuses->isEmpty()) {
-            // $userTestStatuses = $userTestStatuses->map(function ($item, $key) {
-            //     if ($item->questions->extraFields) {
-            //         $item->questions->conversation = $item->questions->extraFields->conversation;
-            //         $item->questions->paragraph = $item->questions->extraFields->paragraph;
-            //     }
 
-            //     unset($item->questions->extraFields);
-            //     return $item;
-            // });
-            // foreach ($userTestStatuses as $key => $value) {
-            //     if($value->questions->extraFields){
-            //         $index[] = $value->questions->extraFields->paragraph;
-            //     }
-
-            // }
-
-            // $counts = [];
-            // $c =[];
-            // foreach ($index as $number) {
-
-            //     if (array_key_exists($number, $counts)) {
-            //         $counts[$number]++;
-            //     } else {
-            //         $counts[$number] = 1;
-            //         //  $c ++;
-            //     }
-
-            // }
-
-            // foreach ($counts as $key => $value) {
-            //     $c[] =   $value;
-            // }
             $c = $this->get_question_index($userTestStatuses);
             // return ;
             return response()->json([

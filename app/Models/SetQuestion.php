@@ -21,7 +21,7 @@ class SetQuestion extends Model
 
     public function getQuestions()
     {
-        return $this->belongsTo(Question::class, 'q_id', 'id');
+        return $this->belongsTo(Question::class, 'q_id', 'id')->with(['questionImage','extraFields']);
     }
     public function getSet()
     {

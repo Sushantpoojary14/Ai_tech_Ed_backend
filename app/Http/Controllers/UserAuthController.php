@@ -225,6 +225,7 @@ class UserAuthController extends Controller
                 'message' => 'Not found',
             ], 404);
         }
+
         $otp = rand(1111, 9999);
         Resend::emails()->send([
             'from' => 'Acme <onboarding@resend.dev>',

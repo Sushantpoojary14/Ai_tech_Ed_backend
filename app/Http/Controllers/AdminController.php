@@ -28,19 +28,164 @@ use stdClass;
 
 class AdminController extends Controller
 {
-    private function questionGenerator($questions)
+    private function get_question_index($userTestStatuses)
     {
-        $totalQuestions = 35;
-        $selectedQuestions = [];
 
-        for ($i = count($questions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
-            $randomIndex = rand(0, $i);
-            $temp = $questions[$i];
-            $questions[$i] = $questions[$randomIndex];
-            $questions[$randomIndex] = $temp;
-            $selectedQuestions[] = $questions[$i];
+        $index = [];
+
+        $userTestStatuses = $userTestStatuses->map(function ($item, $key) {
+            if (isset($item->extraFields)) {
+                $item->conversation = $item->extraFields->conversation;
+                $item->paragraph = $item->extraFields->paragraph;
+            }
+
+            unset($item->extraFields);
+            return $item;
+        });
+        foreach ($userTestStatuses as $key => $value) {
+            if ($value->extraFields) {
+                $index[] = $value->extraFields->paragraph;
+            }
+            unset($value->extraFields);
         }
+
+        $counts = [];
+        $c = [];
+
+        foreach ($index as $number) {
+            if (array_key_exists($number, $counts)) {
+                $counts[$number]++;
+            } else {
+                $counts[$number] = 1;
+                //  $c ++;
+            }
+
+        }
+
+        foreach ($counts as $key => $value) {
+            $c[] = $value;
+        }
+
+        return [
+            "index" => $c,
+            "test_data" => $userTestStatuses
+        ];
+
+
+    }
+    private function questionGenerator($topic, $cate_id)
+    {
+
+        $selectedQuestions = [];
+        $temp_selectedQuestions = [];
+        if ($cate_id == 3) {
+            $totalQuestions = 35;
+
+            $count = round(35 / count($topic));
+            foreach ($topic as $key => $value) {
+                $questions = Question::where('tst_id', $value)->get();
+                // echo $questions;
+                for ($i = 1; $i <= $count; $i++) {
+                    $randomIndex = rand(0, count($questions) - $i);
+
+                    $temp = $questions[count($questions) - $i];
+
+                    $questions[count($questions) - $i] = $questions[$randomIndex];
+                    $questions[$randomIndex] = $temp;
+                    $temp_selectedQuestions[] = $questions[count($questions) - $i];
+                }
+            }
+            for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
+                $randomIndex = rand(0, $i);
+                $temp = $temp_selectedQuestions[$i];
+                $temp_selectedQuestions[$i] = $temp_selectedQuestions[$randomIndex];
+                $temp_selectedQuestions[$randomIndex] = $temp;
+                $selectedQuestions[] = $temp_selectedQuestions[$i];
+            }
+
+        } else {
+            $nv_topic = TestSeriesTopics::whereIn('id', $topic)->where('nv_topic', 1)->get();
+
+            if (count($nv_topic) == 0) {
+                $totalQuestions = 35;
+                $count = round(35 / count($topic));
+                foreach ($topic as $key => $value) {
+                    $questions = Question::where('tst_id', $value)->get();
+                    // echo $questions;
+
+                    for ($i = 1; $i <= $count; $i++) {
+                        $randomIndex = rand(0, count($questions) - $i);
+
+                        $temp = $questions[count($questions) - $i];
+
+                        $questions[count($questions) - $i] = $questions[$randomIndex];
+                        $questions[$randomIndex] = $temp;
+                        $temp_selectedQuestions[] = $questions[count($questions) - $i];
+                    }
+                }
+                for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
+                    $randomIndex = rand(0, $i);
+                    $temp = $temp_selectedQuestions[$i];
+                    $temp_selectedQuestions[$i] = $temp_selectedQuestions[$randomIndex];
+                    $temp_selectedQuestions[$randomIndex] = $temp;
+                    $selectedQuestions[] = $temp_selectedQuestions[$i];
+                }
+            } else {
+                $totalQuestions = 30;
+
+                $nv_topic = $nv_topic->map(function ($value) {
+                    return $value['id'];
+                })->toArray();
+
+                $v_topic = array_filter($topic, function ($item) use ($nv_topic) {
+                    return !in_array($item, $nv_topic);
+                });
+                $nv_topic = array_filter($topic, function ($item) use ($nv_topic) {
+                    return in_array($item, $nv_topic);
+                });
+                $count = round(30 / count($v_topic));
+
+                foreach ($v_topic as $key => $value) {
+                    $questions = Question::where('tst_id', $value)->get();
+                    for ($i = 1; $i <= $count; $i++) {
+                        $randomIndex = rand(0, count($questions) - $i);
+
+                        $temp = $questions[count($questions) - $i];
+
+                        $questions[count($questions) - $i] = $questions[$randomIndex];
+                        $questions[$randomIndex] = $temp;
+                        $temp_selectedQuestions[] = $questions[count($questions) - $i];
+                    }
+                }
+
+                $count = round(5 / count($nv_topic));
+                foreach ($nv_topic as $key => $value) {
+                    $questions = Question::where('tst_id', $value)->get();
+                    for ($i = 1; $i <= $count; $i++) {
+                        $randomIndex = rand(0, count($questions) - $i);
+
+                        $temp = $questions[count($questions) - $i];
+
+                        $questions[count($questions) - $i] = $questions[$randomIndex];
+                        $questions[$randomIndex] = $temp;
+                        $temp_selectedQuestions[] = $questions[count($questions) - $i];
+                    }
+                }
+
+                for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < 35; $i--) {
+                    $randomIndex = rand(0, $i);
+                    $temp = $temp_selectedQuestions[$i];
+                    $temp_selectedQuestions[$i] = $temp_selectedQuestions[$randomIndex];
+                    $temp_selectedQuestions[$randomIndex] = $temp;
+                    $selectedQuestions[] = $temp_selectedQuestions[$i];
+                }
+                // dd(11,count($selectedQuestions));
+            }
+        }
+
+
         return $selectedQuestions;
+
     }
 
     private function pCSet($tSPC)
@@ -57,18 +202,18 @@ class AdminController extends Controller
                     $topics[] = $value3->tsTopic;
                 }
 
-                foreach ($value2->getSetQuestion as $key3 => $value3) {
-                    $questions[] = $value3->getQuestions;
-                    $questions[$key3]->question_image = $value3->getQuestions->questionImage;
-                    if ($value3->getQuestions->extraFields) {
-                        $questions[$key3]->conversation = $value3->getQuestions->extraFields->conversation;
-                        $questions[$key3]->paragraph = $value3->getQuestions->extraFields->paragraph;
-                    }
-                    unset($value3->getQuestions->questionImage, $value3->getQuestions->extraFields);
-                }
+                $value2->getSetQuestion = $value2->getSetQuestion->map(function ($value) {
+
+                    return $value->getQuestions;
+                });
+                //  = $c['test_data'];
+                // foreach ($value2->getSetQuestion as $key3 => $value3) {
+                $c = $this->get_question_index($value2->getSetQuestion);
+
 
                 $set[$key2]->topics = $topics;
-                $set[$key2]->questions = $questions;
+                $set[$key2]->questions = $c['test_data'];
+                $set[$key2]->index = $c['index'];
                 unset($value2->getTsTopic);
                 unset($value2->getSetQuestion);
             }
@@ -85,7 +230,7 @@ class AdminController extends Controller
         $purchase = TestSeriesPurchases::whereHas('tsProduct', function ($query) use ($ts_id) {
             $query->where('ts_id', $ts_id);
         })->count();
-        $topic= TestSeriesTopics::where('ts_id', $ts_id)->count();
+        $topic = TestSeriesTopics::where('ts_id', $ts_id)->count();
         // $purchase = TestSeriesPurchases::count();
         return response()->json([
             'user_count' => $users,
@@ -162,7 +307,7 @@ class AdminController extends Controller
         $user_RA = $user_RA->map(function ($item) {
             $item->set_name = $item->getTSSet->set_name;
             $item->package_name = $item->userPurchases->tsProduct->p_name;
-            unset($item->getTSSet,$item->userPurchases);
+            unset($item->getTSSet, $item->userPurchases);
             return $item;
         });
 
@@ -305,10 +450,34 @@ class AdminController extends Controller
 
         foreach ($request->data as $item) {
             // $q_data = new stdClass();
+            $selectedQuestions = [];
 
             $questions = Question::whereIn('tst_id', $item['tst_id'])
                 ->get();
-            $tst = TestSeriesTopics::whereIn('id',$item['tst_id'])->get();
+
+
+            // for($i=0; $i<=$count; $i++){
+
+
+            // $selectedQuestions = $selectedQuestions->map(function($question,$key) {
+            //     $randomIndex = rand(0, count($selectedQuestions)-$key);
+            //     $temp = $questions[$key];
+            //     $questions[$key] = $questions[$randomIndex];
+            //     $questions[$randomIndex] = $temp;
+            //     $selectedQuestions[] = $questions[$key];
+            //   });
+            // for ($i = count($questions) - 1; $i>0; $i--) {
+            //     $randomIndex = rand(0, $i);
+            //     $temp = $questions[$i];
+            //     $questions[$i] = $questions[$randomIndex];
+            //     $questions[$randomIndex] = $temp;
+            //     $selectedQuestions[] = $questions[$i];
+            // }
+
+            // }
+
+
+            $tst = TestSeriesTopics::whereIn('id', $item['tst_id'])->get();
 
             $tspc = TSProductCategory::query()
                 ->where('id', $item['tspc_id'])
@@ -324,11 +493,11 @@ class AdminController extends Controller
             // return $cate;
             if ($cate->id == 2) {
                 $selectedQuestions = $questions;
-            } else if($cate->id ){
+            } else {
 
-                $selectedQuestions = $this->questionGenerator($questions);
+                $selectedQuestions = $this->questionGenerator($item['tst_id'], $cate->id);
             }
-
+            // return count( $selectedQuestions);
             $q_data[] = [
                 $tspc->testSeriesCategories->tsc_type => $selectedQuestions
             ];
@@ -395,11 +564,14 @@ class AdminController extends Controller
             ], 403);
         }
 
+        $set_d = TSPCSet::where('id', $request->data['set_id'])
+            ->with('getTsPC.testSeriesCategories')
+            ->first();
+        // $questions = Question::whereIn('tst_id', $item['tst_id'])
+        //     ->get();
 
-        $questions = Question::whereIn('tst_id', $item['tst_id'])
-            ->get();
-
-        $selectedQuestions = $this->questionGenerator($questions);
+        $selectedQuestions = $this->questionGenerator($item['tst_id'], $set_d->getTsPC->testSeriesCategories->id);
+        // return  $selectedQuestions;
 
         // $q_data[] = [
         //     $tspc->testSeriesCategories->tsc_type => $selectedQuestions
@@ -409,6 +581,7 @@ class AdminController extends Controller
         // return $item['set_id'] ;
 
         $set->tsPCTopic()->sync($item['tst_id']);
+
         SetQuestion::query()->where('set_id', $set->id)->delete();
         foreach ($selectedQuestions as $value) {
             SetQuestion::query()
@@ -420,12 +593,22 @@ class AdminController extends Controller
         }
         $sets = TSPCSet::where('id', $item['set_id'])->with('getTsTopic.tsTopic')->first();
 
+        $tst = TestSeriesProduct::query()
+        ->whereHas('getTsProductCategory.tsPCSet',function ($query) use ($item) {
 
+            $query->where('id', $item['set_id']);
+        })
+        ->with('getTsProductCategory')
+        ->first();
+        //
+        $tst->categories = $this->pCSet($tst->getTsProductCategory);
         // $tsc =  $tsp->productTopics()->sync($request->tst_id);
+        unset($tst->getTsProductCategory);
+        // return [$item['set_id'], $tst->categories[0]];
 
         return response()->json([
             'message' => 'Successfully TSProductTopic added',
-            'set_data' => $sets
+            'set_data' => $tst->categories[0]
         ], 200);
     }
     public function addTSTopic(Request $request)
@@ -480,6 +663,7 @@ class AdminController extends Controller
             foreach ($questions as $key => $item) {
                 $item = array_change_key_case($item, CASE_UPPER);
                 $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
+
                 $q_data = Question::query()
                     ->create([
                         'question' => $item['QUESTION'],
@@ -500,10 +684,12 @@ class AdminController extends Controller
                         ]);
                     }
                 }
+
                 if (array_key_exists("PARAGRAPH", $item)) {
+                    $para = preg_replace('/\s+/', ' ', trim($item['PARAGRAPH']));
                     ExtraQuestionField::create([
                         'q_id' => $q_data->id,
-                        'paragraph' => $item["PARAGRAPH"],
+                        'paragraph' => $para,
                     ]);
 
                 }
@@ -520,18 +706,23 @@ class AdminController extends Controller
         $question = TestSeriesTopics::where('id', $tst_id)
             ->with('getQuestion')
             ->first();
-        $question->get_question = $question->getQuestion->map(function ($value) {
-            if ($value->extraFields) {
 
-                $value->conversation = $value->extraFields->conversation;
-                $value->paragraph = $value->extraFields->paragraph;
-            }
-            unset($value->extraFields);
-            return $value;
-        });
+        $c = $this->get_question_index($question->getQuestion);
+        // return $c;
+        $question->get_question = $c['test_data'];
+        // $question->get_question = $question->getQuestion->map(function ($value) {
+        //     if ($value->extraFields) {
+
+        //         $value->conversation = $value->extraFields->conversation;
+        //         $value->paragraph = $value->extraFields->paragraph;
+        //     }
+        //     unset($value->extraFields);
+        //     return $value;
+        // });
         return response()->json([
             'message' => 'Success',
-            'topic_questions' => $question
+            'index' => $c['index'],
+            'topic_questions' => $question,
         ], 200);
     }
 
@@ -617,7 +808,7 @@ class AdminController extends Controller
         // return $tst;
         $tst->categories = $this->pCSet($tst->getTsProductCategory);
         unset($tst->getTsProductCategory);
-
+        // return $tst->getTsProductCategory;
         $current_date = date('Y-m-d');
         $product = TestSeriesProduct::where('id', $p_id)
             ->where('release_date', "<=", $current_date)
@@ -635,19 +826,22 @@ class AdminController extends Controller
         $set = TSPCSet::where('id', $set_id)
             ->with('getSetQuestion.getQuestions')
             ->first();
-        // return   $set;
-        $set->question = $set->getSetQuestion->map(function ($value) {
-            if ($value->getQuestions->extraFields) {
-                $value->getQuestions->conversation = $value->getQuestions->extraFields->conversation;
-                $value->getQuestions->paragraph = $value->getQuestions->extraFields->paragraph;
-            }
-            $value->getQuestions->images = $value->getQuestions->questionImage;
-            unset($value->getQuestions->extraFields, $value->getQuestions->questionImage);
+        //
+
+
+
+        $set->getSetQuestion = $set->getSetQuestion->map(function ($value) {
+
             return $value->getQuestions;
         });
+        // return  $set;
+        $c = $this->get_question_index($set->getSetQuestion);
+        $set->question = $c['test_data'];
+
         unset($set->getSetQuestion);
         return response()->json([
-            'set_questions' => $set
+            'set_questions' => $set,
+            'index' => $c['index'],
         ], 200);
     }
 
@@ -835,7 +1029,39 @@ class AdminController extends Controller
                 'Message' => 'Already Product Released (topic)',
             ], 403);
         }
-        $tst = TestSeriesTopics::where('id', $tst_id)->first();
+
+        $tst = TestSeriesTopics::where('id', $tst_id)
+            ->with('getQuestion')
+            ->first();
+        foreach ($tst->getQuestion as $key => $value) {
+            $temp = explode(".", $value->option_1)[1] ?? "";
+            echo $temp;
+            // return explode(".", $value->option_1)[1];
+            if (count($value->questionImage) != 0) {
+                foreach ($value->questionImage as $key => $value2) {
+                    if (File::exists(public_path($value2->image_url))) {
+                        File::delete(public_path($value2->image_url));
+                    }
+                }
+            }
+
+            if ($temp == "png") {
+                if (File::exists(public_path($value->option_1))) {
+                    File::delete(public_path($value->option_1));
+                }
+                if (File::exists(public_path($value->option_2))) {
+                    File::delete(public_path($value->option_2));
+                }
+                if (File::exists(public_path($value->option_3))) {
+                    File::delete(public_path($value->option_3));
+                }
+                if (File::exists(public_path($value->option_4))) {
+                    File::delete(public_path($value->option_4));
+                }
+            }
+        }
+
+
         TestSeriesTopics::where('id', $tst_id)
             ->delete();
 
@@ -845,7 +1071,6 @@ class AdminController extends Controller
         return response()->json([
             'Message' => 'Successfully Deleted Topic',
             'topics' => $topics
-
         ], 200);
     }
 
