@@ -180,6 +180,7 @@ class UserController extends Controller
             return response()->json([
                 'test_data' => $c['test_data'],
                 // ""
+                'category_id'=>$userTestSeries->getTSSet->getTsPC->testSeriesCategories->id,
                 'current_qid' => $userTestSeries->q_id,
                 'uts_id' => $userTestSeries->id,
                 'timer' => $timer,
