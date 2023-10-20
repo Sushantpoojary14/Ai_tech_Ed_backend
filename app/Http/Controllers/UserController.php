@@ -298,8 +298,7 @@ class UserController extends Controller
 
     public function updateTimer($id, Request $request)
     {
-        // $uts_id = UserTestStatus::where('id', $id)
-        //     ->first();
+
 
         UserTestSeries::query()
             ->where('id', $id)
