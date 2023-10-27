@@ -225,6 +225,7 @@ class UserController extends Controller
         $c = $this->get_question_index($userTestStatuses);
         return response()->json([
             'test_data' => $c['test_data'],
+            'category_id'=>$userTestSeries->getTSSet->getTsPC->testSeriesCategories->id,
             'current_qid' => $userTestSeries->q_id,
             'uts_id' => $userTestSeries->id,
             "index" => $c['index'],
@@ -286,11 +287,16 @@ class UserController extends Controller
         //     unset($item->questions->extraFields);
         //     return $item;
         // });
+        $userTestSeries = UserTestSeries::
+        // with('userPurchases.tsProduct')
+        with('getTSSet.getTsPC.testSeriesCategories')
+        ->find( $uts_id->uts_id);
         return response()->json([
             'message' => 'Successfully Updated',
             'test_data' => $c['test_data'],
             'current_qid' => $uts_id->id,
             "index" => $c['index'],
+            'category_id'=>$userTestSeries->getTSSet->getTsPC->testSeriesCategories->id,
             // $question_timer
         ], 200);
     }

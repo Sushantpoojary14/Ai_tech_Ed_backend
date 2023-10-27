@@ -34,6 +34,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::delete('/delete-topic/{tst_id}', [AdminController::class, 'deleteTopic']);
     Route::get('/get-test-series-topics/{id}', [ProductController::class, 'getTestSeriesTopics']);
     Route::get('/get-topic-question/{tst_id}', [AdminController::class, 'getTopicQuestion']);
+    Route::get('/get-reading-topic', [AdminController::class, 'getReadingTopic']);
 
     //set
     Route::delete('/delete-set/{set_id}', [AdminController::class, 'deleteSet']);
