@@ -862,8 +862,6 @@ class AdminController extends Controller
         ], 200);
     }
 
-
-
     public function showTopics($tsc_id, $ts_id)
     {
         $topics = TestSeriesTopics::where('tsc_id', $tsc_id)
@@ -1188,11 +1186,57 @@ class AdminController extends Controller
        $topics = TestSeriesTopics::where('tsc_id',2)
             ->get();
 
+
         return response()->json([
             'reading_topics' =>$topics
         ], 200);
     }
+    public function addReadingTopic(Request $request)
+    {
+        // $data = $request->except(['question']);
+        // return $data;
+        // if ($data) {
+            $tst = TestSeriesTopics::query()
+                ->create(
+                    $request->input()
+                );
+        // }
 
+        return response()->json([
+            "message"=> "Success"
+        ], 200);
+    }
+
+    public function addReadingQuestion(Request $request)
+    {
+        $item = array_change_key_case($request->question, CASE_UPPER);
+        $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
+
+        $q_data = Question::query()
+            ->create([
+                'question' => $item['QUESTION'],
+                'option_1' => $item['OPTION_A'],
+                'option_2' => $item['OPTION_B'],
+                'option_3' => $item['OPTION_C'],
+                'option_4' => $item['OPTION_D'],
+                'correct_option' => $ans,
+                'explanation' => $item['EXPLANATION'],
+                'tst_id' => $request->tst_id,
+            ]);
+
+        if (array_key_exists("PARAGRAPH", $item)) {
+            $para = preg_replace('/\s+/', ' ', trim($item['PARAGRAPH']));
+            ExtraQuestionField::create([
+                'q_id' => $q_data->id,
+                'paragraph' => $para,
+            ]);
+
+        }
+
+        return response()->json([
+            "message"=> "Success"
+        ], 200);
+    }
     public function saveImage($image)
     {
         $base64Image = $image;
