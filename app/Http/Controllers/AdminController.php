@@ -1249,7 +1249,7 @@ class AdminController extends Controller
         $count = QuestionImage::count();
         if ($imageData !== false) {
             // Generate a unique filename for the image (e.g., using timestamp)
-            $filename = 'q_image_' . $count + 1 . '.png';
+            $filename = 'q_image_' . $count + 1 .time(). '.png';
 
             // Define the directory where you want to save the image
             $uploadPath = public_path('NVImages/qImage'); // Change this to your desired directory
@@ -1276,7 +1276,7 @@ class AdminController extends Controller
         $count = Question::where("nvq", 1)->count();
         if ($imageData !== false) {
             // Generate a unique filename for the image (e.g., using timestamp)
-            $filename = 'option_' . $option . '_' . ($count + 1) . '.png';
+            $filename = 'option_' . $option . '_' . ($count + 1) .time(). '.png';
 
             // Define the directory where you want to save the image
             $uploadPath = public_path('NVImages/oImage'); // Change this to your desired directory
