@@ -896,7 +896,7 @@ class AdminController extends Controller
         $set = TSPCSet::where('id', $set_id)
             ->with('getSetQuestion.getQuestions')
             ->first();
-        //
+
 
 
 
@@ -1258,6 +1258,52 @@ class AdminController extends Controller
         return response()->json([
             "message" => "Success"
         ], 200);
+    }
+    public function updateReadingQuestion(Request $request)
+    {
+        // $data = $request->except(['question']);
+        // return $data;
+        // if ($data) {
+        $tst = TestSeriesTopics::query()
+            ->create(
+                $request->input()
+            );
+        // }
+
+        return response()->json([
+            "message" => "Success"
+        ], 200);
+    }
+
+    public function getReadingQuestion($tst_id){
+
+        $question = Question::query()->where("tst_id",$tst_id)->with("extraFields")->get();
+        $c = $this->get_question_index($question );
+        $count = 0;
+
+        $new = [];
+        for ($i=0; $i < count($c["index"]) ; $i++) {
+            $q = (object)[];
+            $q->paragraph = $c["test_data"][$count]->paragraph;
+            $q->question=[] ;
+
+            for ($j=0; $j < $c["index"][$i] ; $j++) {
+                unset($c["test_data"][$count]->conversation,$c["test_data"][$count]->paragraph);
+                $q->question[] =   $c["test_data"][$count];
+
+                $count++;
+            }
+
+            $new[] =  $q;
+
+        }
+
+        return response()->json([
+            "message" => "Success",
+            "reading_question"=>$new
+        ], 200);
+
+    //     return  [$new ];
     }
 
     public function addReadingQuestion(Request $request)
