@@ -1313,6 +1313,31 @@ class AdminController extends Controller
             // $questio
         ], 200);
     }
+    public function getQuestionWithId($q_id)
+    {
+
+        $question = Question::query()->where("id", $q_id)->first();
+        // $c = $this->get_question_index($question);
+
+
+        return response()->json([
+            "message" => "Success",
+            "question" =>  $question,
+            // $questio
+        ], 200);
+    }
+    public function updateQuestionWithId(Request $request,$q_id)
+    {
+
+        $question = Question::query()->where("id", $q_id)->update($request->question);
+        $question = Question::query()->where("id", $q_id)->first();
+
+        return response()->json([
+            "message" => "Success",
+            $question
+            // $questio
+        ], 200);
+    }
 
     public function addReadingQuestion(Request $request)
     {
