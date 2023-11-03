@@ -1270,12 +1270,13 @@ class AdminController extends Controller
                 ->where('id', $value["id"])
                 ->update($value);
 
-            if (array_key_exists("paragraph", $value)) {
+
                 $para2 = preg_replace('/\s+/', ' ', trim($para));
+                echo $para2;
                 ExtraQuestionField::where('q_id', $value['id'])->update([
                     'paragraph' => $para2,
                 ]);
-            }
+
         }
 
         return response()->json([
