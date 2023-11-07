@@ -1272,7 +1272,7 @@ class AdminController extends Controller
 
 
                 $para2 = preg_replace('/\s+/', ' ', trim($para));
-                echo $para2;
+                // echo $para2;
                 ExtraQuestionField::where('q_id', $value['id'])->update([
                     'paragraph' => $para2,
                 ]);
