@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\Question;
 use App\Models\TestSeries;
 use App\Models\TestSeriesCategories;
 use App\Models\TestSeriesProduct;
@@ -19,7 +20,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
-{ private function get_Topic_detail($tsc_id, $ts_id)
+{
+    private function get_Topic_detail($tsc_id, $ts_id)
     {
         $time = 0;
         $question_number = 0;
@@ -122,7 +124,8 @@ class ProductController extends Controller
 
     public function checkUserPurchaseExpire($user_id)
     {
-        $current_date = date('Y-m-d');
+
+        $current_date = date('d-m-Y');
         $purchases = TestSeriesPurchases::query()
             ->where('user_id', $user_id)
             ->where('status', 1)
@@ -132,20 +135,27 @@ class ProductController extends Controller
             ->with('tsProduct')
             ->get();
         $date = new DateTime($current_date);
+
+
         // $current_date = $date->format('Y-m-d');
         // return   $purchases;
         $pre_exp_purchase = [];
+        // print($value);
         foreach ($purchases as $value) {
-            if ($current_date > $value->valid_till) {
+            $valid_till = new DateTime($value->valid_till);
+
+            if ($date > $valid_till) {
+                // print_r ($date);
+                // print_r ($valid_till);
                 TestSeriesPurchases::query()
                     ->where('id', $value->id)
                     ->update(['status' => 0]);
             }
-            $valid_till = new DateTime($value->valid_till);
+
 
             $interval = $date->diff($valid_till);
-            // return $interval;
-            if ($interval->days < 15) {
+            // echo $interval->days;
+            if ($interval->days < 15 && $date <= $valid_till) {
                 $value->p_name = $value->tsProduct->p_name;
                 $value->remaining_days = $interval->days;
                 unset($value->tsProduct);
@@ -158,20 +168,25 @@ class ProductController extends Controller
         if (count($pre_exp_purchase) == 0) {
             return response()->json([
                 'message' => 'no purchase is being expired',
+                'tsp' => []
             ], 200);
         }
 
         return response()->json([
+            'message' => 'getting Expired',
             'tsp' => $pre_exp_purchase,
-        ], 403);
+        ], 200);
     }
 
     public function getTSPurchases($ts_id)
     {
-
+        $current_date = date('d-m-Y');
         $purchases = TestSeriesPurchases::query()
             ->where('user_id', Auth()->id())
             ->where('status', 1)
+            ->where(function ($query) use ($current_date) {
+                $query->whereRaw('STR_TO_DATE(valid_till, "%d-%m-%Y") >= STR_TO_DATE(?, "%d-%m-%Y")', [$current_date]);
+            })
             ->whereHas('tsProduct', function ($query) use ($ts_id) {
                 $query->where('ts_id', $ts_id);
             })
@@ -186,6 +201,14 @@ class ProductController extends Controller
             ])
 
             ->get();
+        $date1 = DateTime::createFromFormat('d-m-Y', "16-04-2024");
+
+        // return [
+        // $purchases,
+        // $current_date,
+        // ($purchases[1]->valid_till>= $current_date),
+        // (  $date1>=  $current_date)
+        // ];
         $new_purchases = [];
         if (count($purchases->toArray()) == 0) {
             return response()->json([
@@ -193,6 +216,7 @@ class ProductController extends Controller
             ], 200);
         }
         foreach ($purchases as $key => $value) {
+
             $temp_data = $value->tsProduct->getTsProductCategory;
             $test_data = array_column($temp_data->toArray(), 'test_series_categories');
 
@@ -202,9 +226,14 @@ class ProductController extends Controller
             })->all();
 
             foreach ($value->category as $value2) {
-                // return $value2;/
-                $timer = $this->get_Topic_detail( $value2['id'],  $value->tsProduct->ts_id)["time"];
+
+                //
+
+                $timer = $this->get_Topic_detail($value2['id'], $value->tsProduct->ts_id)["time"];
                 foreach ($value2['set'] as $value3) {
+                    $complete_status = UserTestSeries::where("tsps_id", $value->id)->where("set_id", $value3->id)->where("complete_status", 1)->get();
+                    // echo $complete_status;
+                    $value3->complete_status = count($complete_status) != 0 ? 1 : 0;
                     $value3->purchase_id = $value->id;
                     $value3->valid_from = $value->valid_from;
                     $value3->valid_till = $value->valid_till;
@@ -242,7 +271,7 @@ class ProductController extends Controller
             ->where('id', $uts_id)
             ->with('getTSSet.getTsPC.testSeriesCategories')
             ->first();
-            $timer = $this->get_Topic_detail( $detail->getTSSet->getTsPC->testSeriesCategories->id,  $temp ->userPurchases->tsProduct->ts_id);
+        $timer = $this->get_Topic_detail($detail->getTSSet->getTsPC->testSeriesCategories->id, $temp->userPurchases->tsProduct->ts_id);
         $test_detail = $detail->getTSSet;
         return response()->json([
             'subject' => $test_detail->getTsPC->testSeriesCategories->tsc_type,
@@ -257,6 +286,7 @@ class ProductController extends Controller
     {
         $tsp = TestSeriesPurchases::query()
             ->where('user_id', Auth()->id())
+            ->where("status", 1)
             ->get();
         $pc = [];
         foreach ($tsp as $key => $value) {
@@ -278,7 +308,7 @@ class ProductController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
+        $cart_data = "";
         if (is_array($request->p_id)) {
 
             foreach ($request->p_id as $item) {
@@ -291,8 +321,8 @@ class ProductController extends Controller
                 if ($id)
                     continue;
 
-                Cart::query()
-                    ->updateOrInsert([
+                $cart_data = Cart::query()
+                    ->create([
                         'user_id' => $request->u_id,
                         'tsp_id' => $item,
                     ]);
@@ -310,15 +340,17 @@ class ProductController extends Controller
                     'message' => 'Already purchased'
                 ], 200);
 
-            Cart::query()
-                ->updateOrInsert([
-                    'user_id' => $request->u_id,
-                    'tsp_id' => $request->p_id,
-                ]);
+            $cart_data = Cart::query()
+                ->create
+                ([
+                        'user_id' => $request->u_id,
+                        'tsp_id' => $request->p_id,
+                    ]);
         }
 
         return response()->json([
-            'message' => 'Added successfully'
+            'message' => 'Added successfully',
+            $cart_data
         ], 200);
 
     }
@@ -370,6 +402,9 @@ class ProductController extends Controller
             ->where('release_date', "<=", $current_date)
             ->when($id, function ($query, $id) {
                 return $query->where('ts_id', $id);
+            })
+            ->whereHas('getTsProductCategory', function ($query) {
+                $query->whereNot('total_set', null);
             })
             ->get(['*']);
 
@@ -424,7 +459,7 @@ class ProductController extends Controller
 
 
         // $current = Carbon::now();
-        $current_date = date('Y-m-d');
+        $current_date = date('d-m-Y');
         // $product = TestSeriesProduct::query()
         //     ->where('id', $request->p_id)
         //     ->first();
@@ -439,14 +474,14 @@ class ProductController extends Controller
                     ->where('id', $value)
                     ->first();
 
-                $last_date = date('Y-m-d', strtotime('+' . (string) $product->test_month_limit . ' months'));
+                $last_date = date('d-m-Y', strtotime('+' . (string) $product->test_month_limit . ' months'));
                 TestSeriesPurchases::query()
                     ->updateOrInsert([
                         'user_id' => Auth()->id(),
                         'tsp_id' => $value,
                         'valid_from' => $current_date,
                         'valid_till' => $last_date,
-                        'order_id'=>$request->order_id
+                        'order_id' => $request->order_id
                     ]);
             }
         } else {
@@ -470,19 +505,68 @@ class ProductController extends Controller
             'message' => 'Added Successfully'
         ], 200);
     }
-    public function getLatestProduct()
-    { $current_date = date('Y-m-d');
-        $product = TestSeriesProduct::query()
-            ->where('release_date','<=', $current_date )
-            ->orderBy('release_date','desc')
-            ->first();
+    public function getLatestProduct($user_id)
+    {
+        $current_date = date('Y-m-d');
+        $products = TestSeriesProduct::query()
+            ->where('release_date', '<=', $current_date)
+            ->orderBy('release_date', 'desc')
+            ->whereHas('getTsProductCategory', function ($query) {
+                $query->whereNot('total_set', null);
+            })
+            ->get('id');
 
+        $purchases = TestSeriesPurchases::query()->where('user_id', $user_id)->get(['tsp_id']);
+        $purchases_ids = $purchases->pluck('tsp_id')->toArray();
+
+        $p_id = "";
+        foreach ($products as $product) {
+
+            if (!in_array($product->id, $purchases_ids)) {
+                $p_id = $product->id;
+                break;
+            }
+        }
+
+        // return $p_id;
+
+        if ($p_id) {
+            return response()->json([
+                'latest_product_id' => $p_id
+            ], 200);
+        }
         return response()->json([
-            'latest_product_id' => $product->id
-        ], 200);
+            'message' => "No latest Product"
+        ], 404);
     }
 
 
+    public function getSampleQuestion()
+    {
+        $oc_topic = TestSeriesTopics::whereIn("tsc_id", [1, 3])->where('ts_id', 1)->get();
+        $selective_topic = TestSeriesTopics::whereIn("tsc_id", [1, 3])->where('ts_id', 2)->get();
+        $oc_question = [];
+        $selective_question = [];
+        function getRandomQuestion($topicSet)
+        {
+            if (count($topicSet) > 0) {
+                $randomIndex = rand(0, count($topicSet) - 1);
+                return Question::where('tst_id', $topicSet[$randomIndex]->id)->with('questionImage')->first();
+            }
+            return null;
+        }
+        for ($i = 0; $i < 4; $i++) {
+            $oc_question[] = getRandomQuestion($oc_topic);
+        }
 
+        // Fetch 4 random questions for Selective
+        for ($i = 0; $i < 4; $i++) {
+            $selective_question[] = getRandomQuestion($selective_topic);
+        }
+        return response()->json([
+            'oc_question' => $oc_question,
+            'selective_question' => $selective_question
+        ], 200);
+    }
 
 }

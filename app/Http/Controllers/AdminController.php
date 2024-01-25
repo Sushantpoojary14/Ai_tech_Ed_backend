@@ -124,11 +124,25 @@ class AdminController extends Controller
         if ($cate_id == 3) {
             $totalQuestions = $this->get_Topic_detail($cate_id, $ts_id)["question_number"];
 
-            $count = round($totalQuestions / count($topic));
+            $count = (int) ceil($totalQuestions / count($topic));
+            $temp_c = 1;
+
+            foreach ($topic as $key => $value) {
+
+                $questions = Question::where('tst_id', $value)->get();
+
+                if (count($questions) < $count) {
+                    $c = (count($topic) - $temp_c) !== 0 ? (count($topic) - $temp_c) : 1;
+                    // echo   $c. " ";
+                    $count = (int) ceil($totalQuestions / $c);
+                    $temp_c++;
+                }
+            }
+            // $count = 100;
             foreach ($topic as $key => $value) {
                 $questions = Question::where('tst_id', $value)->get();
-                // dd (count( $questions));
-                for ($i = 1; $i < $count && count($questions) >= $i; $i++) {
+
+                for ($i = 1; $i <= $count && count($questions) >= $i; $i++) {
                     $randomIndex = rand(0, count($questions) - $i);
                     //    echo(count($questions) - $i);
                     $temp = $questions[count($questions) - $i];
@@ -141,6 +155,7 @@ class AdminController extends Controller
 
             }
 
+            // echo $count;
 
             for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
 
@@ -151,7 +166,7 @@ class AdminController extends Controller
                 $temp_selectedQuestions[$randomIndex] = $temp;
                 $selectedQuestions[] = $temp_selectedQuestions[$i];
             }
-
+            // return [count( $selectedQuestions)];
         } else {
             $nv_topic = TestSeriesTopics::whereIn('id', $topic)
                 ->where('nv_topic', 1)->get();
@@ -159,11 +174,20 @@ class AdminController extends Controller
             if (count($nv_topic) == 0) {
                 $totalQuestions = $this->get_Topic_detail($cate_id, $ts_id)["question_number"];
                 ;
+                $count = (int) ceil($totalQuestions / count($topic));
+                $temp_c = 1;
 
-                $count = round($totalQuestions / count($topic));
                 foreach ($topic as $key => $value) {
                     $questions = Question::where('tst_id', $value)->get();
-                    // echo $questions;
+                    $c = (count($topic) - $temp_c) !== 0 ? (count($topic) - $temp_c) : 1;
+                    if (count($questions) < $count) {
+                        $count = (int) ceil($totalQuestions / $c);
+                        $temp_c++;
+                    }
+                }
+                foreach ($topic as $key => $value) {
+                    $questions = Question::where('tst_id', $value)->get();
+
 
                     for ($i = 1; $i <= $count && $i <= count($questions); $i++) {
                         $randomIndex = rand(0, count($questions) - $i);
@@ -173,6 +197,7 @@ class AdminController extends Controller
                         $temp_selectedQuestions[] = $questions[count($questions) - $i];
                     }
                 }
+
                 for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
                     $randomIndex = rand(0, $i);
                     $temp = $temp_selectedQuestions[$i];
@@ -180,6 +205,7 @@ class AdminController extends Controller
                     $temp_selectedQuestions[$randomIndex] = $temp;
                     $selectedQuestions[] = $temp_selectedQuestions[$i];
                 }
+                // dd(count($selectedQuestions), $count, count($topic));
             } else {
                 $nv_topic = $nv_topic->map(function ($value) {
                     return $value['id'];
@@ -207,8 +233,17 @@ class AdminController extends Controller
                     }
                 } else {
 
-                    $count = round(($totalQuestions - 5) / count($v_topic));
+                    $count = ceil(($totalQuestions - 5) / count($v_topic));
 
+                    $temp_c = 1;
+                    foreach ($topic as $key => $value) {
+                        $questions = Question::where('tst_id', $value)->get();
+                        if (count($questions) < $count) {
+                            $c = (count($v_topic) - $temp_c) !== 0 ? (count($v_topic) - $temp_c) : 1;
+                            $count = (int) round($totalQuestions / $c);
+                            $temp_c++;
+                        }
+                    }
                     foreach ($v_topic as $key => $value) {
                         $questions = Question::where('tst_id', $value)->get();
                         for ($i = 1; $i <= $count && $i <= count($questions); $i++) {
@@ -221,8 +256,8 @@ class AdminController extends Controller
                             $temp_selectedQuestions[] = $questions[count($questions) - $i];
                         }
                     }
-
-                    $count = round(5 / count($nv_topic));
+                //    echo count($temp_selectedQuestions);
+                    $count = ceil(5 / count($nv_topic));
                     foreach ($nv_topic as $key => $value) {
                         $questions = Question::where('tst_id', $value)->get();
                         for ($i = 1; $i <= $count && $i <= count($questions); $i++) {
@@ -239,7 +274,7 @@ class AdminController extends Controller
 
 
 
-                for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < 35; $i--) {
+                for ($i = count($temp_selectedQuestions) - 1; $i >= 0 && count($selectedQuestions) < $totalQuestions; $i--) {
                     $randomIndex = rand(0, $i);
                     $temp = $temp_selectedQuestions[$i];
                     $temp_selectedQuestions[$i] = $temp_selectedQuestions[$randomIndex];
@@ -386,7 +421,9 @@ class AdminController extends Controller
 
     public function addProduct(Request $request)
     {
-
+        // $data = $request->all();
+        // \Log::info('add Received data:', $data);
+        // return $data;
         $category = $request->tsc_id;
         $data = $request->except(['id', 'tsc_id']);
 
@@ -426,7 +463,8 @@ class AdminController extends Controller
                 // Generate a unique filename
                 // $imageFiles = glob(public_path('/images/product-*.*'));
                 // $count = count($imageFiles) + 1;
-                $filename = "product-" . $filename = time() . '.' . $file->getClientOriginalExtension();
+                $last = TestSeriesProduct::orderBy('id', 'desc')->first();
+                $filename = "product-" . ($last ? ($last->id + 1) : 1) . '.' . $file->getClientOriginalExtension();
                 // Move the file to the desired location
                 $file->move(public_path('/images'), $filename);
                 // Update the data with the stored image path
@@ -436,6 +474,7 @@ class AdminController extends Controller
                 return response()->json(['error' => 'File upload failed'], 400);
             }
         }
+
 
         $tsp = TestSeriesProduct::updateOrCreate(['id' => $request->id ? $request->id : null], $data);
 
@@ -465,6 +504,7 @@ class AdminController extends Controller
                     })
                     ->with('topics')
                     ->first();
+
             }
 
             return response()->json([
@@ -483,16 +523,26 @@ class AdminController extends Controller
 
     public function updateProduct(Request $request, $p_id)
     {
-        $data = $request->input();
+        $data = $request->all();
+        //  \Log::info('Received data:', $data);
+        //  return  $request->hasFile('p_image');
+        // $data = $request->p_name;
+
         if ($request->hasFile('p_image')) {
+
             $file = $request->file('p_image');
             $tsp = TestSeriesProduct::where('id', $p_id)->first();
-            if (File::exists(public_path($tsp->p_image))) {
-                File::delete(public_path($tsp->p_image));
-            }
+            // if (File::exists(public_path($tsp->p_image))) {
+            //     File::delete(public_path($tsp->p_image));
+            // }
             // Validate the uploaded file
             if ($file->isValid()) {
-                $filename = "product-" . $filename = time() . '.' . $file->getClientOriginalExtension();
+                // $last = TestSeriesProduct::where('id', $p_id)->first();
+                if (File::exists(public_path($tsp->p_image))) {
+                    File::delete(public_path($tsp->p_image));
+                }
+
+                $filename = "product-" . $tsp->id . '.' . $file->getClientOriginalExtension();
 
                 $file->move(public_path('/images'), $filename);
 
@@ -500,10 +550,19 @@ class AdminController extends Controller
             } else {
                 return response()->json(['error' => 'File upload failed'], 400);
             }
+
         }
 
         TestSeriesProduct::where('id', $p_id)->update($data);
         $tsp = TestSeriesProduct::where('id', $p_id)->first();
+        $current_date = date('Y-m-d');
+        $product = TestSeriesProduct::where('id', $p_id)
+        ->where('release_date', "<=", $current_date)
+        ->whereHas('getTsProductCategory', function ($query) {
+            $query->whereNot('total_set', null);
+        })
+        ->first();
+        $tsp->release_status = !!$product;
         return response()->json([
             'product_detail' => $tsp,
             'message' => 'Product Updated Successfully',
@@ -554,7 +613,7 @@ class AdminController extends Controller
                 ->where('id', $item['tspc_id'])
                 ->with('getTestSeriesProduct')
                 ->first();
-            // return $tspc->getTestSeriesProduct->ts_id;
+            // return  $tspc;
             $cate = TestSeriesCategories::whereHas('topics', function ($query) use ($item) {
                 $query->where('id', $item['tst_id']);
             })
@@ -613,7 +672,7 @@ class AdminController extends Controller
 
         return response()->json([
             'message' => 'Successfully TSProductTopic added',
-            // 'categories_data' => $categories
+            'categories_data' => $categories
         ], 200);
     }
     public function updateTSProductTopic(Request $request)
@@ -621,28 +680,26 @@ class AdminController extends Controller
         $item = $request->data;
 
         $current_date = date('Y-m-d');
-        $set = TSPCSet::where('id', $item['tst_id'])
-            ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
-                $query->where('release_date', "<=", $current_date);
-            })
+        $set = TSPCSet::where('id', $item['set_id'])
+            ->with('getTsPC.testSeriesProduct.tsPurchases')
             ->first();
 
-        // return $set;
+        $total_purchase = count($set->getTsPC->testSeriesProduct->tsPurchases);
 
-        if ($set) {
+        if ($total_purchase != 0) {
             return response()->json([
                 'Message' => 'Product Already Released (Set)',
             ], 403);
         }
 
         $set_d = TSPCSet::where('id', $request->data['set_id'])
-            ->with('getTsPC.testSeriesCategories')
+            ->with(['getTsPC.testSeriesCategories', 'getTsPC.testSeriesProduct',])
             ->first();
         // $questions = Question::whereIn('tst_id', $item['tst_id'])
         //     ->get();
 
-        $selectedQuestions = $this->questionGenerator($item['tst_id'], $set_d->getTsPC->testSeriesCategories->id);
-        // return  $selectedQuestions;
+        $selectedQuestions = $this->questionGenerator($item['tst_id'], $set_d->getTsPC->testSeriesCategories->id, $set_d->getTsPC->testSeriesProduct->ts_id);
+        // return  count($selectedQuestions);
 
         // $q_data[] = [
         //     $tspc->testSeriesCategories->tsc_type => $selectedQuestions
@@ -679,7 +736,8 @@ class AdminController extends Controller
 
         return response()->json([
             'message' => 'Successfully TSProductTopic added',
-            'set_data' => $tst->categories[0]
+            'set_data' => $tst->categories,
+            // $set_d->getTsPC->testSeriesCategories
         ], 200);
     }
     public function addTSTopic(Request $request)
@@ -701,13 +759,19 @@ class AdminController extends Controller
             foreach ($questions as $key => $item) {
                 $item = array_change_key_case($item, CASE_UPPER);
                 $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
+                $options = [
+                    'option_1' => isset($item['OPTIONS']['a']) ? $item['OPTIONS']['a'] : null,
+                    'option_2' => isset($item['OPTIONS']['b']) ? $item['OPTIONS']['b'] : null,
+                    'option_3' => isset($item['OPTIONS']['c']) ? $item['OPTIONS']['c'] : null,
+                    'option_4' => isset($item['OPTIONS']['d']) ? $item['OPTIONS']['d'] : null,
+                ];
                 $q_data = Question::query()
                     ->create([
                         'question' => $item['QUESTION'],
-                        'option_1' => $item['OPTIONS']['a'],
-                        'option_2' => $item['OPTIONS']['b'],
-                        'option_3' => $item['OPTIONS']['c'],
-                        'option_4' => $item['OPTIONS']['d'],
+                        'option_1' => $options['option_1'],
+                        'option_2' => $options['option_2'],
+                        'option_3' => $options['option_3'],
+                        'option_4' => $options['option_4'],
                         'correct_option' => $ans,
                         'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
@@ -724,8 +788,8 @@ class AdminController extends Controller
                 if (array_key_exists("PARAGRAPH", $item) || array_key_exists("CONVERSATION", $item)) {
                     ExtraQuestionField::create([
                         'q_id' => $q_data->id,
-                        'paragraph' => $item["PARAGRAPH"],
-                        'conversation' => $item["CONVERSATION"]
+                        'paragraph' => isset($item["PARAGRAPH"]) ? $item["PARAGRAPH"] : null,
+                        'conversation' => isset($item["CONVERSATION"]) ? $item["CONVERSATION"] : null,
                     ]);
 
                 }
@@ -735,13 +799,19 @@ class AdminController extends Controller
                 $item = array_change_key_case($item, CASE_UPPER);
                 $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
 
+                $options = [
+                    'option_1' => isset($item['OPTIONS']['a']) ? $item['OPTIONS']['a'] : null,
+                    'option_2' => isset($item['OPTIONS']['b']) ? $item['OPTIONS']['b'] : null,
+                    'option_3' => isset($item['OPTIONS']['c']) ? $item['OPTIONS']['c'] : null,
+                    'option_4' => isset($item['OPTIONS']['d']) ? $item['OPTIONS']['d'] : null,
+                ];
                 $q_data = Question::query()
                     ->create([
                         'question' => $item['QUESTION'],
-                        'option_1' => $item['OPTION_A'],
-                        'option_2' => $item['OPTION_B'],
-                        'option_3' => $item['OPTION_C'],
-                        'option_4' => $item['OPTION_D'],
+                        'option_1' => $options['option_1'],
+                        'option_2' => $options['option_2'],
+                        'option_3' => $options['option_3'],
+                        'option_4' => $options['option_4'],
                         'correct_option' => $ans,
                         'explanation' => $item['EXPLANATION'],
                         'tst_id' => $tst->id,
@@ -767,9 +837,9 @@ class AdminController extends Controller
 
             }
         }
-
         return response()->json([
-            'message' => 'Successfully Topic added'
+            'message' => 'Successfully Topic added',
+            count($questions)
         ], 200);
     }
     public function getTopicQuestion($tst_id)
@@ -800,7 +870,7 @@ class AdminController extends Controller
     public function updateTSTopic(Request $request, $tst_id)
     {
 
-        $tst = TestSeriesTopics::where('id', $tst_id)->first();
+        $tst = TestSeriesTopics::where('id', $tst_id)->with('getQuestion')->first();
 
         $questions = $request->question;
 
@@ -808,24 +878,35 @@ class AdminController extends Controller
         if (count($data) != 0) {
             TestSeriesTopics::where('id', $tst_id)->update($data);
         }
+        // $tst = TestSeriesTopics::where('id', $tst_id)
+        // ->with('getQuestion')
+        // ->first();
+        // foreach ($tst->getQuestion as $key => $value) {
+
+        // }
+
 
         if ($questions) {
+
             Question::where('tst_id', $tst_id)
                 ->delete();
             if ($tst->tsc_id == 3 || $tst->tsc_id == 1) {
+
                 foreach ($questions as $key => $item) {
-                    $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
+                    $item = array_change_key_case($item, CASE_UPPER);
+                    $ans = preg_replace('/\s+/', ' ', trim($item['ANSWER']));
                     $q_data = Question::query()
                         ->create([
-                            'question' => $item['Question'],
-                            'option_1' => $item['Options']['a'],
-                            'option_2' => $item['Options']['b'],
-                            'option_3' => $item['Options']['c'],
-                            'option_4' => $item['Options']['d'],
+                            'question' => $item['QUESTION'],
+                            'option_1' => $item['OPTIONS']['a'],
+                            'option_2' => $item['OPTIONS']['b'],
+                            'option_3' => $item['OPTIONS']['c'],
+                            'option_4' => $item['OPTIONS']['d'],
                             'correct_option' => $ans,
-                            'explanation' => $item['Explanation'],
-                            'tst_id' => $tst_id,
+                            'explanation' => $item['EXPLANATION'],
+                            'tst_id' => $tst->id,
                         ]);
+                    // RETURN ($item);
                     if (array_key_exists("IMAGES", $item)) {
                         foreach ($item['IMAGES'] as $key => $image) {
                             QuestionImage::create([
@@ -833,36 +914,47 @@ class AdminController extends Controller
                                 'image_url' => $image
                             ]);
                         }
+                    }
+                    if (array_key_exists("PARAGRAPH", $item) || array_key_exists("CONVERSATION", $item)) {
+                        ExtraQuestionField::create([
+                            'q_id' => $q_data->id,
+                            'paragraph' => isset($item["PARAGRAPH"]) ? $item["PARAGRAPH"] : null,
+                            'conversation' => isset($item["CONVERSATION"]) ? $item["CONVERSATION"] : null,
+                        ]);
+
                     }
 
                 }
-            } elseif ($tst->tsc_id == 2) {
-                foreach ($questions as $key => $item) {
-                    $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
-                    $q_data = Question::query()
-                        ->create([
-                            'question' => $item['Question'],
-                            'option_1' => $item['Option_A'],
-                            'option_2' => $item['Option_B'],
-                            'option_3' => $item['Option_C'],
-                            'option_4' => $item['Option_D'],
-                            'correct_option' => $ans,
-                            'explanation' => $item['Explanation'],
-                            'tst_id' => $tst_id,
-                        ]);
-                    if (array_key_exists("IMAGES", $item)) {
-                        foreach ($item['IMAGES'] as $key => $image) {
-                            QuestionImage::create([
-                                'q_id' => $q_data->id,
-                                'image_url' => $image
-                            ]);
-                        }
-                    }
-                }
             }
+            // elseif ($tst->tsc_id == 2) {
+            //     foreach ($questions as $key => $item) {
+            //         $ans = preg_replace('/\s+/', ' ', trim($item['Answer']));
+            //         $q_data = Question::query()
+            //             ->create([
+            //                 'question' => $item['Question'],
+            //                 'option_1' => $item['Option_A'],
+            //                 'option_2' => $item['Option_B'],
+            //                 'option_3' => $item['Option_C'],
+            //                 'option_4' => $item['Option_D'],
+            //                 'correct_option' => $ans,
+            //                 'explanation' => $item['Explanation'],
+            //                 'tst_id' => $tst_id,
+            //             ]);
+            //         if (array_key_exists("IMAGES", $item)) {
+            //             foreach ($item['IMAGES'] as $key => $image) {
+            //                 QuestionImage::create([
+            //                     'q_id' => $q_data->id,
+            //                     'image_url' => $image
+            //                 ]);
+            //             }
+            //         }
+            //     }
+            // }
         }
+
         return response()->json([
-            'message' => 'Successfully Topic Updated'
+            'message' => 'Successfully Topic Updated',
+            count($questions)
         ], 200);
     }
 
@@ -883,8 +975,11 @@ class AdminController extends Controller
         $current_date = date('Y-m-d');
         $product = TestSeriesProduct::where('id', $p_id)
             ->where('release_date', "<=", $current_date)
+            ->whereHas('getTsProductCategory', function ($query) {
+                $query->whereNot('total_set', null);
+            })
             ->first();
-        $tst->release_status = !!$product;
+            $tst->release_status = !!$product;
 
         return response()->json([
             'product_detail' => $tst,
@@ -917,6 +1012,7 @@ class AdminController extends Controller
     {
         $topics = TestSeriesTopics::where('tsc_id', $tsc_id)
             ->where('ts_id', $ts_id)
+
             ->get();
         return response()->json([
             'topics' => $topics
@@ -982,21 +1078,33 @@ class AdminController extends Controller
     public function deleteProduct($p_id)
     {
         $current_date = date('Y-m-d');
+
         $product = TestSeriesProduct::where('id', $p_id)
-            ->where('release_date', "<=", $current_date)
+            ->with('tsPurchases')
             ->first();
 
-        if ($product) {
+        $total_purchase = count($product->tsPurchases);
+
+        if ($total_purchase != 0) {
             return response()->json([
-                'Message' => 'Product Already Released (Product)',
+                'Message' => 'Product Already Released (Set)',
             ], 403);
         }
+
+        // if ($product) {
+        //     return response()->json([
+        //         'Message' => 'Product Already Released (Product)',
+        //     ], 403);
+        // }
         $product = TestSeriesProduct::where('id', $p_id)
             ->first();
         // File::delete($product->p_image);
-        if (File::exists(public_path($product->p_image))) {
-            File::delete(public_path($product->p_image));
+        if ($product->p_image) {
+            if (File::exists(public_path($product->p_image))) {
+                File::delete(public_path($product->p_image));
+            }
         }
+
         TestSeriesProduct::where('id', $p_id)
             ->delete();
 
@@ -1011,12 +1119,12 @@ class AdminController extends Controller
 
         // Check if the set has a release date before the current date
         $set = TSPCSet::where('id', $set_id)
-            ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
-                $query->where('release_date', '<=', $current_date);
-            })
+            ->with('getTsPC.testSeriesProduct.tsPurchases')
             ->first();
 
-        if ($set) {
+        $total_purchase = count($set->getTsPC->testSeriesProduct->tsPurchases);
+
+        if ($total_purchase != 0) {
             return response()->json([
                 'Message' => 'Product Already Released (Set)',
             ], 403);
@@ -1063,14 +1171,12 @@ class AdminController extends Controller
     {
         $current_date = date('Y-m-d');
         $set = TSPCSet::where('id', $set_id)
-            ->whereHas('getTsPC.testSeriesProduct', function ($query) use ($current_date) {
-                $query->where('release_date', "<=", $current_date);
-            })
+            ->with('getTsPC.testSeriesProduct.tsPurchases')
             ->first();
 
-        // return $set;
+        $total_purchase = count($set->getTsPC->testSeriesProduct->tsPurchases);
 
-        if ($set) {
+        if ($total_purchase != 0) {
             return response()->json([
                 'Message' => 'Product Already Released (Set)',
             ], 403);
@@ -1194,16 +1300,22 @@ class AdminController extends Controller
                     // $file = $value;
                     if ($file->isValid()) {
                         $image_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $filename = $image_name . '.' . $file->getClientOriginalExtension();
+                        $filename = $image_name . '.' . strtolower($file->getClientOriginalExtension());
+                        $image_check = Images::where("image_name", $image_name)->first();
+
                         $file->move(public_path('/images'), $filename);
                         $filepath = "/images/" . $filename;
-                        Images::create([
-                            'image_url' => $filepath,
-                            'image_name' => $image_name,
-                            'tsc_id' => $request->tsc_id
+                        if (!$image_check) {
+                            Images::UpdateOrcreate([
+                                'image_url' => $filepath,
+                                'image_name' => $image_name,
+                                'tsc_id' => $request->tsc_id
 
-                        ]);
+                            ]);
+                        }
+                        ;
                     } else {
+                        // continue;
                         return response()->json(['error' => 'File upload failed'], 400);
                     }
                 }
@@ -1271,11 +1383,11 @@ class AdminController extends Controller
                 ->update($value);
 
 
-                $para2 = preg_replace('/\s+/', ' ', trim($para));
-                // echo $para2;
-                ExtraQuestionField::where('q_id', $value['id'])->update([
-                    'paragraph' => $para2,
-                ]);
+            $para2 = preg_replace('/\s+/', ' ', trim($para));
+            // echo $para2;
+            ExtraQuestionField::where('q_id', $value['id'])->update([
+                'paragraph' => $para2,
+            ]);
 
         }
 
@@ -1323,11 +1435,11 @@ class AdminController extends Controller
 
         return response()->json([
             "message" => "Success",
-            "question" =>  $question,
+            "question" => $question,
             // $questio
         ], 200);
     }
-    public function updateQuestionWithId(Request $request,$q_id)
+    public function updateQuestionWithId(Request $request, $q_id)
     {
 
         $question = Question::query()->where("id", $q_id)->update($request->question);
@@ -1385,7 +1497,7 @@ class AdminController extends Controller
 
         // Decode the Base64 string into binary image data
         $imageData = base64_decode($base64Image);
-        $count = QuestionImage::count();
+        $count = Question::where("nvq", 1)->count();
         if ($imageData !== false) {
             // Generate a unique filename for the image (e.g., using timestamp)
             $filename = 'q_image_' . $count + 1 . time() . '.png';
@@ -1482,6 +1594,22 @@ class AdminController extends Controller
 
         return response()->json([
             'message' => 'Successfully Topic added'
+        ], 200);
+    }
+
+    public function deleteImage(Request $request)
+    {
+        foreach ($request->imageIds as $key => $id) {
+            $image = Images::where('id', $id)->first();
+            if ($image) {
+                if (File::exists(public_path($image->image_url))) {
+                    File::delete(public_path($image->image_url));
+                }
+            }
+            Images::where('id', $id)->delete();
+        }
+        return response()->json([
+            'message' => 'Successfully Deleted'
         ], 200);
     }
 }

@@ -295,9 +295,16 @@ class UserController extends Controller
                 })
                 // ->with('getTSSet.getTsPC.testSeriesCategories')
                 ->first();
+
+            // $question_timer = round($uts->current_timer - $timer);
+            // if($status_id){
+
+            // }
+
             $question_timer = (float) ($uts->current_timer ?? $timer) - $timer;
-            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' => round($question_timer, 3), 'status_id' => $request->status_id];
-            // return $question_timer;
+            // return  $question_timer;
+            $requestDataWithoutTimer = ['test_answer' => $request->test_answer, 'test_time' => abs(round($question_timer, 2)), 'status_id' => $request->status_id];
+            //
 
         }
         // return $requestDataWithoutTimer;
@@ -368,7 +375,7 @@ class UserController extends Controller
             ->where('id', $id)
             ->with('getTSSet.getTsPC.testSeriesCategories')
             ->first();
-            // return $uts;
+        // return $uts;
         $topic = $this->get_Topic_detail($uts->getTSSet->getTsPC->testSeriesCategories->id, $uts->getTSSet->getTsPC->getTestSeriesProduct->ts_id);
         $duration = $topic["time"];
 
@@ -396,7 +403,7 @@ class UserController extends Controller
         }
 
         // return ([$total]);
-        $time_taken = round(((int) $duration - (int) $request->current_timer));
+        $time_taken = (int) ($duration) - (int) ($request->current_timer);
 
         UserTestSeries::query()
             ->where('id', $id)
@@ -527,6 +534,9 @@ class UserController extends Controller
             ->where('status', 1)
             ->where('release_date', "<=", $current_date)
             // ->with('tsPurchases')
+            ->whereHas('getTsProductCategory', function ($query) {
+                $query->whereNot('total_set', null);
+            })
             ->get();
 
         return response()->json([
@@ -537,10 +547,14 @@ class UserController extends Controller
 
     public function getTSPurchasesLimit($user_id)
     {
+        $current_date = date('d-m-Y');
         $purchases = TestSeriesPurchases::query()
             ->where('user_id', $user_id)
             ->where('status', 1)
             // ->with('tsProduct')
+            ->where(function ($query) use ($current_date) {
+                $query->whereRaw('STR_TO_DATE(valid_till, "%d-%m-%Y") >= STR_TO_DATE(?, "%d-%m-%Y")', [$current_date]);
+            })
             ->with([
                 'tsProduct' => function ($query) {
                     $query->with(
@@ -601,6 +615,8 @@ class UserController extends Controller
                 $query->where('ts_id', $ts_id);
             })
             ->with('userPurchases.tsProduct')
+            ->orderBy('end_date','desc')
+            ->orderBy('id','desc')
             ->with('getTSSet')
             ->get();
         // return $user_RA;
@@ -620,11 +636,15 @@ class UserController extends Controller
     {
         $user_RA = UserTestSeries::query()
             ->where('id', $uts_id)
-            ->with(['getTSSet', 'getUTStatus.questions.qTopic'])
+            ->with(['getTSSet.getTsPC', 'getUTStatus.questions.qTopic', 'userPurchases.tsProduct'])
             ->first();
 
-        $user_RA->set_name = $user_RA->getTSSet->set_name;
+// return $user_RA;
+        $total_questions = $this->get_Topic_detail($user_RA->getTSSet->getTsPC->tsc_id, $user_RA->userPurchases->tsProduct->ts_id)['question_number'];
 
+
+        $user_RA->set_name = $user_RA->getTSSet->set_name;
+        $user_RA->tsc_id = $user_RA->getTSSet->getTsPC->tsc_id;
         // return $user_RA->getUTStatus;
         // $user_RA = $user_RA->getUTStatus->filter(function ($item) {
         //     // if ($item->test_answer) {
@@ -663,6 +683,8 @@ class UserController extends Controller
         $filteredTopicsCollection = new Collection($filteredTopics);
         $user_RA->weak_topics = $filteredTopicsCollection->values();
         ;
+        $user_RA->total_questions = $total_questions;
+        $user_RA->negative_marks = (int) $total_questions - $user_RA->total_marks;
         unset($user_RA->getTSSet, $user_RA->getUTStatus);
         return response()->json([
             'all_results' => $user_RA,

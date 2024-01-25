@@ -19,7 +19,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::post('/add-test-series-product', [AdminController::class, 'addProduct']);
     Route::post('/update-product-status/{p_id}', [AdminController::class, 'productStatus']);
     Route::post('/add-test-series-topics', [AdminController::class, 'addTSTopic']);
-    Route::put('/update-test-series-product/{p_id}', [AdminController::class, 'updateProduct']);
+    Route::post('/update-test-series-product/{p_id}', [AdminController::class, 'updateProduct']);
     Route::delete('/delete-product/{p_id}', [AdminController::class, 'deleteProduct']);
     Route::get('/show-product/{ts_id}', [ProductController::class, 'showAdminProduct']);
     Route::get('/get-test-series', [ProductController::class, 'getAdminTestSeries']);
@@ -60,5 +60,5 @@ Route::group(['prefix' => 'admin', 'middleware' => ['jwt.role:admin', 'jwt.auth'
     Route::get('/show-all-student-details', [AdminController::class, 'showAllStudentDetails']);
     Route::get('/show-student-details/{user_id}', [AdminController::class, 'showStudentDetails']);
     Route::get('/get-user-all-result/{user_id}', [AdminController::class, 'get_user_all_result']);
-
+    Route::post('/delete-image', [AdminController::class, 'deleteImage']);
 });

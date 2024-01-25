@@ -14,6 +14,7 @@ Route::get('/refresh-token',[UserAuthController::class,'refresh']);
 Route::get('/get-product-data/{id?}',[ProductController::class,'showProduct']);
 Route::get('/one-product-data/{id}',[ProductController::class,'sProduct']);
 Route::get('/get-test-series',[ProductController::class,'getTestSeries']);
+Route::get('/get-sample-question',[ProductController::class,'getSampleQuestion']);
 Route::post('/send-otp-mail',[UserAuthController::class,'sendEmail']);
 Route::post('/password-change2',[UserAuthController::class,'passwordChange2']);
 Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
@@ -35,7 +36,7 @@ Route::group(['middleware' => ['jwt.role:users','jwt.auth']],function ()
     Route::get('/get-user-purchases/{ts_id}',[ProductController::class,'getTSPurchases']);
     Route::get('/get-user-test-details/{uts_id}',[ProductController::class,'getTSDetails']);
     Route::get('/check-user-purchase-expire/{user_id}',[ProductController::class,'checkUserPurchaseExpire']);
-    Route::get('/get-latest-product',[ProductController::class,'getLatestProduct']);
+    Route::get('/get-latest-product/{user_id}',[ProductController::class,'getLatestProduct']);
 
     //user test schedule
     Route::post('/post-user-test-status',[UserController::class,'userTestStatus']);
